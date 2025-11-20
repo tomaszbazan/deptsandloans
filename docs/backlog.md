@@ -4,7 +4,7 @@
 
 | ID | Task Name | Description | Done |
 |:---|:----------|:------------|:----:|
-| TASK-0001 | Initialize Flutter Project | Create new Flutter project with Android target platform and configure basic project structure | [  ] |
+| TASK-0001 | Initialize Flutter Project | Create new Flutter project with Android target platform and configure basic project structure | [X] |
 | TASK-0002 | Configure Development Environment | Set up linting rules (flutter_lints), analysis_options.yaml, and development dependencies | [ ]  |
 | TASK-0003 | Setup Local Database | Integrate local database solution (e.g., sqflite, hive, or isar) for Local First data storage | [ ]  |
 | TASK-0004 | Configure Localization | Set up i18n support for Polish (PL) and English (EN) with automatic locale detection | [ ]  |
