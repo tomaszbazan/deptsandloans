@@ -6,7 +6,7 @@
 |:----------|:----------------------------------|:----------------------------------------------------------------------------------------------|:----:|
 | TASK-0001 | Initialize Flutter Project        | Create new Flutter project with Android target platform and configure basic project structure | [X]  |
 | TASK-0002 | Configure Development Environment | Set up linting rules (flutter_lints), analysis_options.yaml, and development dependencies     | [X]  |
-| TASK-0003 | Setup Local Database              | Integrate local database solution (e.g., sqflite, hive, or isar) for Local First data storage | [ ]  |
+| TASK-0003 | Setup Local Database              | Integrate local database solution (e.g., sqflite, hive, or isar) for Local First data storage | [X]  |
 | TASK-0004 | Configure Visual Testing          | Set up visual regression testing framework (e.g., golden tests, alchemist) for UI consistency | [ ]  |
 | TASK-0005 | Configure Localization            | Set up i18n support for Polish (PL) and English (EN) with automatic locale detection          | [ ]  |
 | TASK-0006 | Setup Navigation                  | Implement routing solution (go_router) for navigation between screens                         | [ ]  |

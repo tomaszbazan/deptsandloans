@@ -416,3 +416,4 @@ linter:
   
 ### Important
 * Never commit or push files to repository. I will do it manually.
+* Avoid comments if not necessary
