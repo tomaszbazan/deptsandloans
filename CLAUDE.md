@@ -413,3 +413,6 @@ linter:
   ```dart
   // 1. Add the dependency
   // flutter pub add google_fonts
+  
+### Important
+* Never commit or push files to repository. I will do it manually.
