@@ -1,8 +1,4 @@
 import 'package:deptsandloans/core/router/app_router.dart';
-import 'package:deptsandloans/presentation/screens/home_screen.dart';
-import 'package:deptsandloans/presentation/screens/transaction_details_screen.dart';
-import 'package:deptsandloans/presentation/screens/transaction_form_screen.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
