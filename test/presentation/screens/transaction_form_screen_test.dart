@@ -9,9 +9,9 @@ import '../../mocks/mock_database_service.dart';
 
 void main() {
   group('TransactionFormScreen', () {
-    testWidgets('displays new transaction mode correctly', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+    final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
+    testWidgets('displays new transaction mode correctly', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -20,10 +20,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: TransactionFormScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -37,8 +34,6 @@ void main() {
     });
 
     testWidgets('displays edit transaction mode correctly', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -47,14 +42,8 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
-          home: TransactionFormScreen(
-            databaseService: mockDatabaseService,
-            transactionId: '456',
-          ),
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(databaseService: mockDatabaseService, transactionId: '456'),
         ),
       );
 
@@ -67,8 +56,6 @@ void main() {
     });
 
     testWidgets('displays transaction type when provided', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -77,14 +64,8 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
-          home: TransactionFormScreen(
-            databaseService: mockDatabaseService,
-            transactionType: 'loan',
-          ),
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(databaseService: mockDatabaseService, transactionType: 'loan'),
         ),
       );
 
@@ -94,8 +75,6 @@ void main() {
     });
 
     testWidgets('has back button in app bar', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -104,10 +83,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: TransactionFormScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -118,8 +94,6 @@ void main() {
     });
 
     testWidgets('placeholder message is visible', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -128,10 +102,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: TransactionFormScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -142,8 +113,6 @@ void main() {
     });
 
     testWidgets('back navigation works with router', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -153,10 +122,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 

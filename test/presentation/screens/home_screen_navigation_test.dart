@@ -9,7 +9,7 @@ import '../../mocks/mock_database_service.dart';
 void main() {
   group('HomeScreen navigation tests', () {
     testWidgets('displays navigation buttons', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+      final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
       await tester.pumpWidget(
         MaterialApp.router(
@@ -35,7 +35,7 @@ void main() {
     });
 
     testWidgets('FAB navigates to new transaction screen', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+      final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
       await tester.pumpWidget(
         MaterialApp.router(
@@ -64,7 +64,7 @@ void main() {
 
     testWidgets('Add New Transaction button navigates with type parameter',
         (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+      final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
       await tester.pumpWidget(
         MaterialApp.router(
@@ -93,7 +93,7 @@ void main() {
 
     testWidgets('View Sample Transaction button navigates to details',
         (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+      final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
       await tester.pumpWidget(
         MaterialApp.router(
@@ -121,7 +121,7 @@ void main() {
     });
 
     testWidgets('back navigation from transaction form works', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+      final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
       await tester.pumpWidget(
         MaterialApp.router(
@@ -155,7 +155,7 @@ void main() {
 
     testWidgets('back navigation from transaction details works',
         (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+      final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
       await tester.pumpWidget(
         MaterialApp.router(

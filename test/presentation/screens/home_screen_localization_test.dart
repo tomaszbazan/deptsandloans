@@ -1,16 +1,16 @@
+import 'package:deptsandloans/l10n/app_localizations.dart';
+import 'package:deptsandloans/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:deptsandloans/presentation/screens/home_screen.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
+
 import '../../mocks/mock_database_service.dart';
 
 void main() {
   group('HomeScreen localization tests', () {
-    testWidgets('displays English texts when locale is en',
-        (WidgetTester tester) async {
-      final mockDatabaseService = MockDatabaseService();
+    final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
+    testWidgets('displays English texts when locale is en', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('en'),
@@ -20,10 +20,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: HomeScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -39,10 +36,7 @@ void main() {
       expect(find.text('Baza danych: Gotowa'), findsNothing);
     });
 
-    testWidgets('displays Polish texts when locale is pl',
-        (WidgetTester tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
+    testWidgets('displays Polish texts when locale is pl', (WidgetTester tester) async {
       await tester.pumpWidget(
         MaterialApp(
           locale: const Locale('pl'),
@@ -52,10 +46,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: HomeScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -71,8 +62,7 @@ void main() {
       expect(find.text('Database: Ready'), findsNothing);
     });
 
-    testWidgets('displays correct database status for uninitialized database',
-        (WidgetTester tester) async {
+    testWidgets('displays correct database status for uninitialized database', (WidgetTester tester) async {
       final mockDatabaseService = MockDatabaseService(isInitialized: false);
 
       await tester.pumpWidget(
@@ -84,10 +74,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: HomeScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -97,14 +84,11 @@ void main() {
       expect(find.text('Database: Not initialized'), findsOneWidget);
       expect(find.text('Database: Ready'), findsNothing);
 
-      final textWidget =
-          tester.widget<Text>(find.text('Database: Not initialized'));
+      final textWidget = tester.widget<Text>(find.text('Database: Not initialized'));
       expect(textWidget.style?.color, Colors.red);
     });
 
-    testWidgets(
-        'displays Polish database status for uninitialized database',
-        (WidgetTester tester) async {
+    testWidgets('displays Polish database status for uninitialized database', (WidgetTester tester) async {
       final mockDatabaseService = MockDatabaseService(isInitialized: false);
 
       await tester.pumpWidget(
@@ -116,10 +100,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
           home: HomeScreen(databaseService: mockDatabaseService),
         ),
       );
@@ -129,14 +110,11 @@ void main() {
       expect(find.text('Baza danych: Niezainicjalizowana'), findsOneWidget);
       expect(find.text('Baza danych: Gotowa'), findsNothing);
 
-      final textWidget = tester
-          .widget<Text>(find.text('Baza danych: Niezainicjalizowana'));
+      final textWidget = tester.widget<Text>(find.text('Baza danych: Niezainicjalizowana'));
       expect(textWidget.style?.color, Colors.red);
     });
 
-    testWidgets('changes language from English to Polish dynamically',
-        (WidgetTester tester) async {
-      final mockDatabaseService = MockDatabaseService();
+    testWidgets('changes language from English to Polish dynamically', (WidgetTester tester) async {
       final localeNotifier = ValueNotifier<Locale>(const Locale('en'));
 
       await tester.pumpWidget(
@@ -151,10 +129,7 @@ void main() {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              supportedLocales: const [
-                Locale('en'),
-                Locale('pl'),
-              ],
+              supportedLocales: const [Locale('en'), Locale('pl')],
               home: HomeScreen(databaseService: mockDatabaseService),
             );
           },
@@ -179,9 +154,7 @@ void main() {
       expect(find.text('Database: Ready'), findsNothing);
     });
 
-    testWidgets('changes language from Polish to English dynamically',
-        (WidgetTester tester) async {
-      final mockDatabaseService = MockDatabaseService();
+    testWidgets('changes language from Polish to English dynamically', (WidgetTester tester) async {
       final localeNotifier = ValueNotifier<Locale>(const Locale('pl'));
 
       await tester.pumpWidget(
@@ -196,10 +169,7 @@ void main() {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              supportedLocales: const [
-                Locale('en'),
-                Locale('pl'),
-              ],
+              supportedLocales: const [Locale('en'), Locale('pl')],
               home: HomeScreen(databaseService: mockDatabaseService),
             );
           },

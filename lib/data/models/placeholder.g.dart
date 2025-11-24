@@ -17,12 +17,9 @@ const PlaceholderSchema = CollectionSchema(
   name: r'Placeholder',
   id: 2755637850666422645,
   properties: {
-    r'data': PropertySchema(
-      id: 0,
-      name: r'data',
-      type: IsarType.string,
-    )
+    r'data': PropertySchema(id: 0, name: r'data', type: IsarType.string),
   },
+
   estimateSize: _placeholderEstimateSize,
   serialize: _placeholderSerialize,
   deserialize: _placeholderDeserialize,
@@ -31,10 +28,11 @@ const PlaceholderSchema = CollectionSchema(
   indexes: {},
   links: {},
   embeddedSchemas: {},
+
   getId: _placeholderGetId,
   getLinks: _placeholderGetLinks,
   attach: _placeholderAttach,
-  version: '3.1.0+1',
+  version: '3.3.0',
 );
 
 int _placeholderEstimateSize(
@@ -96,7 +94,10 @@ List<IsarLinkBase<dynamic>> _placeholderGetLinks(Placeholder object) {
 }
 
 void _placeholderAttach(
-    IsarCollection<dynamic> col, Id id, Placeholder object) {
+  IsarCollection<dynamic> col,
+  Id id,
+  Placeholder object,
+) {
   object.id = id;
 }
 
@@ -113,15 +114,13 @@ extension PlaceholderQueryWhere
     on QueryBuilder<Placeholder, Placeholder, QWhereClause> {
   QueryBuilder<Placeholder, Placeholder, QAfterWhereClause> idEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: id,
-        upper: id,
-      ));
+      return query.addWhereClause(IdWhereClause.between(lower: id, upper: id));
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterWhereClause> idNotEqualTo(
-      Id id) {
+    Id id,
+  ) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
@@ -143,8 +142,10 @@ extension PlaceholderQueryWhere
     });
   }
 
-  QueryBuilder<Placeholder, Placeholder, QAfterWhereClause> idGreaterThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<Placeholder, Placeholder, QAfterWhereClause> idGreaterThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.greaterThan(lower: id, includeLower: include),
@@ -152,8 +153,10 @@ extension PlaceholderQueryWhere
     });
   }
 
-  QueryBuilder<Placeholder, Placeholder, QAfterWhereClause> idLessThan(Id id,
-      {bool include = false}) {
+  QueryBuilder<Placeholder, Placeholder, QAfterWhereClause> idLessThan(
+    Id id, {
+    bool include = false,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
         IdWhereClause.lessThan(upper: id, includeUpper: include),
@@ -168,12 +171,14 @@ extension PlaceholderQueryWhere
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(IdWhereClause.between(
-        lower: lowerId,
-        includeLower: includeLower,
-        upper: upperId,
-        includeUpper: includeUpper,
-      ));
+      return query.addWhereClause(
+        IdWhereClause.between(
+          lower: lowerId,
+          includeLower: includeLower,
+          upper: upperId,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -182,18 +187,18 @@ extension PlaceholderQueryFilter
     on QueryBuilder<Placeholder, Placeholder, QFilterCondition> {
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition> dataIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'data',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNull(property: r'data'),
+      );
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition>
-      dataIsNotNull() {
+  dataIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'data',
-      ));
+      return query.addFilterCondition(
+        const FilterCondition.isNotNull(property: r'data'),
+      );
     });
   }
 
@@ -202,11 +207,13 @@ extension PlaceholderQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(
+          property: r'data',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -216,12 +223,14 @@ extension PlaceholderQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'data',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -231,12 +240,14 @@ extension PlaceholderQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'data',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -248,14 +259,16 @@ extension PlaceholderQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'data',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'data',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -264,11 +277,13 @@ extension PlaceholderQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.startsWith(
+          property: r'data',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
@@ -277,64 +292,70 @@ extension PlaceholderQueryFilter
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.endsWith(
+          property: r'data',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition> dataContains(
-      String value,
-      {bool caseSensitive = true}) {
+    String value, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'data',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.contains(
+          property: r'data',
+          value: value,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition> dataMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
+    String pattern, {
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'data',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.matches(
+          property: r'data',
+          wildcard: pattern,
+          caseSensitive: caseSensitive,
+        ),
+      );
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition> dataIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'data',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'data', value: ''),
+      );
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition>
-      dataIsNotEmpty() {
+  dataIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'data',
-        value: '',
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(property: r'data', value: ''),
+      );
     });
   }
 
   QueryBuilder<Placeholder, Placeholder, QAfterFilterCondition> idEqualTo(
-      Id value) {
+    Id value,
+  ) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.equalTo(property: r'id', value: value),
+      );
     });
   }
 
@@ -343,11 +364,13 @@ extension PlaceholderQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.greaterThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -356,11 +379,13 @@ extension PlaceholderQueryFilter
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'id',
-        value: value,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.lessThan(
+          include: include,
+          property: r'id',
+          value: value,
+        ),
+      );
     });
   }
 
@@ -371,13 +396,15 @@ extension PlaceholderQueryFilter
     bool includeUpper = true,
   }) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'id',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-      ));
+      return query.addFilterCondition(
+        FilterCondition.between(
+          property: r'id',
+          lower: lower,
+          includeLower: includeLower,
+          upper: upper,
+          includeUpper: includeUpper,
+        ),
+      );
     });
   }
 }
@@ -432,8 +459,9 @@ extension PlaceholderQuerySortThenBy
 
 extension PlaceholderQueryWhereDistinct
     on QueryBuilder<Placeholder, Placeholder, QDistinct> {
-  QueryBuilder<Placeholder, Placeholder, QDistinct> distinctByData(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Placeholder, Placeholder, QDistinct> distinctByData({
+    bool caseSensitive = true,
+  }) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'data', caseSensitive: caseSensitive);
     });

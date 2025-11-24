@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
-import 'package:isar/isar.dart';
+
+import 'package:isar_community/isar.dart';
 
 class DatabaseException implements Exception {
   final String message;

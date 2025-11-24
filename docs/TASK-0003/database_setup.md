@@ -2,14 +2,16 @@
 
 ## Overview
 
-This document provides comprehensive information about the database setup for the Debts and Loans application. The application uses **Isar** as its local-first database solution for storing transaction data, repayments, and reminders.
+This document provides comprehensive information about the database setup for the Debts and Loans application. The application uses **Isar Community** as its local-first database solution for storing transaction data, repayments, and reminders.
+
+**Note:** The project has been migrated from the original `isar` package to `isar_community`, which is actively maintained and developed. See the [Migration to isar_community](#migration-to-isar_community) section for details.
 
 ## Technology Stack
 
-- **Database:** Isar 3.1.0+1
-- **Platform Support:** isar_flutter_libs 3.1.0+1
+- **Database:** isar_community 3.3.0
+- **Platform Support:** isar_community_flutter_libs 3.3.0
 - **Path Provider:** path_provider 2.1.5 (for getting application documents directory)
-- **Code Generation:** isar_generator 3.1.0+1, build_runner 2.4.13
+- **Code Generation:** isar_community_generator 3.3.0, build_runner 2.7.1
 
 ## Architecture
 
@@ -49,13 +51,13 @@ The following dependencies are already added to `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  isar: ^3.1.0+1
-  isar_flutter_libs: ^3.1.0+1
+  isar_community: ^3.3.0
+  isar_community_flutter_libs: ^3.3.0
   path_provider: ^2.1.5
 
 dev_dependencies:
-  isar_generator: ^3.1.0+1
-  build_runner: ^2.4.13
+  isar_community_generator: ^3.3.0
+  build_runner: ^2.7.1
 ```
 
 ### Installing Packages
@@ -144,11 +146,11 @@ When you need to add new Isar collections (models), follow these steps:
 Create a new file for your model, for example `lib/data/models/transaction.dart`:
 
 ```dart
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar_community.dart';
 
 part 'transaction.g.dart';
 
-@Collection()
+@Collection
 class Transaction {
   Id id = Isar.autoIncrement;
 
@@ -288,11 +290,11 @@ final isar = databaseService.instance; // Now safe
 
 #### 4. Dependency Version Conflicts
 
-**Problem:** Version conflicts between build_runner and isar_generator
+**Problem:** Version conflicts between build_runner and isar_community_generator
 
 **Solution:** The project uses compatible versions:
-- build_runner: 2.4.13
-- isar_generator: 3.1.0+1
+- build_runner: ^2.7.1
+- isar_community_generator: ^3.3.0
 
 If you encounter issues, run:
 ```bash
@@ -368,23 +370,75 @@ After completing the database setup:
 5. Run code generation to create schemas
 6. Test database operations with real data
 
+## Migration to isar_community
+
+### Background
+
+The project has been migrated from the original `isar` package to `isar_community`, which is a community-maintained fork that provides:
+- Active development and maintenance
+- Bug fixes and updates for version 3.x
+- Better compatibility with current Flutter SDK versions
+- Enhanced stability and reliability
+
+### Migration Steps
+
+The migration involved the following changes:
+
+1. **Package Updates:**
+   - `isar` → `isar_community`
+   - `isar_flutter_libs` → `isar_community_flutter_libs`
+   - `isar_generator` → `isar_community_generator`
+
+2. **Import Changes:**
+   All import statements were updated from:
+   ```dart
+   import 'package:isar/isar.dart';
+   ```
+   to:
+   ```dart
+   import 'package:isar_community/isar_community.dart';
+   ```
+
+3. **Version Updates:**
+   - isar_community: 3.3.0 (from isar 3.1.0+1)
+   - build_runner: ^2.7.1 (from 2.4.13) - Required for compatibility
+
+4. **API Compatibility:**
+   The `isar_community` package maintains API compatibility with the original `isar` package. No code changes are required beyond import statements.
+
+### Files Modified
+
+- `lib/core/database/database_helpers.dart`
+- `lib/core/database/database_service.dart`
+- `lib/data/models/placeholder.dart`
+- `test/golden/screens/home_screen_test.dart`
+- `pubspec.yaml`
+
+### Benefits
+
+- **Active Maintenance:** Regular updates and bug fixes
+- **Community Support:** Active community development
+- **Future-Proof:** Continued development ensures compatibility with future Flutter versions
+- **Stability:** Focus on bug fixes and stability improvements for v3.x
+
 ## References
 
-- [Isar Official Documentation](https://isar.dev/)
-- [Isar GitHub Repository](https://github.com/isar/isar)
-- [Isar Quickstart Guide](https://isar.dev/tutorials/quickstart.html)
+- [Isar Community Documentation](https://isar-community.dev/)
+- [Isar Community GitHub Repository](https://github.com/isar-community/isar)
+- [Isar Community Package on pub.dev](https://pub.dev/packages/isar_community)
+- [Isar Community Quickstart Guide](https://isar-community.dev/v3/tutorials/quickstart.html)
 - [Flutter Local Storage](https://docs.flutter.dev/cookbook/persistence)
 - [path_provider Package](https://pub.dev/packages/path_provider)
 
 ## Support
 
 For issues related to:
-- **Isar:** Check [Isar GitHub Issues](https://github.com/isar/isar/issues)
+- **Isar Community:** Check [Isar Community GitHub Issues](https://github.com/isar-community/isar/issues)
 - **Flutter:** Check [Flutter Documentation](https://docs.flutter.dev/)
 - **This Project:** See project backlog and documentation
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** 2025-11-21
-**Status:** ✅ Completed
+**Document Version:** 1.1
+**Last Updated:** 2025-11-24
+**Status:** ✅ Completed (Migrated to isar_community)

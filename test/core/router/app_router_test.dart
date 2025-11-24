@@ -9,7 +9,7 @@ void main() {
   late GoRouter router;
 
   setUp(() {
-    mockDatabaseService = MockDatabaseService();
+    mockDatabaseService = MockDatabaseService(isInitialized: true);
     router = createAppRouter(mockDatabaseService);
   });
 

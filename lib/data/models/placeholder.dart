@@ -1,8 +1,8 @@
-import 'package:isar/isar.dart';
+import 'package:isar_community/isar.dart';
 
 part 'placeholder.g.dart';
 
-@collection
+@Collection()
 class Placeholder {
   Id id = Isar.autoIncrement;
 

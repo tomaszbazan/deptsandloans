@@ -8,10 +8,9 @@ import '../mocks/mock_database_service.dart';
 
 void main() {
   group('Navigation flow integration tests', () {
-    testWidgets('complete flow: home -> new transaction -> back',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService();
+    final mockDatabaseService = MockDatabaseService(isInitialized: true);
 
+    testWidgets('complete flow: home -> new transaction -> back', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -21,10 +20,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -45,11 +41,7 @@ void main() {
       expect(find.text('Transaction Form (New)'), findsNothing);
     });
 
-    testWidgets(
-        'complete flow: home -> transaction details -> edit -> back -> back',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
+    testWidgets('complete flow: home -> transaction details -> edit -> back -> back', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -59,10 +51,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -95,10 +84,7 @@ void main() {
       expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
     });
 
-    testWidgets('navigation with query parameters preserves type',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
+    testWidgets('navigation with query parameters preserves type', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -108,10 +94,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -128,10 +111,7 @@ void main() {
       expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
     });
 
-    testWidgets('multiple navigation actions maintain correct state',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
+    testWidgets('multiple navigation actions maintain correct state', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -141,10 +121,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -179,8 +156,6 @@ void main() {
     });
 
     testWidgets('all navigation buttons are accessible', (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -190,10 +165,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -203,16 +175,11 @@ void main() {
       expect(find.text('Add New Transaction'), findsOneWidget);
       expect(find.text('View Sample Transaction'), findsOneWidget);
 
-      final fabButton = tester.widget<FloatingActionButton>(
-        find.byType(FloatingActionButton),
-      );
+      final fabButton = tester.widget<FloatingActionButton>(find.byType(FloatingActionButton));
       expect(fabButton.onPressed, isNotNull);
     });
 
-    testWidgets('navigation maintains database service reference',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService();
-
+    testWidgets('navigation maintains database service reference', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -222,10 +189,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 

@@ -5,26 +5,8 @@ import 'package:deptsandloans/presentation/screens/home_screen.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:isar/isar.dart';
 
-class MockDatabaseService implements DatabaseService {
-  final bool _isInitialized;
-
-  MockDatabaseService({required bool isInitialized})
-      : _isInitialized = isInitialized;
-
-  @override
-  bool get isInitialized => _isInitialized;
-
-  @override
-  Isar get instance => throw UnimplementedError();
-
-  @override
-  Future<bool> close() => throw UnimplementedError();
-
-  @override
-  Future<Isar> initialize() => throw UnimplementedError();
-}
+import '../../mocks/mock_database_service.dart';
 
 void main() {
   goldenTest(
