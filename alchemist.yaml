@@ -1,0 +1,15 @@
+theme_sets:
+  - name: default
+    themes:
+      - name: light
+        theme_data: ThemeData.light()
+      - name: dark
+        theme_data: ThemeData.dark()
+
+platform_goldensConfig:
+  enabled: true
+  platforms:
+    - name: ci
+      device: Pixel6
+
+golden_test_theme: defaultTheme
