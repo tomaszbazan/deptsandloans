@@ -10,7 +10,7 @@
 | TASK-0004 | Configure Visual Testing          | Set up visual regression testing framework (e.g., golden tests, alchemist) for UI consistency | [X]  |
 | TASK-0005 | Configure Localization            | Set up i18n support for Polish (PL) and English (EN) with automatic locale detection          | [X]  |
 | TASK-0006 | Setup Navigation                  | Implement routing solution (go_router) for navigation between screens                         | [X]  |
-| TASK-0007 | Configure Theme System            | Create ThemeData for light and dark modes with color schemes and component themes             | [ ]  |
+| TASK-0007 | Configure Theme System            | Create ThemeData for light and dark modes with color schemes and component themes             | [X]  |
 
 ## Data Layer & Models
 

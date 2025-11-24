@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/core/router/app_router.dart';
+import 'package:deptsandloans/core/theme/app_theme.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'dart:developer' as developer;
 
@@ -61,14 +62,8 @@ class DeptsAndLoansApp extends StatelessWidget {
         }
         return supportedLocales.first;
       },
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.light),
-        useMaterial3: true,
-      ),
-      darkTheme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple, brightness: Brightness.dark),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme(),
+      darkTheme: AppTheme.darkTheme(),
       themeMode: ThemeMode.system,
     );
   }
