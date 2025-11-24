@@ -417,3 +417,4 @@ linter:
 ### Important
 * Never commit or push files to repository. I will do it manually.
 * Avoid comments if not necessary
+* Always verify the results of your work by `flutter analyze` and `flutter test`.

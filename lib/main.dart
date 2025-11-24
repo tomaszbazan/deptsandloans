@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
-import 'package:deptsandloans/presentation/screens/home_screen.dart';
+import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'dart:developer' as developer;
 
@@ -37,8 +37,9 @@ class DeptsAndLoansApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+      routerConfig: createAppRouter(databaseService),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -69,7 +70,6 @@ class DeptsAndLoansApp extends StatelessWidget {
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
-      home: HomeScreen(databaseService: databaseService),
     );
   }
 }

@@ -1,0 +1,59 @@
+import 'package:deptsandloans/core/router/app_router.dart';
+import 'package:deptsandloans/presentation/screens/home_screen.dart';
+import 'package:deptsandloans/presentation/screens/transaction_details_screen.dart';
+import 'package:deptsandloans/presentation/screens/transaction_form_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../mocks/mock_database_service.dart';
+
+void main() {
+  late MockDatabaseService mockDatabaseService;
+  late GoRouter router;
+
+  setUp(() {
+    mockDatabaseService = MockDatabaseService();
+    router = createAppRouter(mockDatabaseService);
+  });
+
+  group('AppRouter', () {
+    test('has correct initial location configured', () {
+      expect(router.configuration.routes.isNotEmpty, true);
+    });
+
+    test('defines home route', () {
+      final route = router.configuration.routes
+          .whereType<GoRoute>()
+          .firstWhere((r) => r.name == 'home');
+      expect(route.path, '/');
+    });
+
+    test('defines transaction-new route', () {
+      final route = router.configuration.routes
+          .whereType<GoRoute>()
+          .firstWhere((r) => r.name == 'transaction-new');
+      expect(route.path, '/transaction/new');
+    });
+
+    test('defines transaction-details route', () {
+      final route = router.configuration.routes
+          .whereType<GoRoute>()
+          .firstWhere((r) => r.name == 'transaction-details');
+      expect(route.path, '/transaction/:id');
+    });
+
+    test('defines transaction-edit route', () {
+      final route = router.configuration.routes
+          .whereType<GoRoute>()
+          .firstWhere((r) => r.name == 'transaction-edit');
+      expect(route.path, '/transaction/:id/edit');
+    });
+
+    test('has 4 routes configured', () {
+      final routes = router.configuration.routes.whereType<GoRoute>();
+      expect(routes.length, 4);
+    });
+  });
+
+}

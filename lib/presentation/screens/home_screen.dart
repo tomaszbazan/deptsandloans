@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
   final DatabaseService databaseService;
@@ -30,8 +31,24 @@ class HomeScreen extends StatelessWidget {
                 color: databaseService.isInitialized ? Colors.green : Colors.red,
               ),
             ),
+            const SizedBox(height: 32),
+            ElevatedButton.icon(
+              onPressed: () => context.push('/transaction/new?type=debt'),
+              icon: const Icon(Icons.add),
+              label: const Text('Add New Transaction'),
+            ),
+            const SizedBox(height: 16),
+            ElevatedButton.icon(
+              onPressed: () => context.push('/transaction/123'),
+              icon: const Icon(Icons.visibility),
+              label: const Text('View Sample Transaction'),
+            ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.push('/transaction/new'),
+        child: const Icon(Icons.add),
       ),
     );
   }
