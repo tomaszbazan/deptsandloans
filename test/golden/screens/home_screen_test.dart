@@ -1,7 +1,9 @@
 import 'package:alchemist/alchemist.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/presentation/screens/home_screen.dart';
+import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:isar/isar.dart';
 
 class MockDatabaseService implements DatabaseService {
@@ -32,21 +34,45 @@ void main() {
       children: [
         GoldenTestScenario(
           name: 'database_initialized',
-          child: SizedBox(
-            width: 400,
-            height: 800,
-            child: HomeScreen(
-              databaseService: MockDatabaseService(isInitialized: true),
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('pl'),
+            ],
+            home: SizedBox(
+              width: 400,
+              height: 800,
+              child: HomeScreen(
+                databaseService: MockDatabaseService(isInitialized: true),
+              ),
             ),
           ),
         ),
         GoldenTestScenario(
           name: 'database_not_initialized',
-          child: SizedBox(
-            width: 400,
-            height: 800,
-            child: HomeScreen(
-              databaseService: MockDatabaseService(isInitialized: false),
+          child: MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('pl'),
+            ],
+            home: SizedBox(
+              width: 400,
+              height: 800,
+              child: HomeScreen(
+                databaseService: MockDatabaseService(isInitialized: false),
+              ),
             ),
           ),
         ),

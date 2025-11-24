@@ -1,0 +1,142 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
+import 'app_localizations.dart';
+
+// ignore_for_file: type=lint
+
+/// The translations for Polish (`pl`).
+class AppLocalizationsPl extends AppLocalizations {
+  AppLocalizationsPl([String locale = 'pl']) : super(locale);
+
+  @override
+  String get appTitle => 'Długi i Pożyczki';
+
+  @override
+  String get myDebts => 'Moje Długi';
+
+  @override
+  String get myLoans => 'Moje Pożyczki';
+
+  @override
+  String get name => 'Nazwa';
+
+  @override
+  String get amount => 'Kwota';
+
+  @override
+  String get currency => 'Waluta';
+
+  @override
+  String get description => 'Opis';
+
+  @override
+  String get dueDate => 'Termin płatności';
+
+  @override
+  String get save => 'Zapisz';
+
+  @override
+  String get cancel => 'Anuluj';
+
+  @override
+  String get delete => 'Usuń';
+
+  @override
+  String get edit => 'Edytuj';
+
+  @override
+  String get add => 'Dodaj';
+
+  @override
+  String get addDebt => 'Dodaj Dług';
+
+  @override
+  String get addLoan => 'Dodaj Pożyczkę';
+
+  @override
+  String get editTransaction => 'Edytuj Transakcję';
+
+  @override
+  String get newTransaction => 'Nowa Transakcja';
+
+  @override
+  String get nameRequired => 'Nazwa jest wymagana';
+
+  @override
+  String get descriptionTooLong => 'Opis nie może być dłuższy niż 200 znaków';
+
+  @override
+  String get emptyDebts => 'Brak długów';
+
+  @override
+  String get emptyLoans => 'Brak pożyczek';
+
+  @override
+  String get addFirstDebt => 'Dodaj swój pierwszy dług, aby rozpocząć śledzenie';
+
+  @override
+  String get addFirstLoan => 'Dodaj swoją pierwszą pożyczkę, aby rozpocząć śledzenie';
+
+  @override
+  String get balance => 'Saldo';
+
+  @override
+  String get repayment => 'Spłata';
+
+  @override
+  String get addRepayment => 'Dodaj Spłatę';
+
+  @override
+  String get repaymentAmount => 'Kwota Spłaty';
+
+  @override
+  String get repaymentExceedsBalance => 'Kwota spłaty nie może przekroczyć pozostałego salda';
+
+  @override
+  String get completed => 'Zakończone';
+
+  @override
+  String get markAsCompleted => 'Oznacz jako Zakończone';
+
+  @override
+  String get archive => 'Archiwum';
+
+  @override
+  String get overdue => 'Przeterminowane';
+
+  @override
+  String get deleteConfirmation => 'Czy na pewno chcesz usunąć tę transakcję?';
+
+  @override
+  String get yes => 'Tak';
+
+  @override
+  String get no => 'Nie';
+
+  @override
+  String get reminder => 'Przypomnienie';
+
+  @override
+  String get setReminder => 'Ustaw Przypomnienie';
+
+  @override
+  String get oneTime => 'Jednorazowe';
+
+  @override
+  String get recurring => 'Cykliczne';
+
+  @override
+  String get reminderDate => 'Data Przypomnienia';
+
+  @override
+  String get intervalDays => 'Interwał (dni)';
+
+  @override
+  String get welcome => 'Witaj w Długach i Pożyczkach';
+
+  @override
+  String get databaseReady => 'Baza danych: Gotowa';
+
+  @override
+  String get databaseNotInitialized => 'Baza danych: Niezainicjalizowana';
+}

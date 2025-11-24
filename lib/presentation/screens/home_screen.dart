@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
+import 'package:deptsandloans/l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   final DatabaseService databaseService;
@@ -8,15 +9,27 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Debts and Loans'), backgroundColor: Theme.of(context).colorScheme.inversePrimary),
+      appBar: AppBar(
+        title: Text(l10n.appTitle),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Welcome to Debts and Loans'),
+            Text(l10n.welcome),
             const SizedBox(height: 16),
-            Text('Database: ${databaseService.isInitialized ? "Ready" : "Not initialized"}', style: TextStyle(color: databaseService.isInitialized ? Colors.green : Colors.red)),
+            Text(
+              databaseService.isInitialized
+                  ? l10n.databaseReady
+                  : l10n.databaseNotInitialized,
+              style: TextStyle(
+                color: databaseService.isInitialized ? Colors.green : Colors.red,
+              ),
+            ),
           ],
         ),
       ),

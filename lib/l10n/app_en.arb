@@ -1,0 +1,179 @@
+{
+  "@@locale": "en",
+  "appTitle": "Debts and Loans",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "myDebts": "My Debts",
+  "@myDebts": {
+    "description": "Tab name for debts list"
+  },
+  "myLoans": "My Loans",
+  "@myLoans": {
+    "description": "Tab name for loans list"
+  },
+  "name": "Name",
+  "@name": {
+    "description": "Label for name field"
+  },
+  "amount": "Amount",
+  "@amount": {
+    "description": "Label for amount field"
+  },
+  "currency": "Currency",
+  "@currency": {
+    "description": "Label for currency field"
+  },
+  "description": "Description",
+  "@description": {
+    "description": "Label for description field"
+  },
+  "dueDate": "Due Date",
+  "@dueDate": {
+    "description": "Label for due date field"
+  },
+  "save": "Save",
+  "@save": {
+    "description": "Save button label"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+  "delete": "Delete",
+  "@delete": {
+    "description": "Delete button label"
+  },
+  "edit": "Edit",
+  "@edit": {
+    "description": "Edit button label"
+  },
+  "add": "Add",
+  "@add": {
+    "description": "Add button label"
+  },
+  "addDebt": "Add Debt",
+  "@addDebt": {
+    "description": "Button label for adding a new debt"
+  },
+  "addLoan": "Add Loan",
+  "@addLoan": {
+    "description": "Button label for adding a new loan"
+  },
+  "editTransaction": "Edit Transaction",
+  "@editTransaction": {
+    "description": "Screen title for editing a transaction"
+  },
+  "newTransaction": "New Transaction",
+  "@newTransaction": {
+    "description": "Screen title for creating a new transaction"
+  },
+  "nameRequired": "Name is required",
+  "@nameRequired": {
+    "description": "Validation message for required name field"
+  },
+  "descriptionTooLong": "Description must be 200 characters or less",
+  "@descriptionTooLong": {
+    "description": "Validation message for description field exceeding max length"
+  },
+  "emptyDebts": "No debts yet",
+  "@emptyDebts": {
+    "description": "Empty state message for debts list"
+  },
+  "emptyLoans": "No loans yet",
+  "@emptyLoans": {
+    "description": "Empty state message for loans list"
+  },
+  "addFirstDebt": "Add your first debt to start tracking",
+  "@addFirstDebt": {
+    "description": "Empty state suggestion for debts"
+  },
+  "addFirstLoan": "Add your first loan to start tracking",
+  "@addFirstLoan": {
+    "description": "Empty state suggestion for loans"
+  },
+  "balance": "Balance",
+  "@balance": {
+    "description": "Label for remaining balance"
+  },
+  "repayment": "Repayment",
+  "@repayment": {
+    "description": "Label for repayment"
+  },
+  "addRepayment": "Add Repayment",
+  "@addRepayment": {
+    "description": "Button label for adding a repayment"
+  },
+  "repaymentAmount": "Repayment Amount",
+  "@repaymentAmount": {
+    "description": "Label for repayment amount field"
+  },
+  "repaymentExceedsBalance": "Repayment amount cannot exceed remaining balance",
+  "@repaymentExceedsBalance": {
+    "description": "Validation message for repayment exceeding balance"
+  },
+  "completed": "Completed",
+  "@completed": {
+    "description": "Label for completed status"
+  },
+  "markAsCompleted": "Mark as Completed",
+  "@markAsCompleted": {
+    "description": "Button label for marking transaction as completed"
+  },
+  "archive": "Archive",
+  "@archive": {
+    "description": "Label for archive section"
+  },
+  "overdue": "Overdue",
+  "@overdue": {
+    "description": "Label for overdue transactions"
+  },
+  "deleteConfirmation": "Are you sure you want to delete this transaction?",
+  "@deleteConfirmation": {
+    "description": "Confirmation message for deleting a transaction"
+  },
+  "yes": "Yes",
+  "@yes": {
+    "description": "Affirmative answer"
+  },
+  "no": "No",
+  "@no": {
+    "description": "Negative answer"
+  },
+  "reminder": "Reminder",
+  "@reminder": {
+    "description": "Label for reminder"
+  },
+  "setReminder": "Set Reminder",
+  "@setReminder": {
+    "description": "Button label for setting a reminder"
+  },
+  "oneTime": "One-time",
+  "@oneTime": {
+    "description": "Label for one-time reminder"
+  },
+  "recurring": "Recurring",
+  "@recurring": {
+    "description": "Label for recurring reminder"
+  },
+  "reminderDate": "Reminder Date",
+  "@reminderDate": {
+    "description": "Label for reminder date field"
+  },
+  "intervalDays": "Interval (days)",
+  "@intervalDays": {
+    "description": "Label for reminder interval in days"
+  },
+  "welcome": "Welcome to Debts and Loans",
+  "@welcome": {
+    "description": "Welcome message on home screen"
+  },
+  "databaseReady": "Database: Ready",
+  "@databaseReady": {
+    "description": "Message when database is initialized"
+  },
+  "databaseNotInitialized": "Database: Not initialized",
+  "@databaseNotInitialized": {
+    "description": "Message when database is not initialized"
+  }
+}
