@@ -1,0 +1,4 @@
+enum TransactionStatus {
+  active,
+  completed,
+}

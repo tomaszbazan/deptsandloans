@@ -1,46 +1,46 @@
 # TASK-0008: Create Transaction Model - Implementation Plan
 
 ## Task Description
-Define Transaction entity with fields: id, type (debt/loan), name, amount, currency, description, dueDate, status
+Define Transaction entity as Isar database model with fields: id, type (debt/loan), name, amount, currency, description, dueDate, status
 
 ## Prerequisites
 - Flutter project initialized ✓
-- Local database configured (sqflite/hive/isar) ✓
-- json_serializable and json_annotation packages
+- Isar database configured ✓
+- isar_community package installed ✓
 
 ## Implementation Steps
 
 ### 1. Add Required Dependencies
-- Verify `json_annotation` is in dependencies
-- Verify `json_serializable` and `build_runner` are in dev_dependencies
-- Run `flutter pub get` if packages need to be added
+- Verify `isar_community` is in dependencies ✓
+- Verify `isar_community_generator` is in dev_dependencies ✓
+- Verify `build_runner` is in dev_dependencies ✓
 
 ### 2. Create Transaction Model File
-**Location:** `lib/domain/models/transaction.dart`
+**Location:** `lib/data/models/transaction.dart`
 
 **Fields to implement:**
-- `String id` - Unique identifier (UUID)
-- `TransactionType type` - Enum: debt or loan
+- `Id id` - Isar auto-increment ID (default: Isar.autoIncrement)
+- `@Enumerated(EnumType.name) TransactionType type` - Enum: debt or loan
 - `String name` - Transaction party name (required, non-empty)
-- `double amount` - Initial amount (required, positive)
-- `Currency currency` - Enum: PLN, EUR, USD, GBP
+- `int amount` - Initial amount in smallest currency unit (required, positive)
+- `@Enumerated(EnumType.name) Currency currency` - Enum: PLN, EUR, USD, GBP
 - `String? description` - Optional description (max 200 characters)
 - `DateTime? dueDate` - Optional due date
-- `TransactionStatus status` - Enum: active or completed
+- `@Enumerated(EnumType.name) TransactionStatus status` - Enum: active or completed
 - `DateTime createdAt` - Creation timestamp
 - `DateTime updatedAt` - Last update timestamp
 
 ### 3. Create Supporting Enums
 
-**TransactionType enum** (`lib/domain/models/transaction_type.dart`):
+**TransactionType enum** (`lib/data/models/transaction_type.dart`):
 ```dart
 enum TransactionType {
-  debt,  // Money I owe to others
-  loan   // Money others owe to me
+  debt,
+  loan
 }
 ```
 
-**Currency enum** (`lib/domain/models/currency.dart`):
+**Currency enum** (`lib/data/models/currency.dart`):
 ```dart
 enum Currency {
   pln,
@@ -50,7 +50,7 @@ enum Currency {
 }
 ```
 
-**TransactionStatus enum** (`lib/domain/models/transaction_status.dart`):
+**TransactionStatus enum** (`lib/data/models/transaction_status.dart`):
 ```dart
 enum TransactionStatus {
   active,
@@ -61,47 +61,52 @@ enum TransactionStatus {
 ### 4. Implement Transaction Model Class
 
 **Key features:**
-- Immutable class with `@JsonSerializable` annotation
-- Use `fieldRename: FieldRename.snake` for JSON serialization
-- Include `fromJson` factory constructor
-- Include `toJson` method
-- Implement `copyWith` method for immutability
-- Add validation in constructor if needed
+- Isar collection class with `@collection` annotation
+- Use `@Enumerated(EnumType.name)` for enum fields
+- Amount stored as `int` (smallest currency unit, e.g., grosze for PLN)
+- ID field with type `Id` (auto-increment by default)
+- No manual `copyWith` needed - Isar generates helper methods
+- Add validation in constructor/setters if needed
 
 **Example structure:**
 ```dart
-@JsonSerializable(fieldRename: FieldRename.snake)
+@collection
 class Transaction {
-  final String id;
-  final TransactionType type;
-  final String name;
-  final double amount;
-  final Currency currency;
-  final String? description;
-  final DateTime? dueDate;
-  final TransactionStatus status;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  Id id = Isar.autoIncrement;
 
-  // Constructor
-  // fromJson factory
-  // toJson method
-  // copyWith method
+  @Enumerated(EnumType.name)
+  late TransactionType type;
+
+  late String name;
+  late int amount;
+
+  @Enumerated(EnumType.name)
+  late Currency currency;
+
+  String? description;
+  DateTime? dueDate;
+
+  @Enumerated(EnumType.name)
+  late TransactionStatus status;
+
+  late DateTime createdAt;
+  late DateTime updatedAt;
 }
 ```
 
-### 5. Generate JSON Serialization Code
+### 5. Generate Isar Code
 Run build_runner to generate the `*.g.dart` file:
 ```bash
 dart run build_runner build --delete-conflicting-outputs
 ```
 
-### 6. Create Helper Methods
+### 6. Create Helper Methods and Getters
 
 Consider adding to the Transaction class:
 - `bool get isOverdue` - Check if transaction is overdue
 - `bool get isActive` - Check if transaction is active
 - `bool get isCompleted` - Check if transaction is completed
+- `double get amountInMainUnit` - Convert amount from smallest unit to main unit (e.g., grosze to PLN)
 
 ### 7. Validation
 
@@ -112,65 +117,68 @@ Add validation logic:
 
 ### 8. Testing
 
-Create test file: `test/domain/models/transaction_test.dart`
+Create test file: `test/data/models/transaction_test.dart`
 
 **Test cases:**
 - Model creation with all fields
 - Model creation with minimal fields (only required)
-- JSON serialization (toJson)
-- JSON deserialization (fromJson)
-- copyWith method functionality
+- Isar collection operations (save, read, update, delete)
 - Validation rules (name, amount, description length)
-- Helper methods (isOverdue, isActive, isCompleted)
-- Enum conversions
+- Helper methods (isOverdue, isActive, isCompleted, amountInMainUnit)
+- Enum storage and retrieval
+- Query operations
 
 ### 9. Documentation
 
 Add dartdoc comments to:
 - Class definition
 - All public fields
-- Factory constructors
-- Methods
+- Getters and methods
 
 ## File Structure
 ```
 lib/
-  domain/
+  data/
     models/
       transaction.dart
-      transaction.g.dart (generated)
+      transaction.g.dart (generated by Isar)
       transaction_type.dart
       currency.dart
       transaction_status.dart
 
 test/
-  domain/
+  data/
     models/
       transaction_test.dart
 ```
 
-## Dependencies to Add (if missing)
+## Dependencies (already added)
 ```yaml
 dependencies:
-  json_annotation: ^4.9.0
+  isar_community: ^4.0.3
+  isar_community_flutter_libs: ^4.0.3
+  path_provider: ^2.1.5
 
 dev_dependencies:
-  json_serializable: ^6.8.0
+  isar_community_generator: ^4.0.3
   build_runner: ^2.4.0
 ```
 
 ## Verification Steps
-1. Run `flutter analyze` - no errors
-2. Run `flutter test` - all tests pass
-3. Verify JSON serialization works correctly
-4. Verify all enum values serialize/deserialize properly
-5. Verify validation rules work as expected
+1. Run `dart run build_runner build --delete-conflicting-outputs` - code generation succeeds
+2. Run `flutter analyze` - no errors
+3. Run `flutter test` - all tests pass
+4. Verify Isar collection is properly registered
+5. Verify all enum values are stored/retrieved correctly as names
+6. Verify validation rules work as expected
+7. Verify amount is correctly stored as int (smallest unit)
 
 ## Success Criteria
-- Transaction model created with all required fields
+- Transaction model created as Isar collection with all required fields
 - Enums defined for type, currency, and status
-- JSON serialization working (toJson/fromJson)
-- copyWith method implemented
+- Isar code generation working (*.g.dart created)
+- Amount stored as `int` in smallest currency unit
+- Helper getter for converting amount to main unit
 - Validation logic in place
 - Unit tests written and passing
 - No analyzer warnings
@@ -183,6 +191,7 @@ dev_dependencies:
 
 ## Notes
 - This is a foundational model for the entire application
-- Consider immutability best practices throughout
+- Transaction is an Isar collection stored in local database
 - Ensure proper null safety usage
-- Use const constructors where possible
+- Amount is stored as `int` to avoid floating-point precision issues
+- Enums are stored using `@Enumerated(EnumType.name)` for readability in database
