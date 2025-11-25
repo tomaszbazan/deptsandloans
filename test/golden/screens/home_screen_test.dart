@@ -1,5 +1,4 @@
 import 'package:alchemist/alchemist.dart';
-import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/core/theme/app_theme.dart';
 import 'package:deptsandloans/presentation/screens/home_screen.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';

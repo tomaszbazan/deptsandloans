@@ -10,7 +10,7 @@ class Transaction {
   final String id;
   final TransactionType type;
   final String name;
-  final double amount;
+  final int amount;
   final Currency currency;
   final String? description;
   final DateTime? dueDate;
@@ -56,7 +56,7 @@ class Transaction {
     String? id,
     TransactionType? type,
     String? name,
-    double? amount,
+    int? amount,
     Currency? currency,
     String? description,
     DateTime? dueDate,

@@ -15,7 +15,7 @@ void main() {
         id: '123',
         type: TransactionType.debt,
         name: 'John Doe',
-        amount: 100.50,
+        amount: 10050,
         currency: Currency.pln,
         description: 'Test description',
         dueDate: tomorrow,
@@ -27,7 +27,7 @@ void main() {
       expect(transaction.id, '123');
       expect(transaction.type, TransactionType.debt);
       expect(transaction.name, 'John Doe');
-      expect(transaction.amount, 100.50);
+      expect(transaction.amount, 10050);
       expect(transaction.currency, Currency.pln);
       expect(transaction.description, 'Test description');
       expect(transaction.dueDate, tomorrow);
@@ -41,7 +41,7 @@ void main() {
         id: '123',
         type: TransactionType.loan,
         name: 'Jane Smith',
-        amount: 50.0,
+        amount: 500,
         currency: Currency.eur,
         status: TransactionStatus.active,
         createdAt: now,
@@ -60,7 +60,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: '                ',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.active,
           createdAt: now,
@@ -76,7 +76,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: '   ',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.active,
           createdAt: now,
@@ -122,7 +122,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           description: 'a' * 201,
           status: TransactionStatus.active,
@@ -138,7 +138,7 @@ void main() {
         id: '123',
         type: TransactionType.debt,
         name: 'John Doe',
-        amount: 100.0,
+        amount: 1000,
         currency: Currency.pln,
         description: 'a' * 200,
         status: TransactionStatus.active,
@@ -154,7 +154,7 @@ void main() {
         id: '123',
         type: TransactionType.debt,
         name: 'John Doe',
-        amount: 100.50,
+        amount: 10050,
         currency: Currency.pln,
         description: 'Test description',
         dueDate: DateTime(2024, 12, 31, 10, 30),
@@ -168,7 +168,7 @@ void main() {
       expect(json['id'], '123');
       expect(json['type'], 'debt');
       expect(json['name'], 'John Doe');
-      expect(json['amount'], 100.50);
+      expect(json['amount'], 10050);
       expect(json['currency'], 'pln');
       expect(json['description'], 'Test description');
       expect(json['due_date'], '2024-12-31T10:30:00.000');
@@ -182,7 +182,7 @@ void main() {
         'id': '123',
         'type': 'loan',
         'name': 'Jane Smith',
-        'amount': 250.75,
+        'amount': 25075,
         'currency': 'eur',
         'description': 'Loan for car',
         'due_date': '2024-12-31T10:30:00.000',
@@ -196,7 +196,7 @@ void main() {
       expect(transaction.id, '123');
       expect(transaction.type, TransactionType.loan);
       expect(transaction.name, 'Jane Smith');
-      expect(transaction.amount, 250.75);
+      expect(transaction.amount, 25075);
       expect(transaction.currency, Currency.eur);
       expect(transaction.description, 'Loan for car');
       expect(transaction.dueDate, DateTime(2024, 12, 31, 10, 30));
@@ -210,7 +210,7 @@ void main() {
         'id': '456',
         'type': 'debt',
         'name': 'Bob',
-        'amount': 50.0,
+        'amount': 500,
         'currency': 'usd',
         'status': 'active',
         'created_at': '2024-01-01T12:00:00.000',
@@ -228,7 +228,7 @@ void main() {
         id: '123',
         type: TransactionType.debt,
         name: 'John Doe',
-        amount: 100.0,
+        amount: 1000,
         currency: Currency.pln,
         status: TransactionStatus.active,
         createdAt: now,
@@ -237,13 +237,13 @@ void main() {
 
       final updated = transaction.copyWith(
         name: 'Jane Doe',
-        amount: 200.0,
+        amount: 2000,
         status: TransactionStatus.completed,
       );
 
       expect(updated.id, '123');
       expect(updated.name, 'Jane Doe');
-      expect(updated.amount, 200.0);
+      expect(updated.amount, 2000);
       expect(updated.status, TransactionStatus.completed);
       expect(updated.type, TransactionType.debt);
       expect(updated.currency, Currency.pln);
@@ -254,7 +254,7 @@ void main() {
         id: '123',
         type: TransactionType.debt,
         name: 'John Doe',
-        amount: 100.0,
+        amount: 1000,
         currency: Currency.pln,
         status: TransactionStatus.active,
         createdAt: now,
@@ -275,7 +275,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.active,
           createdAt: now,
@@ -290,7 +290,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           dueDate: yesterday,
           status: TransactionStatus.completed,
@@ -306,7 +306,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           dueDate: yesterday,
           status: TransactionStatus.active,
@@ -322,7 +322,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           dueDate: tomorrow,
           status: TransactionStatus.active,
@@ -340,7 +340,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.active,
           createdAt: now,
@@ -355,7 +355,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.completed,
           createdAt: now,
@@ -372,7 +372,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.completed,
           createdAt: now,
@@ -387,7 +387,7 @@ void main() {
           id: '123',
           type: TransactionType.debt,
           name: 'John Doe',
-          amount: 100.0,
+          amount: 1000,
           currency: Currency.pln,
           status: TransactionStatus.active,
           createdAt: now,
