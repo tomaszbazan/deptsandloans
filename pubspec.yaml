@@ -57,6 +57,7 @@ dev_dependencies:
   isar_community_generator: ^3.3.0
   alchemist: ^0.13.0
   json_serializable: ^6.8.0
+  mocktail: ^1.0.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

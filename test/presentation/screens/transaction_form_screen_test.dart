@@ -9,7 +9,11 @@ import '../../mocks/mock_database_service.dart';
 
 void main() {
   group('TransactionFormScreen', () {
-    final mockDatabaseService = MockDatabaseService(isInitialized: true);
+    late MockDatabaseService mockDatabaseService;
+
+    setUp(() {
+      mockDatabaseService = createMockDatabaseService();
+    });
 
     testWidgets('displays new transaction mode correctly', (tester) async {
       await tester.pumpWidget(

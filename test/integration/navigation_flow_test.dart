@@ -8,7 +8,11 @@ import '../mocks/mock_database_service.dart';
 
 void main() {
   group('Navigation flow integration tests', () {
-    final mockDatabaseService = MockDatabaseService(isInitialized: true);
+    late MockDatabaseService mockDatabaseService;
+
+    setUp(() {
+      mockDatabaseService = createMockDatabaseService();
+    });
 
     testWidgets('complete flow: home -> new transaction -> back', (tester) async {
       await tester.pumpWidget(

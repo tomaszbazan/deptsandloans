@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import '../../mocks/mock_database_service.dart';
 
 void main() {
-  late MockDatabaseService mockDatabaseService;
+  late MockDatabaseService databaseService;
   late GoRouter router;
 
   setUp(() {
-    mockDatabaseService = MockDatabaseService(isInitialized: true);
-    router = createAppRouter(mockDatabaseService);
+    databaseService = createMockDatabaseService();
+    router = createAppRouter(databaseService);
   });
 
   group('AppRouter', () {

@@ -8,9 +8,13 @@ import '../../mocks/mock_database_service.dart';
 
 void main() {
   group('HomeScreen navigation tests', () {
-    testWidgets('displays navigation buttons', (tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: true);
+    late MockDatabaseService mockDatabaseService;
 
+    setUp(() {
+      mockDatabaseService = createMockDatabaseService();
+    });
+
+    testWidgets('displays navigation buttons', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -20,10 +24,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -35,8 +36,6 @@ void main() {
     });
 
     testWidgets('FAB navigates to new transaction screen', (tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: true);
-
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -46,10 +45,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -62,10 +58,7 @@ void main() {
       expect(find.text('Transaction Form (New)'), findsOneWidget);
     });
 
-    testWidgets('Add New Transaction button navigates with type parameter',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: true);
-
+    testWidgets('Add New Transaction button navigates with type parameter', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -75,10 +68,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -91,10 +81,7 @@ void main() {
       expect(find.text('Type: debt'), findsOneWidget);
     });
 
-    testWidgets('View Sample Transaction button navigates to details',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: true);
-
+    testWidgets('View Sample Transaction button navigates to details', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -104,10 +91,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -121,8 +105,6 @@ void main() {
     });
 
     testWidgets('back navigation from transaction form works', (tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: true);
-
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -132,10 +114,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 
@@ -153,10 +132,7 @@ void main() {
       expect(find.text('Transaction Form (New)'), findsNothing);
     });
 
-    testWidgets('back navigation from transaction details works',
-        (tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: true);
-
+    testWidgets('back navigation from transaction details works', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
           routerConfig: createAppRouter(mockDatabaseService),
@@ -166,10 +142,7 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en'),
-            Locale('pl'),
-          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
         ),
       );
 

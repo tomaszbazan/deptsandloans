@@ -4,6 +4,7 @@ import 'package:deptsandloans/presentation/screens/home_screen.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_database_service.dart';
 
@@ -32,7 +33,7 @@ void main() {
               width: 400,
               height: 800,
               child: HomeScreen(
-                databaseService: MockDatabaseService(isInitialized: true),
+                databaseService: createMockDatabaseService(),
               ),
             ),
           ),
@@ -55,7 +56,7 @@ void main() {
               width: 400,
               height: 800,
               child: HomeScreen(
-                databaseService: MockDatabaseService(isInitialized: false),
+                databaseService: _databaseNotInitialized(),
               ),
             ),
           ),
@@ -88,7 +89,7 @@ void main() {
               width: 400,
               height: 800,
               child: HomeScreen(
-                databaseService: MockDatabaseService(isInitialized: true),
+                databaseService: createMockDatabaseService(),
               ),
             ),
           ),
@@ -111,7 +112,7 @@ void main() {
               width: 400,
               height: 800,
               child: HomeScreen(
-                databaseService: MockDatabaseService(isInitialized: false),
+                databaseService: _databaseNotInitialized(),
               ),
             ),
           ),
@@ -119,4 +120,10 @@ void main() {
       ],
     ),
   );
+}
+
+MockDatabaseService _databaseNotInitialized() {
+  var mockDatabaseService = createMockDatabaseService();
+  when(() => mockDatabaseService.isInitialized).thenReturn(false);
+  return mockDatabaseService;
 }

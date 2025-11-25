@@ -1,21 +1,10 @@
 import 'package:deptsandloans/core/database/database_service.dart';
-import 'package:isar_community/isar.dart';
+import 'package:mocktail/mocktail.dart';
 
-class MockDatabaseService implements DatabaseService {
-  final bool _isInitialized;
+class MockDatabaseService extends Mock implements DatabaseService {}
 
-  MockDatabaseService({required bool isInitialized})
-      : _isInitialized = isInitialized;
-
-  @override
-  bool get isInitialized => _isInitialized;
-
-  @override
-  Isar get instance => throw UnimplementedError();
-
-  @override
-  Future<bool> close() => throw UnimplementedError();
-
-  @override
-  Future<Isar> initialize() => throw UnimplementedError();
+MockDatabaseService createMockDatabaseService() {
+  final mock = MockDatabaseService();
+  when(() => mock.isInitialized).thenReturn(true);
+  return mock;
 }

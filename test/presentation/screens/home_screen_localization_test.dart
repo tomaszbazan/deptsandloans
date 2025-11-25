@@ -3,12 +3,17 @@ import 'package:deptsandloans/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_database_service.dart';
 
 void main() {
   group('HomeScreen localization tests', () {
-    final mockDatabaseService = MockDatabaseService(isInitialized: true);
+    late MockDatabaseService mockDatabaseService;
+
+    setUp(() {
+      mockDatabaseService = createMockDatabaseService();
+    });
 
     testWidgets('displays English texts when locale is en', (WidgetTester tester) async {
       await tester.pumpWidget(
@@ -63,7 +68,7 @@ void main() {
     });
 
     testWidgets('displays correct database status for uninitialized database', (WidgetTester tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: false);
+      when(() => mockDatabaseService.isInitialized).thenReturn(false);
 
       await tester.pumpWidget(
         MaterialApp(
@@ -89,7 +94,7 @@ void main() {
     });
 
     testWidgets('displays Polish database status for uninitialized database', (WidgetTester tester) async {
-      final mockDatabaseService = MockDatabaseService(isInitialized: false);
+      when(() => mockDatabaseService.isInitialized).thenReturn(false);
 
       await tester.pumpWidget(
         MaterialApp(
