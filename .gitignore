@@ -33,6 +33,11 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Isar native libraries (downloaded automatically)
+libisar.so
+libisar.dylib
+isar.dll
+
 # Symbolication related
 app.*.symbols
 
