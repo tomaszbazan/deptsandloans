@@ -1,6 +1,7 @@
-import 'package:deptsandloans/core/router/app_router.dart';
+import 'package:deptsandloans/data/models/transaction_type.dart';
+import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
-import 'package:deptsandloans/presentation/screens/transaction_form_screen.dart';
+import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,11 +12,16 @@ void main() {
   group('TransactionFormScreen', () {
     late MockDatabaseService mockDatabaseService;
 
+    setUpAll(() async {
+      await initializeTestIsar();
+    });
+
     setUp(() {
       mockDatabaseService = createMockDatabaseService();
     });
 
-    testWidgets('displays new transaction mode correctly', (tester) async {
+    testWidgets('displays new debt transaction mode correctly', (tester) async {
+      final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -25,19 +31,21 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(databaseService: mockDatabaseService),
+          home: TransactionFormScreen(
+            repository: repository,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      expect(find.text('New Transaction'), findsOneWidget);
-      expect(find.text('Transaction Form (New)'), findsOneWidget);
-      expect(find.text('Edit Transaction'), findsNothing);
-      expect(find.byIcon(Icons.note_add), findsOneWidget);
+      expect(find.text('Add Debt'), findsOneWidget);
+      expect(find.byIcon(Icons.check), findsOneWidget);
     });
 
     testWidgets('displays edit transaction mode correctly', (tester) async {
+      final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -47,19 +55,21 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(databaseService: mockDatabaseService, transactionId: '456'),
+          home: TransactionFormScreen(
+            repository: repository,
+            type: TransactionType.debt,
+            transactionId: 456,
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
 
       expect(find.text('Edit Transaction'), findsOneWidget);
-      expect(find.text('Transaction Form (Edit Mode)'), findsOneWidget);
-      expect(find.text('Transaction ID: 456'), findsOneWidget);
-      expect(find.text('New Transaction'), findsNothing);
     });
 
-    testWidgets('displays transaction type when provided', (tester) async {
+    testWidgets('displays loan type correctly', (tester) async {
+      final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -69,16 +79,20 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(databaseService: mockDatabaseService, transactionType: 'loan'),
+          home: TransactionFormScreen(
+            repository: repository,
+            type: TransactionType.loan,
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Type: loan'), findsOneWidget);
+      expect(find.text('Add Loan'), findsOneWidget);
     });
 
-    testWidgets('has back button in app bar', (tester) async {
+    testWidgets('has all form fields', (tester) async {
+      final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -88,16 +102,24 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(databaseService: mockDatabaseService),
+          home: TransactionFormScreen(
+            repository: repository,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.arrow_back), findsOneWidget);
+      expect(find.text('Name'), findsOneWidget);
+      expect(find.text('Amount'), findsOneWidget);
+      expect(find.text('Currency'), findsOneWidget);
+      expect(find.text('Description (optional)'), findsOneWidget);
+      expect(find.text('Due Date (optional)'), findsOneWidget);
     });
 
-    testWidgets('placeholder message is visible', (tester) async {
+    testWidgets('currency dropdown shows all currencies', (tester) async {
+      final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -107,19 +129,22 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(databaseService: mockDatabaseService),
+          home: TransactionFormScreen(
+            repository: repository,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      expect(find.text('Placeholder for transaction form'), findsOneWidget);
+      expect(find.text('PLN'), findsOneWidget);
     });
 
-    testWidgets('back navigation works with router', (tester) async {
+    testWidgets('date picker opens when tapping due date field', (tester) async {
+      final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
       await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
+        MaterialApp(
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -127,23 +152,19 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(
+            repository: repository,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(FloatingActionButton));
+      await tester.tap(find.text('Not set'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Transaction Form (New)'), findsOneWidget);
-
-      final backButton = find.byIcon(Icons.arrow_back);
-      expect(backButton, findsOneWidget);
-
-      await tester.tap(backButton);
-      await tester.pumpAndSettle();
-
-      expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
+      expect(find.byType(DatePickerDialog), findsOneWidget);
     });
   });
 }

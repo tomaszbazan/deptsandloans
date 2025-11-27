@@ -27,7 +27,7 @@
 
 | ID        | Task Name                      | Description                                                                                                 | Done |
 |:----------|:-------------------------------|:------------------------------------------------------------------------------------------------------------|:----:|
-| TASK-0014 | Create Transaction Form Screen | Build form UI for adding/editing transactions with Name, Amount, Currency, Description, and Due Date fields | [ ]  |
+| TASK-0014 | Create Transaction Form Screen | Build form UI for adding/editing transactions with Name, Amount, Currency, Description, and Due Date fields | [X]  |
 | TASK-0015 | Implement Form Validation      | Add validation for required Name field (non-empty) and Description field (max 200 characters)               | [ ]  |
 | TASK-0016 | Implement Currency Selection   | Create currency picker supporting PLN, EUR, USD, GBP with proper locale-based formatting                    | [ ]  |
 | TASK-0017 | Implement Save Transaction     | Connect form to repository to save new transactions to local database                                       | [ ]  |

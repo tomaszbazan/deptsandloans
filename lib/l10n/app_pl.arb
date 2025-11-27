@@ -43,5 +43,8 @@
   "intervalDays": "Interwał (dni)",
   "welcome": "Witaj w Długach i Pożyczkach",
   "databaseReady": "Baza danych: Gotowa",
-  "databaseNotInitialized": "Baza danych: Niezainicjalizowana"
+  "databaseNotInitialized": "Baza danych: Niezainicjalizowana",
+  "notSet": "Nie ustawiono",
+  "optional": "opcjonalne",
+  "charactersRemaining": "Pozostało {count} znaków"
 }

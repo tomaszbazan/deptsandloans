@@ -175,5 +175,22 @@
   "databaseNotInitialized": "Database: Not initialized",
   "@databaseNotInitialized": {
     "description": "Message when database is not initialized"
+  },
+  "notSet": "Not set",
+  "@notSet": {
+    "description": "Label for optional fields that have no value"
+  },
+  "optional": "optional",
+  "@optional": {
+    "description": "Label suffix for optional fields"
+  },
+  "charactersRemaining": "{count} characters remaining",
+  "@charactersRemaining": {
+    "description": "Character count helper text for description field",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
   }
 }

@@ -139,4 +139,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get databaseNotInitialized => 'Database: Not initialized';
+
+  @override
+  String get notSet => 'Not set';
+
+  @override
+  String get optional => 'optional';
+
+  @override
+  String charactersRemaining(int count) {
+    return '$count characters remaining';
+  }
 }

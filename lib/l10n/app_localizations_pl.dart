@@ -139,4 +139,15 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get databaseNotInitialized => 'Baza danych: Niezainicjalizowana';
+
+  @override
+  String get notSet => 'Nie ustawiono';
+
+  @override
+  String get optional => 'opcjonalne';
+
+  @override
+  String charactersRemaining(int count) {
+    return 'Pozostało $count znaków';
+  }
 }

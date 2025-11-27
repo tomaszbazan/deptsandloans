@@ -355,6 +355,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Database: Not initialized'**
   String get databaseNotInitialized;
+
+  /// Label for optional fields that have no value
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get notSet;
+
+  /// Label suffix for optional fields
+  ///
+  /// In en, this message translates to:
+  /// **'optional'**
+  String get optional;
+
+  /// Character count helper text for description field
+  ///
+  /// In en, this message translates to:
+  /// **'{count} characters remaining'**
+  String charactersRemaining(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

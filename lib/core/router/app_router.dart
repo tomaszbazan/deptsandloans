@@ -1,7 +1,9 @@
 import 'package:deptsandloans/core/database/database_service.dart';
+import 'package:deptsandloans/data/models/transaction_type.dart';
+import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
 import 'package:deptsandloans/presentation/screens/home_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_details_screen.dart';
-import 'package:deptsandloans/presentation/screens/transaction_form_screen.dart';
+import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter createAppRouter(DatabaseService databaseService) {
@@ -17,10 +19,14 @@ GoRouter createAppRouter(DatabaseService databaseService) {
         path: '/transaction/new',
         name: 'transaction-new',
         builder: (context, state) {
-          final transactionType = state.uri.queryParameters['type'];
+          final typeParam = state.uri.queryParameters['type'];
+          final type = typeParam == 'loan'
+              ? TransactionType.loan
+              : TransactionType.debt;
+          final repository = TransactionRepositoryImpl(databaseService.instance);
           return TransactionFormScreen(
-            databaseService: databaseService,
-            transactionType: transactionType,
+            repository: repository,
+            type: type,
           );
         },
       ),
@@ -39,9 +45,15 @@ GoRouter createAppRouter(DatabaseService databaseService) {
         path: '/transaction/:id/edit',
         name: 'transaction-edit',
         builder: (context, state) {
-          final id = state.pathParameters['id']!;
+          final id = int.parse(state.pathParameters['id']!);
+          final typeParam = state.uri.queryParameters['type'];
+          final type = typeParam == 'loan'
+              ? TransactionType.loan
+              : TransactionType.debt;
+          final repository = TransactionRepositoryImpl(databaseService.instance);
           return TransactionFormScreen(
-            databaseService: databaseService,
+            repository: repository,
+            type: type,
             transactionId: id,
           );
         },
