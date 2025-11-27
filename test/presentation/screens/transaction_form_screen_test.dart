@@ -31,10 +31,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
-            repository: repository,
-            type: TransactionType.debt,
-          ),
+          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -55,11 +52,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
-            repository: repository,
-            type: TransactionType.debt,
-            transactionId: 456,
-          ),
+          home: TransactionFormScreen(repository: repository, type: TransactionType.debt, transactionId: 456),
         ),
       );
 
@@ -79,10 +72,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
-            repository: repository,
-            type: TransactionType.loan,
-          ),
+          home: TransactionFormScreen(repository: repository, type: TransactionType.loan),
         ),
       );
 
@@ -102,10 +92,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
-            repository: repository,
-            type: TransactionType.debt,
-          ),
+          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -129,10 +116,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
-            repository: repository,
-            type: TransactionType.debt,
-          ),
+          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -152,10 +136,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
-            repository: repository,
-            type: TransactionType.debt,
-          ),
+          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
         ),
       );
 

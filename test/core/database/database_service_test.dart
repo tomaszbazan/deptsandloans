@@ -20,14 +20,10 @@ void main() {
       expect(instance1, equals(instance2));
     });
 
-    test('should throw StateError when accessing instance before initialization',
-        () {
+    test('should throw StateError when accessing instance before initialization', () {
       final databaseService = DatabaseService();
 
-      expect(
-        () => databaseService.instance,
-        throwsA(isA<StateError>()),
-      );
+      expect(() => databaseService.instance, throwsA(isA<StateError>()));
     });
 
     test('should return false when closing uninitialized database', () async {

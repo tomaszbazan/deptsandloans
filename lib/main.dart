@@ -41,16 +41,8 @@ class DeptsAndLoansApp extends StatelessWidget {
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       routerConfig: createAppRouter(databaseService),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('pl'),
-      ],
+      localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
+      supportedLocales: const [Locale('en'), Locale('pl')],
       localeResolutionCallback: (locale, supportedLocales) {
         if (locale == null) {
           return supportedLocales.first;

@@ -17,42 +17,13 @@ const ReminderSchema = CollectionSchema(
   name: r'Reminder',
   id: -8566764253612256045,
   properties: {
-    r'createdAt': PropertySchema(
-      id: 0,
-      name: r'createdAt',
-      type: IsarType.dateTime,
-    ),
-    r'intervalDays': PropertySchema(
-      id: 1,
-      name: r'intervalDays',
-      type: IsarType.long,
-    ),
-    r'isOneTime': PropertySchema(
-      id: 2,
-      name: r'isOneTime',
-      type: IsarType.bool,
-    ),
-    r'isRecurring': PropertySchema(
-      id: 3,
-      name: r'isRecurring',
-      type: IsarType.bool,
-    ),
-    r'nextReminderDate': PropertySchema(
-      id: 4,
-      name: r'nextReminderDate',
-      type: IsarType.dateTime,
-    ),
-    r'transactionId': PropertySchema(
-      id: 5,
-      name: r'transactionId',
-      type: IsarType.long,
-    ),
-    r'type': PropertySchema(
-      id: 6,
-      name: r'type',
-      type: IsarType.string,
-      enumMap: _RemindertypeEnumValueMap,
-    ),
+    r'createdAt': PropertySchema(id: 0, name: r'createdAt', type: IsarType.dateTime),
+    r'intervalDays': PropertySchema(id: 1, name: r'intervalDays', type: IsarType.long),
+    r'isOneTime': PropertySchema(id: 2, name: r'isOneTime', type: IsarType.bool),
+    r'isRecurring': PropertySchema(id: 3, name: r'isRecurring', type: IsarType.bool),
+    r'nextReminderDate': PropertySchema(id: 4, name: r'nextReminderDate', type: IsarType.dateTime),
+    r'transactionId': PropertySchema(id: 5, name: r'transactionId', type: IsarType.long),
+    r'type': PropertySchema(id: 6, name: r'type', type: IsarType.string, enumMap: _RemindertypeEnumValueMap),
   },
 
   estimateSize: _reminderEstimateSize,
@@ -66,13 +37,7 @@ const ReminderSchema = CollectionSchema(
       name: r'transactionId',
       unique: false,
       replace: false,
-      properties: [
-        IndexPropertySchema(
-          name: r'transactionId',
-          type: IndexType.value,
-          caseSensitive: false,
-        ),
-      ],
+      properties: [IndexPropertySchema(name: r'transactionId', type: IndexType.value, caseSensitive: false)],
     ),
   },
   links: {},
@@ -84,22 +49,13 @@ const ReminderSchema = CollectionSchema(
   version: '3.3.0',
 );
 
-int _reminderEstimateSize(
-  Reminder object,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+int _reminderEstimateSize(Reminder object, List<int> offsets, Map<Type, List<int>> allOffsets) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.type.name.length * 3;
   return bytesCount;
 }
 
-void _reminderSerialize(
-  Reminder object,
-  IsarWriter writer,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+void _reminderSerialize(Reminder object, IsarWriter writer, List<int> offsets, Map<Type, List<int>> allOffsets) {
   writer.writeDateTime(offsets[0], object.createdAt);
   writer.writeLong(offsets[1], object.intervalDays);
   writer.writeBool(offsets[2], object.isOneTime);
@@ -109,30 +65,18 @@ void _reminderSerialize(
   writer.writeString(offsets[6], object.type.name);
 }
 
-Reminder _reminderDeserialize(
-  Id id,
-  IsarReader reader,
-  List<int> offsets,
-  Map<Type, List<int>> allOffsets,
-) {
+Reminder _reminderDeserialize(Id id, IsarReader reader, List<int> offsets, Map<Type, List<int>> allOffsets) {
   final object = Reminder();
   object.createdAt = reader.readDateTime(offsets[0]);
   object.id = id;
   object.intervalDays = reader.readLongOrNull(offsets[1]);
   object.nextReminderDate = reader.readDateTime(offsets[4]);
   object.transactionId = reader.readLong(offsets[5]);
-  object.type =
-      _RemindertypeValueEnumMap[reader.readStringOrNull(offsets[6])] ??
-      ReminderType.oneTime;
+  object.type = _RemindertypeValueEnumMap[reader.readStringOrNull(offsets[6])] ?? ReminderType.oneTime;
   return object;
 }
 
-P _reminderDeserializeProp<P>(
-  IsarReader reader,
-  int propertyId,
-  int offset,
-  Map<Type, List<int>> allOffsets,
-) {
+P _reminderDeserializeProp<P>(IsarReader reader, int propertyId, int offset, Map<Type, List<int>> allOffsets) {
   switch (propertyId) {
     case 0:
       return (reader.readDateTime(offset)) as P;
@@ -147,22 +91,14 @@ P _reminderDeserializeProp<P>(
     case 5:
       return (reader.readLong(offset)) as P;
     case 6:
-      return (_RemindertypeValueEnumMap[reader.readStringOrNull(offset)] ??
-              ReminderType.oneTime)
-          as P;
+      return (_RemindertypeValueEnumMap[reader.readStringOrNull(offset)] ?? ReminderType.oneTime) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
-const _RemindertypeEnumValueMap = {
-  r'oneTime': r'oneTime',
-  r'recurring': r'recurring',
-};
-const _RemindertypeValueEnumMap = {
-  r'oneTime': ReminderType.oneTime,
-  r'recurring': ReminderType.recurring,
-};
+const _RemindertypeEnumValueMap = {r'oneTime': r'oneTime', r'recurring': r'recurring'};
+const _RemindertypeValueEnumMap = {r'oneTime': ReminderType.oneTime, r'recurring': ReminderType.recurring};
 
 Id _reminderGetId(Reminder object) {
   return object.id;
@@ -185,9 +121,7 @@ extension ReminderQueryWhereSort on QueryBuilder<Reminder, Reminder, QWhere> {
 
   QueryBuilder<Reminder, Reminder, QAfterWhere> anyTransactionId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        const IndexWhereClause.any(indexName: r'transactionId'),
-      );
+      return query.addWhereClause(const IndexWhereClause.any(indexName: r'transactionId'));
     });
   }
 }
@@ -202,544 +136,232 @@ extension ReminderQueryWhere on QueryBuilder<Reminder, Reminder, QWhereClause> {
   QueryBuilder<Reminder, Reminder, QAfterWhereClause> idNotEqualTo(Id id) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
-        return query
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            )
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            );
+        return query.addWhereClause(IdWhereClause.lessThan(upper: id, includeUpper: false)).addWhereClause(IdWhereClause.greaterThan(lower: id, includeLower: false));
       } else {
-        return query
-            .addWhereClause(
-              IdWhereClause.greaterThan(lower: id, includeLower: false),
-            )
-            .addWhereClause(
-              IdWhereClause.lessThan(upper: id, includeUpper: false),
-            );
+        return query.addWhereClause(IdWhereClause.greaterThan(lower: id, includeLower: false)).addWhereClause(IdWhereClause.lessThan(upper: id, includeUpper: false));
       }
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> idGreaterThan(
-    Id id, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> idGreaterThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.greaterThan(lower: id, includeLower: include),
-      );
+      return query.addWhereClause(IdWhereClause.greaterThan(lower: id, includeLower: include));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> idLessThan(
-    Id id, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> idLessThan(Id id, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.lessThan(upper: id, includeUpper: include),
-      );
+      return query.addWhereClause(IdWhereClause.lessThan(upper: id, includeUpper: include));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> idBetween(
-    Id lowerId,
-    Id upperId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> idBetween(Id lowerId, Id upperId, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IdWhereClause.between(
-          lower: lowerId,
-          includeLower: includeLower,
-          upper: upperId,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addWhereClause(IdWhereClause.between(lower: lowerId, includeLower: includeLower, upper: upperId, includeUpper: includeUpper));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdEqualTo(
-    int transactionId,
-  ) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdEqualTo(int transactionId) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.equalTo(
-          indexName: r'transactionId',
-          value: [transactionId],
-        ),
-      );
+      return query.addWhereClause(IndexWhereClause.equalTo(indexName: r'transactionId', value: [transactionId]));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdNotEqualTo(
-    int transactionId,
-  ) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdNotEqualTo(int transactionId) {
     return QueryBuilder.apply(this, (query) {
       if (query.whereSort == Sort.asc) {
         return query
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'transactionId',
-                lower: [],
-                upper: [transactionId],
-                includeUpper: false,
-              ),
-            )
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'transactionId',
-                lower: [transactionId],
-                includeLower: false,
-                upper: [],
-              ),
-            );
+            .addWhereClause(IndexWhereClause.between(indexName: r'transactionId', lower: [], upper: [transactionId], includeUpper: false))
+            .addWhereClause(IndexWhereClause.between(indexName: r'transactionId', lower: [transactionId], includeLower: false, upper: []));
       } else {
         return query
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'transactionId',
-                lower: [transactionId],
-                includeLower: false,
-                upper: [],
-              ),
-            )
-            .addWhereClause(
-              IndexWhereClause.between(
-                indexName: r'transactionId',
-                lower: [],
-                upper: [transactionId],
-                includeUpper: false,
-              ),
-            );
+            .addWhereClause(IndexWhereClause.between(indexName: r'transactionId', lower: [transactionId], includeLower: false, upper: []))
+            .addWhereClause(IndexWhereClause.between(indexName: r'transactionId', lower: [], upper: [transactionId], includeUpper: false));
       }
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdGreaterThan(
-    int transactionId, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdGreaterThan(int transactionId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'transactionId',
-          lower: [transactionId],
-          includeLower: include,
-          upper: [],
-        ),
-      );
+      return query.addWhereClause(IndexWhereClause.between(indexName: r'transactionId', lower: [transactionId], includeLower: include, upper: []));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdLessThan(
-    int transactionId, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdLessThan(int transactionId, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'transactionId',
-          lower: [],
-          upper: [transactionId],
-          includeUpper: include,
-        ),
-      );
+      return query.addWhereClause(IndexWhereClause.between(indexName: r'transactionId', lower: [], upper: [transactionId], includeUpper: include));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdBetween(
-    int lowerTransactionId,
-    int upperTransactionId, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterWhereClause> transactionIdBetween(int lowerTransactionId, int upperTransactionId, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addWhereClause(
-        IndexWhereClause.between(
-          indexName: r'transactionId',
-          lower: [lowerTransactionId],
-          includeLower: includeLower,
-          upper: [upperTransactionId],
-          includeUpper: includeUpper,
-        ),
+        IndexWhereClause.between(indexName: r'transactionId', lower: [lowerTransactionId], includeLower: includeLower, upper: [upperTransactionId], includeUpper: includeUpper),
       );
     });
   }
 }
 
-extension ReminderQueryFilter
-    on QueryBuilder<Reminder, Reminder, QFilterCondition> {
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtEqualTo(
-    DateTime value,
-  ) {
+extension ReminderQueryFilter on QueryBuilder<Reminder, Reminder, QFilterCondition> {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'createdAt', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'createdAt', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtGreaterThan(
-    DateTime value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtGreaterThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'createdAt',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'createdAt', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtLessThan(
-    DateTime value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtLessThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'createdAt',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'createdAt', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> createdAtBetween(DateTime lower, DateTime upper, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'createdAt',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(property: r'createdAt', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper));
     });
   }
 
   QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'id', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'id', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idGreaterThan(
-    Id value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idGreaterThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'id',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'id', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idLessThan(
-    Id value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idLessThan(Id value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'id',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'id', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idBetween(
-    Id lower,
-    Id upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> idBetween(Id lower, Id upper, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'id',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(property: r'id', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper));
     });
   }
 
   QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysIsNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNull(property: r'intervalDays'),
-      );
+      return query.addFilterCondition(const FilterCondition.isNull(property: r'intervalDays'));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  intervalDaysIsNotNull() {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysIsNotNull() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        const FilterCondition.isNotNull(property: r'intervalDays'),
-      );
+      return query.addFilterCondition(const FilterCondition.isNotNull(property: r'intervalDays'));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysEqualTo(
-    int? value,
-  ) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysEqualTo(int? value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'intervalDays', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'intervalDays', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  intervalDaysGreaterThan(int? value, {bool include = false}) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysGreaterThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'intervalDays',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'intervalDays', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysLessThan(
-    int? value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysLessThan(int? value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'intervalDays',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'intervalDays', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysBetween(
-    int? lower,
-    int? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> intervalDaysBetween(int? lower, int? upper, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'intervalDays',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(property: r'intervalDays', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> isOneTimeEqualTo(
-    bool value,
-  ) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> isOneTimeEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'isOneTime', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'isOneTime', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> isRecurringEqualTo(
-    bool value,
-  ) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> isRecurringEqualTo(bool value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'isRecurring', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'isRecurring', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  nextReminderDateEqualTo(DateTime value) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> nextReminderDateEqualTo(DateTime value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'nextReminderDate', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'nextReminderDate', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  nextReminderDateGreaterThan(DateTime value, {bool include = false}) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> nextReminderDateGreaterThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'nextReminderDate',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'nextReminderDate', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  nextReminderDateLessThan(DateTime value, {bool include = false}) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> nextReminderDateLessThan(DateTime value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'nextReminderDate',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'nextReminderDate', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  nextReminderDateBetween(
-    DateTime lower,
-    DateTime upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> nextReminderDateBetween(DateTime lower, DateTime upper, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'nextReminderDate',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(property: r'nextReminderDate', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdEqualTo(
-    int value,
-  ) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'transactionId', value: value),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'transactionId', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition>
-  transactionIdGreaterThan(int value, {bool include = false}) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdGreaterThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'transactionId',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'transactionId', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdLessThan(
-    int value, {
-    bool include = false,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdLessThan(int value, {bool include = false}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'transactionId',
-          value: value,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'transactionId', value: value));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> transactionIdBetween(int lower, int upper, {bool includeLower = true, bool includeUpper = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'transactionId',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.between(property: r'transactionId', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeEqualTo(
-    ReminderType value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeEqualTo(ReminderType value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(
-          property: r'type',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'type', value: value, caseSensitive: caseSensitive));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeGreaterThan(
-    ReminderType value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeGreaterThan(ReminderType value, {bool include = false, bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(
-          include: include,
-          property: r'type',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'type', value: value, caseSensitive: caseSensitive));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeLessThan(
-    ReminderType value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeLessThan(ReminderType value, {bool include = false, bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.lessThan(
-          include: include,
-          property: r'type',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'type', value: value, caseSensitive: caseSensitive));
     });
   }
 
@@ -752,100 +374,51 @@ extension ReminderQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(
-        FilterCondition.between(
-          property: r'type',
-          lower: lower,
-          includeLower: includeLower,
-          upper: upper,
-          includeUpper: includeUpper,
-          caseSensitive: caseSensitive,
-        ),
+        FilterCondition.between(property: r'type', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper, caseSensitive: caseSensitive),
       );
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeStartsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.startsWith(
-          property: r'type',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.startsWith(property: r'type', value: value, caseSensitive: caseSensitive));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeEndsWith(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.endsWith(
-          property: r'type',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.endsWith(property: r'type', value: value, caseSensitive: caseSensitive));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeContains(
-    String value, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeContains(String value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.contains(
-          property: r'type',
-          value: value,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.contains(property: r'type', value: value, caseSensitive: caseSensitive));
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeMatches(
-    String pattern, {
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeMatches(String pattern, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.matches(
-          property: r'type',
-          wildcard: pattern,
-          caseSensitive: caseSensitive,
-        ),
-      );
+      return query.addFilterCondition(FilterCondition.matches(property: r'type', wildcard: pattern, caseSensitive: caseSensitive));
     });
   }
 
   QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeIsEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.equalTo(property: r'type', value: ''),
-      );
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'type', value: ''));
     });
   }
 
   QueryBuilder<Reminder, Reminder, QAfterFilterCondition> typeIsNotEmpty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(
-        FilterCondition.greaterThan(property: r'type', value: ''),
-      );
+      return query.addFilterCondition(FilterCondition.greaterThan(property: r'type', value: ''));
     });
   }
 }
 
-extension ReminderQueryObject
-    on QueryBuilder<Reminder, Reminder, QFilterCondition> {}
+extension ReminderQueryObject on QueryBuilder<Reminder, Reminder, QFilterCondition> {}
 
-extension ReminderQueryLinks
-    on QueryBuilder<Reminder, Reminder, QFilterCondition> {}
+extension ReminderQueryLinks on QueryBuilder<Reminder, Reminder, QFilterCondition> {}
 
 extension ReminderQuerySortBy on QueryBuilder<Reminder, Reminder, QSortBy> {
   QueryBuilder<Reminder, Reminder, QAfterSortBy> sortByCreatedAt() {
@@ -933,8 +506,7 @@ extension ReminderQuerySortBy on QueryBuilder<Reminder, Reminder, QSortBy> {
   }
 }
 
-extension ReminderQuerySortThenBy
-    on QueryBuilder<Reminder, Reminder, QSortThenBy> {
+extension ReminderQuerySortThenBy on QueryBuilder<Reminder, Reminder, QSortThenBy> {
   QueryBuilder<Reminder, Reminder, QAfterSortBy> thenByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'createdAt', Sort.asc);
@@ -1032,8 +604,7 @@ extension ReminderQuerySortThenBy
   }
 }
 
-extension ReminderQueryWhereDistinct
-    on QueryBuilder<Reminder, Reminder, QDistinct> {
+extension ReminderQueryWhereDistinct on QueryBuilder<Reminder, Reminder, QDistinct> {
   QueryBuilder<Reminder, Reminder, QDistinct> distinctByCreatedAt() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'createdAt');
@@ -1070,17 +641,14 @@ extension ReminderQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Reminder, Reminder, QDistinct> distinctByType({
-    bool caseSensitive = true,
-  }) {
+  QueryBuilder<Reminder, Reminder, QDistinct> distinctByType({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type', caseSensitive: caseSensitive);
     });
   }
 }
 
-extension ReminderQueryProperty
-    on QueryBuilder<Reminder, Reminder, QQueryProperty> {
+extension ReminderQueryProperty on QueryBuilder<Reminder, Reminder, QQueryProperty> {
   QueryBuilder<Reminder, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
@@ -1111,8 +679,7 @@ extension ReminderQueryProperty
     });
   }
 
-  QueryBuilder<Reminder, DateTime, QQueryOperations>
-  nextReminderDateProperty() {
+  QueryBuilder<Reminder, DateTime, QQueryOperations> nextReminderDateProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'nextReminderDate');
     });

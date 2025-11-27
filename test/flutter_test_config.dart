@@ -6,28 +6,19 @@ import 'package:flutter_test/flutter_test.dart';
 
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   return TestAsyncUtils.guard<void>(() async {
-    goldenFileComparator = _TolerantGoldenFileComparator(
-      Uri.parse('test/'),
-      pixelDifferenceThreshold: 0.01,
-    );
+    goldenFileComparator = _TolerantGoldenFileComparator(Uri.parse('test/'), pixelDifferenceThreshold: 0.01);
     await testMain();
   });
 }
 
 class _TolerantGoldenFileComparator extends LocalFileComparator {
-  _TolerantGoldenFileComparator(
-    super.testDirectory, {
-    required this.pixelDifferenceThreshold,
-  });
+  _TolerantGoldenFileComparator(super.testDirectory, {required this.pixelDifferenceThreshold});
 
   final double pixelDifferenceThreshold;
 
   @override
   Future<bool> compare(Uint8List imageBytes, Uri golden) async {
-    final result = await GoldenFileComparator.compareLists(
-      imageBytes,
-      await getGoldenBytes(golden),
-    );
+    final result = await GoldenFileComparator.compareLists(imageBytes, await getGoldenBytes(golden));
 
     if (!result.passed) {
       final percentage = result.diffPercent;

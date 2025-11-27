@@ -148,8 +148,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Edit Transaction'), findsOneWidget);
-      expect(find.text('Transaction ID: 123'), findsOneWidget);
-      expect(find.text('Transaction Form (Edit Mode)'), findsOneWidget);
     });
 
     testWidgets('displays different transaction IDs correctly', (tester) async {

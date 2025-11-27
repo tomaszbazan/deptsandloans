@@ -60,8 +60,7 @@ class Transaction {
       errors.add('Description must not exceed 200 characters');
     }
 
-    if (dueDate != null &&
-        dueDate!.isBefore(DateTime.now())) {
+    if (dueDate != null && dueDate!.isBefore(DateTime.now())) {
       errors.add('Due date must be in the future');
     }
 

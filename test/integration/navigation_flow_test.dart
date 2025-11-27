@@ -35,14 +35,14 @@ void main() {
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();
 
-      expect(find.text('Transaction Form (New)'), findsOneWidget);
+      expect(find.text('Add Debt'), findsOneWidget);
       expect(find.text('Welcome to Debts and Loans'), findsNothing);
 
       await tester.tap(find.byIcon(Icons.arrow_back));
       await tester.pumpAndSettle();
 
       expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
-      expect(find.text('Transaction Form (New)'), findsNothing);
+      expect(find.text('Add Debt'), findsNothing);
     });
 
     testWidgets('complete flow: home -> transaction details -> edit -> back -> back', (tester) async {
@@ -73,8 +73,6 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Edit Transaction'), findsOneWidget);
-      expect(find.text('Transaction Form (Edit Mode)'), findsOneWidget);
-      expect(find.text('Transaction ID: 123'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back));
       await tester.pumpAndSettle();
@@ -107,7 +105,7 @@ void main() {
       await tester.tap(find.text('Add New Transaction'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Type: debt'), findsOneWidget);
+      expect(find.text('Add Debt'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back));
       await tester.pumpAndSettle();

@@ -19,18 +19,9 @@ class TransactionRepositoryImpl implements TransactionRepository {
         await _isar.transactions.put(transaction);
       });
 
-      developer.log(
-        'Transaction created: id=${transaction.id}, name=${transaction.name}',
-        name: 'TransactionRepository',
-      );
+      developer.log('Transaction created: id=${transaction.id}, name=${transaction.name}', name: 'TransactionRepository');
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to create transaction',
-        name: 'TransactionRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to create transaction', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw TransactionRepositoryException('Failed to create transaction', e);
     }
   }
@@ -38,29 +29,14 @@ class TransactionRepositoryImpl implements TransactionRepository {
   @override
   Future<List<Transaction>> getByType(TransactionType type) async {
     try {
-      final transactions = await _isar.transactions
-          .filter()
-          .typeEqualTo(type)
-          .findAll();
+      final transactions = await _isar.transactions.filter().typeEqualTo(type).findAll();
 
-      developer.log(
-        'Retrieved ${transactions.length} transactions of type $type',
-        name: 'TransactionRepository',
-      );
+      developer.log('Retrieved ${transactions.length} transactions of type $type', name: 'TransactionRepository');
 
       return transactions;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to get transactions by type',
-        name: 'TransactionRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
-      throw TransactionRepositoryException(
-        'Failed to get transactions by type $type',
-        e,
-      );
+      developer.log('Failed to get transactions by type', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw TransactionRepositoryException('Failed to get transactions by type $type', e);
     }
   }
 
@@ -78,20 +54,11 @@ class TransactionRepositoryImpl implements TransactionRepository {
         await _isar.transactions.put(transaction);
       });
 
-      developer.log(
-        'Transaction updated: id=${transaction.id}, name=${transaction.name}',
-        name: 'TransactionRepository',
-      );
+      developer.log('Transaction updated: id=${transaction.id}, name=${transaction.name}', name: 'TransactionRepository');
     } on TransactionNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to update transaction',
-        name: 'TransactionRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to update transaction', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw TransactionRepositoryException('Failed to update transaction', e);
     }
   }
@@ -107,20 +74,11 @@ class TransactionRepositoryImpl implements TransactionRepository {
         throw TransactionNotFoundException(id);
       }
 
-      developer.log(
-        'Transaction deleted: id=$id',
-        name: 'TransactionRepository',
-      );
+      developer.log('Transaction deleted: id=$id', name: 'TransactionRepository');
     } on TransactionNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to delete transaction',
-        name: 'TransactionRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to delete transaction', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw TransactionRepositoryException('Failed to delete transaction', e);
     }
   }

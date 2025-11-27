@@ -39,23 +39,13 @@ class DatabaseService {
 
       final dir = await getApplicationDocumentsDirectory();
 
-      _isar = await Isar.open(
-        [TransactionSchema, RepaymentSchema, ReminderSchema],
-        directory: dir.path,
-        name: 'deptsandloans',
-      );
+      _isar = await Isar.open([TransactionSchema, RepaymentSchema, ReminderSchema], directory: dir.path, name: 'deptsandloans');
 
       developer.log('Isar database initialized successfully at ${dir.path}', name: 'DatabaseService');
 
       return _isar!;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to initialize database',
-        name: 'DatabaseService',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to initialize database', name: 'DatabaseService', level: 1000, error: e, stackTrace: stackTrace);
       rethrow;
     }
   }

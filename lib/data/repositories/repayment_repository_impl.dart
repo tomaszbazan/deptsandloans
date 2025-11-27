@@ -15,8 +15,7 @@ class RepaymentRepositoryImpl implements RepaymentRepository {
     try {
       repayment.validate();
 
-      final transactionExists = await _isar.transactions
-          .get(repayment.transactionId);
+      final transactionExists = await _isar.transactions.get(repayment.transactionId);
       if (transactionExists == null) {
         throw TransactionNotFoundException(repayment.transactionId);
       }
@@ -25,53 +24,26 @@ class RepaymentRepositoryImpl implements RepaymentRepository {
         await _isar.repayments.put(repayment);
       });
 
-      developer.log(
-        'Repayment added: id=${repayment.id}, transactionId=${repayment.transactionId}, amount=${repayment.amount}',
-        name: 'RepaymentRepository',
-      );
+      developer.log('Repayment added: id=${repayment.id}, transactionId=${repayment.transactionId}, amount=${repayment.amount}', name: 'RepaymentRepository');
     } on TransactionNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to add repayment',
-        name: 'RepaymentRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to add repayment', name: 'RepaymentRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw RepaymentRepositoryException('Failed to add repayment', e);
     }
   }
 
   @override
-  Future<List<Repayment>> getRepaymentsByTransactionId(
-    int transactionId,
-  ) async {
+  Future<List<Repayment>> getRepaymentsByTransactionId(int transactionId) async {
     try {
-      final repayments = await _isar.repayments
-          .filter()
-          .transactionIdEqualTo(transactionId)
-          .sortByWhen()
-          .findAll();
+      final repayments = await _isar.repayments.filter().transactionIdEqualTo(transactionId).sortByWhen().findAll();
 
-      developer.log(
-        'Retrieved ${repayments.length} repayments for transaction $transactionId',
-        name: 'RepaymentRepository',
-      );
+      developer.log('Retrieved ${repayments.length} repayments for transaction $transactionId', name: 'RepaymentRepository');
 
       return repayments;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to get repayments by transaction id',
-        name: 'RepaymentRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
-      throw RepaymentRepositoryException(
-        'Failed to get repayments for transaction $transactionId',
-        e,
-      );
+      developer.log('Failed to get repayments by transaction id', name: 'RepaymentRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw RepaymentRepositoryException('Failed to get repayments for transaction $transactionId', e);
     }
   }
 
@@ -86,20 +58,11 @@ class RepaymentRepositoryImpl implements RepaymentRepository {
         throw RepaymentNotFoundException(id);
       }
 
-      developer.log(
-        'Repayment deleted: id=$id',
-        name: 'RepaymentRepository',
-      );
+      developer.log('Repayment deleted: id=$id', name: 'RepaymentRepository');
     } on RepaymentNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to delete repayment',
-        name: 'RepaymentRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to delete repayment', name: 'RepaymentRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw RepaymentRepositoryException('Failed to delete repayment', e);
     }
   }

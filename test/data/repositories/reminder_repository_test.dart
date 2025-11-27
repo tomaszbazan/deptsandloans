@@ -24,11 +24,7 @@ void main() {
   });
 
   setUp(() async {
-    isar = await Isar.open(
-      [ReminderSchema, TransactionSchema],
-      directory: testDbDir.path,
-      name: 'test_${DateTime.now().millisecondsSinceEpoch}',
-    );
+    isar = await Isar.open([ReminderSchema, TransactionSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
     repository = ReminderRepositoryImpl(isar);
   });
 
@@ -58,9 +54,7 @@ void main() {
         ..createdAt = createdAt ?? now;
     }
 
-    Transaction createTransaction({
-      int id = Isar.autoIncrement,
-    }) {
+    Transaction createTransaction({int id = Isar.autoIncrement}) {
       return Transaction()
         ..id = 100
         ..type = TransactionType.debt
@@ -74,37 +68,15 @@ void main() {
 
     group('createReminder', () {
       test('throws ReminderRepositoryException on validation error', () async {
-        final reminder = createReminder(
-          type: ReminderType.recurring,
-          intervalDays: null,
-        );
+        final reminder = createReminder(type: ReminderType.recurring, intervalDays: null);
 
-        expect(
-          () => repository.createReminder(reminder),
-          throwsA(
-            isA<ReminderRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              'Failed to create reminder',
-            ),
-          ),
-        );
+        expect(() => repository.createReminder(reminder), throwsA(isA<ReminderRepositoryException>().having((e) => e.message, 'message', 'Failed to create reminder')));
       });
 
-      test('throws TransactionNotFoundException when transaction does not exist',
-          () async {
+      test('throws TransactionNotFoundException when transaction does not exist', () async {
         final reminder = createReminder(transactionId: 999);
 
-        expect(
-          () => repository.createReminder(reminder),
-          throwsA(
-            isA<TransactionNotFoundException>().having(
-              (e) => e.id,
-              'id',
-              999,
-            ),
-          ),
-        );
+        expect(() => repository.createReminder(reminder), throwsA(isA<TransactionNotFoundException>().having((e) => e.id, 'id', 999)));
       });
 
       test('successfully creates a one-time reminder', () async {
@@ -113,10 +85,7 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder = createReminder(
-          transactionId: transaction.id,
-          type: ReminderType.oneTime,
-        );
+        final reminder = createReminder(transactionId: transaction.id, type: ReminderType.oneTime);
         await repository.createReminder(reminder);
 
         final savedReminder = await isar.reminders.get(reminder.id);
@@ -132,11 +101,7 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder = createReminder(
-          transactionId: transaction.id,
-          type: ReminderType.recurring,
-          intervalDays: 7,
-        );
+        final reminder = createReminder(transactionId: transaction.id, type: ReminderType.recurring, intervalDays: 7);
         await repository.createReminder(reminder);
 
         final savedReminder = await isar.reminders.get(reminder.id);
@@ -159,25 +124,15 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder1 = createReminder(
-          transactionId: transaction.id,
-          createdAt: now,
-        );
-        final reminder2 = createReminder(
-          transactionId: transaction.id,
-          createdAt: yesterday,
-        );
-        final reminder3 = createReminder(
-          transactionId: transaction.id,
-          createdAt: tomorrow,
-        );
+        final reminder1 = createReminder(transactionId: transaction.id, createdAt: now);
+        final reminder2 = createReminder(transactionId: transaction.id, createdAt: yesterday);
+        final reminder3 = createReminder(transactionId: transaction.id, createdAt: tomorrow);
 
         await repository.createReminder(reminder1);
         await repository.createReminder(reminder2);
         await repository.createReminder(reminder3);
 
-        final reminders = await repository
-            .getRemindersByTransactionId(transaction.id);
+        final reminders = await repository.getRemindersByTransactionId(transaction.id);
 
         expect(reminders, hasLength(3));
         expect(reminders[0].createdAt, equals(reminder2.createdAt));
@@ -186,8 +141,8 @@ void main() {
       });
 
       test('returns only reminders for specified transaction', () async {
-        final transaction1 = createTransaction(transactionIdValue: 100);
-        final transaction2 = createTransaction(transactionIdValue: 200);
+        final transaction1 = createTransaction(id: 100);
+        final transaction2 = createTransaction(id: 200);
 
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction1);
@@ -200,8 +155,7 @@ void main() {
         await repository.createReminder(reminder1);
         await repository.createReminder(reminder2);
 
-        final reminders = await repository
-            .getRemindersByTransactionId(transaction1.id);
+        final reminders = await repository.getRemindersByTransactionId(transaction1.id);
 
         expect(reminders, hasLength(1));
         expect(reminders[0].transactionId, equals(transaction1.id));
@@ -215,10 +169,7 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder = createReminder(
-          transactionId: transaction.id,
-          nextReminderDate: tomorrow,
-        );
+        final reminder = createReminder(transactionId: transaction.id, nextReminderDate: tomorrow);
         await repository.createReminder(reminder);
 
         final activeReminders = await repository.getActiveReminders();
@@ -232,14 +183,8 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder1 = createReminder(
-          transactionId: transaction.id,
-          nextReminderDate: yesterday,
-        );
-        final reminder2 = createReminder(
-          transactionId: transaction.id,
-          nextReminderDate: tomorrow,
-        );
+        final reminder1 = createReminder(transactionId: transaction.id, nextReminderDate: yesterday);
+        final reminder2 = createReminder(transactionId: transaction.id, nextReminderDate: tomorrow);
 
         await repository.createReminder(reminder1);
         await repository.createReminder(reminder2);
@@ -256,10 +201,7 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder = createReminder(
-          transactionId: transaction.id,
-          nextReminderDate: now,
-        );
+        final reminder = createReminder(transactionId: transaction.id, nextReminderDate: now);
         await repository.createReminder(reminder);
 
         final activeReminders = await repository.getActiveReminders();
@@ -270,20 +212,10 @@ void main() {
     });
 
     group('updateReminder', () {
-      test('throws ReminderNotFoundException when reminder does not exist',
-          () async {
+      test('throws ReminderNotFoundException when reminder does not exist', () async {
         final reminder = createReminder(id: 999);
 
-        expect(
-          () => repository.updateReminder(reminder),
-          throwsA(
-            isA<ReminderNotFoundException>().having(
-              (e) => e.id,
-              'id',
-              999,
-            ),
-          ),
-        );
+        expect(() => repository.updateReminder(reminder), throwsA(isA<ReminderNotFoundException>().having((e) => e.id, 'id', 999)));
       });
 
       test('successfully updates an existing reminder', () async {
@@ -292,10 +224,7 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder = createReminder(
-          transactionId: transaction.id,
-          type: ReminderType.oneTime,
-        );
+        final reminder = createReminder(transactionId: transaction.id, type: ReminderType.oneTime);
         await repository.createReminder(reminder);
 
         reminder.type = ReminderType.recurring;
@@ -310,18 +239,8 @@ void main() {
     });
 
     group('updateNextReminderDate', () {
-      test('throws ReminderNotFoundException when reminder does not exist',
-          () async {
-        expect(
-          () => repository.updateNextReminderDate(999, tomorrow),
-          throwsA(
-            isA<ReminderNotFoundException>().having(
-              (e) => e.id,
-              'id',
-              999,
-            ),
-          ),
-        );
+      test('throws ReminderNotFoundException when reminder does not exist', () async {
+        expect(() => repository.updateNextReminderDate(999, tomorrow), throwsA(isA<ReminderNotFoundException>().having((e) => e.id, 'id', 999)));
       });
 
       test('successfully updates next reminder date', () async {
@@ -330,10 +249,7 @@ void main() {
           await isar.transactions.put(transaction);
         });
 
-        final reminder = createReminder(
-          transactionId: transaction.id,
-          nextReminderDate: now,
-        );
+        final reminder = createReminder(transactionId: transaction.id, nextReminderDate: now);
         await repository.createReminder(reminder);
 
         final newDate = now.add(const Duration(days: 7));
@@ -360,14 +276,13 @@ void main() {
 
         await repository.deleteRemindersByTransactionId(transaction.id);
 
-        final reminders = await repository
-            .getRemindersByTransactionId(transaction.id);
+        final reminders = await repository.getRemindersByTransactionId(transaction.id);
         expect(reminders, isEmpty);
       });
 
       test('does not delete reminders for other transactions', () async {
-        final transaction1 = createTransaction(transactionIdValue: 100);
-        final transaction2 = createTransaction(transactionIdValue: 200);
+        final transaction1 = createTransaction(id: 100);
+        final transaction2 = createTransaction(id: 200);
 
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction1);
@@ -382,10 +297,8 @@ void main() {
 
         await repository.deleteRemindersByTransactionId(transaction1.id);
 
-        final reminders1 = await repository
-            .getRemindersByTransactionId(transaction1.id);
-        final reminders2 = await repository
-            .getRemindersByTransactionId(transaction2.id);
+        final reminders1 = await repository.getRemindersByTransactionId(transaction1.id);
+        final reminders2 = await repository.getRemindersByTransactionId(transaction2.id);
 
         expect(reminders1, isEmpty);
         expect(reminders2, hasLength(1));

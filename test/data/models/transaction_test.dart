@@ -211,12 +211,7 @@ void main() {
     });
 
     test('supports all currencies', () {
-      final currencies = [
-        Currency.pln,
-        Currency.eur,
-        Currency.usd,
-        Currency.gbp,
-      ];
+      final currencies = [Currency.pln, Currency.eur, Currency.usd, Currency.gbp];
 
       for (final currency in currencies) {
         final transaction = Transaction()
@@ -271,16 +266,7 @@ void main() {
           ..createdAt = now
           ..updatedAt = now;
 
-        expect(
-          () => transaction.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              contains('Name must not be empty'),
-            ),
-          ),
-        );
+        expect(() => transaction.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Name must not be empty'))));
       });
 
       test('throws when name contains only whitespace', () {
@@ -293,16 +279,7 @@ void main() {
           ..createdAt = now
           ..updatedAt = now;
 
-        expect(
-          () => transaction.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              contains('Name must not be empty'),
-            ),
-          ),
-        );
+        expect(() => transaction.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Name must not be empty'))));
       });
 
       test('throws when amount is zero', () {
@@ -315,16 +292,7 @@ void main() {
           ..createdAt = now
           ..updatedAt = now;
 
-        expect(
-          () => transaction.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              contains('Amount must be positive'),
-            ),
-          ),
-        );
+        expect(() => transaction.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Amount must be positive'))));
       });
 
       test('throws when amount is negative', () {
@@ -337,16 +305,7 @@ void main() {
           ..createdAt = now
           ..updatedAt = now;
 
-        expect(
-          () => transaction.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              contains('Amount must be positive'),
-            ),
-          ),
-        );
+        expect(() => transaction.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Amount must be positive'))));
       });
 
       test('throws when description exceeds 200 characters', () {
@@ -360,16 +319,7 @@ void main() {
           ..createdAt = now
           ..updatedAt = now;
 
-        expect(
-          () => transaction.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              contains('Description must not exceed 200 characters'),
-            ),
-          ),
-        );
+        expect(() => transaction.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Description must not exceed 200 characters'))));
       });
 
       test('passes when description is exactly 200 characters', () {
@@ -397,16 +347,7 @@ void main() {
           ..createdAt = now
           ..updatedAt = now;
 
-        expect(
-          () => transaction.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              contains('Due date must be in the future'),
-            ),
-          ),
-        );
+        expect(() => transaction.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Due date must be in the future'))));
       });
 
       test('throws with multiple errors combined', () {

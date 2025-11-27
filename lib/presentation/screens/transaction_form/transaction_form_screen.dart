@@ -13,12 +13,7 @@ class TransactionFormScreen extends StatefulWidget {
   final TransactionType type;
   final int? transactionId;
 
-  const TransactionFormScreen({
-    required this.repository,
-    required this.type,
-    this.transactionId,
-    super.key,
-  });
+  const TransactionFormScreen({required this.repository, required this.type, this.transactionId, super.key});
 
   @override
   State<TransactionFormScreen> createState() => _TransactionFormScreenState();
@@ -34,10 +29,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = TransactionFormViewModel(
-      repository: widget.repository,
-      type: widget.type,
-    );
+    _viewModel = TransactionFormViewModel(repository: widget.repository, type: widget.type);
     _nameFocusNode.requestFocus();
   }
 
@@ -71,12 +63,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   Future<void> _selectDate() async {
     final now = DateTime.now();
     final initialDate = _viewModel.dueDate ?? now;
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initialDate.isAfter(now) ? initialDate : now,
-      firstDate: now,
-      lastDate: DateTime(now.year + 10),
-    );
+    final picked = await showDatePicker(context: context, initialDate: initialDate.isAfter(now) ? initialDate : now, firstDate: now, lastDate: DateTime(now.year + 10));
 
     if (picked != null) {
       _viewModel.setDueDate(picked);
@@ -88,12 +75,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     if (success && mounted) {
       context.pop();
     } else if (_viewModel.errorMessage != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(_viewModel.errorMessage!),
-          backgroundColor: Theme.of(context).colorScheme.error,
-        ),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_viewModel.errorMessage!), backgroundColor: Theme.of(context).colorScheme.error));
     }
   }
 
@@ -101,9 +83,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final isEditMode = widget.transactionId != null;
-    final title = isEditMode
-        ? l10n.editTransaction
-        : (widget.type == TransactionType.debt ? l10n.addDebt : l10n.addLoan);
+    final title = isEditMode ? l10n.editTransaction : (widget.type == TransactionType.debt ? l10n.addDebt : l10n.addLoan);
 
     return Scaffold(
       appBar: AppBar(
@@ -113,13 +93,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
             listenable: _viewModel,
             builder: (context, _) {
               return IconButton(
-                icon: _viewModel.isLoading
-                    ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(Icons.check),
+                icon: _viewModel.isLoading ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.check),
                 onPressed: _viewModel.isLoading ? null : _handleSave,
               );
             },
@@ -134,10 +108,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
             TextField(
               controller: _nameController,
               focusNode: _nameFocusNode,
-              decoration: InputDecoration(
-                labelText: l10n.name,
-                border: const OutlineInputBorder(),
-              ),
+              decoration: InputDecoration(labelText: l10n.name, border: const OutlineInputBorder()),
               onChanged: _viewModel.setName,
               textInputAction: TextInputAction.next,
             ),
@@ -149,18 +120,9 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                   flex: 2,
                   child: TextField(
                     controller: _amountController,
-                    decoration: InputDecoration(
-                      labelText: l10n.amount,
-                      border: const OutlineInputBorder(),
-                    ),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d*\.?\d{0,2}'),
-                      ),
-                    ],
+                    decoration: InputDecoration(labelText: l10n.amount, border: const OutlineInputBorder()),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}'))],
                     onChanged: (value) {
                       final amount = double.tryParse(value);
                       _viewModel.setAmount(amount);
@@ -174,17 +136,9 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                     listenable: _viewModel,
                     builder: (context, _) {
                       return DropdownButtonFormField<Currency>(
-                        decoration: InputDecoration(
-                          labelText: l10n.currency,
-                          border: const OutlineInputBorder(),
-                        ),
+                        decoration: InputDecoration(labelText: l10n.currency, border: const OutlineInputBorder()),
                         initialValue: _viewModel.currency,
-                        items: Currency.values
-                            .map((currency) => DropdownMenuItem(
-                                  value: currency,
-                                  child: Text(_getCurrencySymbol(currency)),
-                                ))
-                            .toList(),
+                        items: Currency.values.map((currency) => DropdownMenuItem(value: currency, child: Text(_getCurrencySymbol(currency)))).toList(),
                         onChanged: (value) {
                           if (value != null) {
                             _viewModel.setCurrency(value);
@@ -231,26 +185,15 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           if (_viewModel.dueDate != null)
-                            IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () => _viewModel.setDueDate(null),
-                              padding: EdgeInsets.zero,
-                              constraints: const BoxConstraints(),
-                            ),
+                            IconButton(icon: const Icon(Icons.clear), onPressed: () => _viewModel.setDueDate(null), padding: EdgeInsets.zero, constraints: const BoxConstraints()),
                           const Icon(Icons.calendar_today),
                           const SizedBox(width: 12),
                         ],
                       ),
                     ),
                     child: Text(
-                      _viewModel.dueDate != null
-                          ? _formatDate(_viewModel.dueDate!)
-                          : l10n.notSet,
-                      style: TextStyle(
-                        color: _viewModel.dueDate != null
-                            ? Theme.of(context).colorScheme.onSurface
-                            : Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                      _viewModel.dueDate != null ? _formatDate(_viewModel.dueDate!) : l10n.notSet,
+                      style: TextStyle(color: _viewModel.dueDate != null ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                   ),
                 );

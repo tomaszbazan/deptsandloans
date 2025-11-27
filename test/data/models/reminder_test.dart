@@ -126,16 +126,7 @@ void main() {
             ..nextReminderDate = tomorrow
             ..createdAt = now;
 
-          expect(
-            () => reminder.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('One-time reminders must have null intervalDays'),
-              ),
-            ),
-          );
+          expect(() => reminder.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('One-time reminders must have null intervalDays'))));
         });
 
         test('throws ArgumentError when intervalDays is 0', () {
@@ -146,16 +137,7 @@ void main() {
             ..nextReminderDate = tomorrow
             ..createdAt = now;
 
-          expect(
-            () => reminder.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('One-time reminders must have null intervalDays'),
-              ),
-            ),
-          );
+          expect(() => reminder.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('One-time reminders must have null intervalDays'))));
         });
 
         test('throws ArgumentError when intervalDays is 1', () {
@@ -166,16 +148,7 @@ void main() {
             ..nextReminderDate = tomorrow
             ..createdAt = now;
 
-          expect(
-            () => reminder.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('One-time reminders must have null intervalDays'),
-              ),
-            ),
-          );
+          expect(() => reminder.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('One-time reminders must have null intervalDays'))));
         });
       });
 
@@ -210,16 +183,7 @@ void main() {
             ..nextReminderDate = tomorrow
             ..createdAt = now;
 
-          expect(
-            () => reminder.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('Recurring reminders must have intervalDays > 0'),
-              ),
-            ),
-          );
+          expect(() => reminder.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Recurring reminders must have intervalDays > 0'))));
         });
 
         test('throws ArgumentError when intervalDays is 0', () {
@@ -230,16 +194,7 @@ void main() {
             ..nextReminderDate = tomorrow
             ..createdAt = now;
 
-          expect(
-            () => reminder.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('Recurring reminders must have intervalDays > 0'),
-              ),
-            ),
-          );
+          expect(() => reminder.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Recurring reminders must have intervalDays > 0'))));
         });
 
         test('throws ArgumentError when intervalDays is negative', () {
@@ -250,16 +205,7 @@ void main() {
             ..nextReminderDate = tomorrow
             ..createdAt = now;
 
-          expect(
-            () => reminder.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('Recurring reminders must have intervalDays > 0'),
-              ),
-            ),
-          );
+          expect(() => reminder.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Recurring reminders must have intervalDays > 0'))));
         });
       });
     });

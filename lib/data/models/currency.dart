@@ -1,6 +1,1 @@
-enum Currency {
-  pln,
-  eur,
-  usd,
-  gbp,
-}
+enum Currency { pln, eur, usd, gbp }

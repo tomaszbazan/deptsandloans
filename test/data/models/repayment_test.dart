@@ -108,16 +108,7 @@ void main() {
             ..when = yesterday
             ..createdAt = now;
 
-          expect(
-            () => repayment.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('Amount cannot be negative'),
-              ),
-            ),
-          );
+          expect(() => repayment.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Amount cannot be negative'))));
         });
 
         test('throws ArgumentError when amount is -1', () {
@@ -160,16 +151,7 @@ void main() {
             ..when = futureDate
             ..createdAt = now;
 
-          expect(
-            () => repayment.validate(),
-            throwsA(
-              isA<ArgumentError>().having(
-                (e) => e.message,
-                'message',
-                contains('Repayment date cannot be in the future'),
-              ),
-            ),
-          );
+          expect(() => repayment.validate(), throwsA(isA<ArgumentError>().having((e) => e.message, 'message', contains('Repayment date cannot be in the future'))));
         });
 
         test('throws ArgumentError when date is 1 second in future', () {
@@ -227,16 +209,7 @@ void main() {
 
         expect(
           () => repayment.validate(),
-          throwsA(
-            isA<ArgumentError>().having(
-              (e) => e.message,
-              'message',
-              allOf(
-                contains('Amount cannot be negative'),
-                contains('Repayment date cannot be in the future'),
-              ),
-            ),
-          ),
+          throwsA(isA<ArgumentError>().having((e) => e.message, 'message', allOf(contains('Amount cannot be negative'), contains('Repayment date cannot be in the future')))),
         );
       });
     });

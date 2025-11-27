@@ -13,8 +13,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
   @override
   Future<void> createReminder(Reminder reminder) async {
     try {
-      final transactionExists = await _isar.transactions
-          .get(reminder.transactionId);
+      final transactionExists = await _isar.transactions.get(reminder.transactionId);
       if (transactionExists == null) {
         throw TransactionNotFoundException(reminder.transactionId);
       }
@@ -25,53 +24,26 @@ class ReminderRepositoryImpl implements ReminderRepository {
         await _isar.reminders.put(reminder);
       });
 
-      developer.log(
-        'Reminder created: id=${reminder.id}, transactionId=${reminder.transactionId}, type=${reminder.type}',
-        name: 'ReminderRepository',
-      );
+      developer.log('Reminder created: id=${reminder.id}, transactionId=${reminder.transactionId}, type=${reminder.type}', name: 'ReminderRepository');
     } on TransactionNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to create reminder',
-        name: 'ReminderRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to create reminder', name: 'ReminderRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw ReminderRepositoryException('Failed to create reminder', e);
     }
   }
 
   @override
-  Future<List<Reminder>> getRemindersByTransactionId(
-    int transactionId,
-  ) async {
+  Future<List<Reminder>> getRemindersByTransactionId(int transactionId) async {
     try {
-      final reminders = await _isar.reminders
-          .filter()
-          .transactionIdEqualTo(transactionId)
-          .sortByCreatedAt()
-          .findAll();
+      final reminders = await _isar.reminders.filter().transactionIdEqualTo(transactionId).sortByCreatedAt().findAll();
 
-      developer.log(
-        'Retrieved ${reminders.length} reminders for transaction $transactionId',
-        name: 'ReminderRepository',
-      );
+      developer.log('Retrieved ${reminders.length} reminders for transaction $transactionId', name: 'ReminderRepository');
 
       return reminders;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to get reminders by transaction id',
-        name: 'ReminderRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
-      throw ReminderRepositoryException(
-        'Failed to get reminders for transaction $transactionId',
-        e,
-      );
+      developer.log('Failed to get reminders by transaction id', name: 'ReminderRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw ReminderRepositoryException('Failed to get reminders for transaction $transactionId', e);
     }
   }
 
@@ -79,25 +51,13 @@ class ReminderRepositoryImpl implements ReminderRepository {
   Future<List<Reminder>> getActiveReminders() async {
     try {
       final now = DateTime.now();
-      final reminders = await _isar.reminders
-          .filter()
-          .nextReminderDateLessThan(now, include: true)
-          .findAll();
+      final reminders = await _isar.reminders.filter().nextReminderDateLessThan(now, include: true).findAll();
 
-      developer.log(
-        'Retrieved ${reminders.length} active reminders',
-        name: 'ReminderRepository',
-      );
+      developer.log('Retrieved ${reminders.length} active reminders', name: 'ReminderRepository');
 
       return reminders;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to get active reminders',
-        name: 'ReminderRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to get active reminders', name: 'ReminderRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw ReminderRepositoryException('Failed to get active reminders', e);
     }
   }
@@ -116,20 +76,11 @@ class ReminderRepositoryImpl implements ReminderRepository {
         await _isar.reminders.put(reminder);
       });
 
-      developer.log(
-        'Reminder updated: id=${reminder.id}, transactionId=${reminder.transactionId}',
-        name: 'ReminderRepository',
-      );
+      developer.log('Reminder updated: id=${reminder.id}, transactionId=${reminder.transactionId}', name: 'ReminderRepository');
     } on ReminderNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to update reminder',
-        name: 'ReminderRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to update reminder', name: 'ReminderRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw ReminderRepositoryException('Failed to update reminder', e);
     }
   }
@@ -148,24 +99,12 @@ class ReminderRepositoryImpl implements ReminderRepository {
         await _isar.reminders.put(reminder);
       });
 
-      developer.log(
-        'Next reminder date updated: id=$id, nextDate=$nextDate',
-        name: 'ReminderRepository',
-      );
+      developer.log('Next reminder date updated: id=$id, nextDate=$nextDate', name: 'ReminderRepository');
     } on ReminderNotFoundException {
       rethrow;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to update next reminder date',
-        name: 'ReminderRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
-      throw ReminderRepositoryException(
-        'Failed to update next reminder date',
-        e,
-      );
+      developer.log('Failed to update next reminder date', name: 'ReminderRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw ReminderRepositoryException('Failed to update next reminder date', e);
     }
   }
 
@@ -173,28 +112,13 @@ class ReminderRepositoryImpl implements ReminderRepository {
   Future<void> deleteRemindersByTransactionId(int transactionId) async {
     try {
       final deletedCount = await _isar.writeTxn(() async {
-        return await _isar.reminders
-            .filter()
-            .transactionIdEqualTo(transactionId)
-            .deleteAll();
+        return await _isar.reminders.filter().transactionIdEqualTo(transactionId).deleteAll();
       });
 
-      developer.log(
-        'Deleted $deletedCount reminders for transaction $transactionId',
-        name: 'ReminderRepository',
-      );
+      developer.log('Deleted $deletedCount reminders for transaction $transactionId', name: 'ReminderRepository');
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to delete reminders by transaction id',
-        name: 'ReminderRepository',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
-      throw ReminderRepositoryException(
-        'Failed to delete reminders for transaction $transactionId',
-        e,
-      );
+      developer.log('Failed to delete reminders by transaction id', name: 'ReminderRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw ReminderRepositoryException('Failed to delete reminders for transaction $transactionId', e);
     }
   }
 }

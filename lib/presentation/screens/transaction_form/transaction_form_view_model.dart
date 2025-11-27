@@ -18,13 +18,10 @@ class TransactionFormViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
 
-  TransactionFormViewModel({
-    required TransactionRepository repository,
-    required TransactionType type,
-    Transaction? existingTransaction,
-  })  : _repository = repository,
-        _type = type,
-        _existingTransaction = existingTransaction {
+  TransactionFormViewModel({required TransactionRepository repository, required TransactionType type, Transaction? existingTransaction})
+    : _repository = repository,
+      _type = type,
+      _existingTransaction = existingTransaction {
     if (existingTransaction != null) {
       _loadExistingTransaction();
     }

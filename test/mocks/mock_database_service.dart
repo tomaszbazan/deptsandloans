@@ -18,11 +18,7 @@ MockDatabaseService createMockDatabaseService() {
     testDbDir.createSync(recursive: true);
   }
 
-  final isar = Isar.openSync(
-    [TransactionSchema, RepaymentSchema, ReminderSchema],
-    directory: testDbDir.path,
-    name: 'test_${DateTime.now().millisecondsSinceEpoch}',
-  );
+  final isar = Isar.openSync([TransactionSchema, RepaymentSchema, ReminderSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
 
   final mock = MockDatabaseService();
   when(() => mock.isInitialized).thenReturn(true);

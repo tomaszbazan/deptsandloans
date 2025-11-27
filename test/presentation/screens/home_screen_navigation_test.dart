@@ -54,8 +54,7 @@ void main() {
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();
 
-      expect(find.text('New Transaction'), findsOneWidget);
-      expect(find.text('Transaction Form (New)'), findsOneWidget);
+      expect(find.text('Add Debt'), findsOneWidget);
     });
 
     testWidgets('Add New Transaction button navigates with type parameter', (tester) async {
@@ -77,8 +76,7 @@ void main() {
       await tester.tap(find.text('Add New Transaction'));
       await tester.pumpAndSettle();
 
-      expect(find.text('New Transaction'), findsOneWidget);
-      expect(find.text('Type: debt'), findsOneWidget);
+      expect(find.text('Add Debt'), findsOneWidget);
     });
 
     testWidgets('View Sample Transaction button navigates to details', (tester) async {
@@ -123,13 +121,13 @@ void main() {
       await tester.tap(find.byType(FloatingActionButton));
       await tester.pumpAndSettle();
 
-      expect(find.text('Transaction Form (New)'), findsOneWidget);
+      expect(find.text('Add Debt'), findsOneWidget);
 
       await tester.tap(find.byIcon(Icons.arrow_back));
       await tester.pumpAndSettle();
 
       expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
-      expect(find.text('Transaction Form (New)'), findsNothing);
+      expect(find.text('Add Debt'), findsNothing);
     });
 
     testWidgets('back navigation from transaction details works', (tester) async {

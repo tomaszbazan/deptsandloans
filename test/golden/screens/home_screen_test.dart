@@ -25,17 +25,8 @@ void main() {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('pl'),
-            ],
-            home: SizedBox(
-              width: 400,
-              height: 800,
-              child: HomeScreen(
-                databaseService: createMockDatabaseService(),
-              ),
-            ),
+            supportedLocales: const [Locale('en'), Locale('pl')],
+            home: SizedBox(width: 400, height: 800, child: HomeScreen(databaseService: createMockDatabaseService())),
           ),
         ),
         GoldenTestScenario(
@@ -48,17 +39,8 @@ void main() {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('pl'),
-            ],
-            home: SizedBox(
-              width: 400,
-              height: 800,
-              child: HomeScreen(
-                databaseService: _databaseNotInitialized(),
-              ),
-            ),
+            supportedLocales: const [Locale('en'), Locale('pl')],
+            home: SizedBox(width: 400, height: 800, child: HomeScreen(databaseService: _databaseNotInitialized())),
           ),
         ),
       ],
@@ -81,17 +63,8 @@ void main() {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('pl'),
-            ],
-            home: SizedBox(
-              width: 400,
-              height: 800,
-              child: HomeScreen(
-                databaseService: createMockDatabaseService(),
-              ),
-            ),
+            supportedLocales: const [Locale('en'), Locale('pl')],
+            home: SizedBox(width: 400, height: 800, child: HomeScreen(databaseService: createMockDatabaseService())),
           ),
         ),
         GoldenTestScenario(
@@ -104,17 +77,8 @@ void main() {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en'),
-              Locale('pl'),
-            ],
-            home: SizedBox(
-              width: 400,
-              height: 800,
-              child: HomeScreen(
-                databaseService: _databaseNotInitialized(),
-              ),
-            ),
+            supportedLocales: const [Locale('en'), Locale('pl')],
+            home: SizedBox(width: 400, height: 800, child: HomeScreen(databaseService: _databaseNotInitialized())),
           ),
         ),
       ],

@@ -19,30 +19,22 @@ void main() {
     });
 
     test('defines home route', () {
-      final route = router.configuration.routes
-          .whereType<GoRoute>()
-          .firstWhere((r) => r.name == 'home');
+      final route = router.configuration.routes.whereType<GoRoute>().firstWhere((r) => r.name == 'home');
       expect(route.path, '/');
     });
 
     test('defines transaction-new route', () {
-      final route = router.configuration.routes
-          .whereType<GoRoute>()
-          .firstWhere((r) => r.name == 'transaction-new');
+      final route = router.configuration.routes.whereType<GoRoute>().firstWhere((r) => r.name == 'transaction-new');
       expect(route.path, '/transaction/new');
     });
 
     test('defines transaction-details route', () {
-      final route = router.configuration.routes
-          .whereType<GoRoute>()
-          .firstWhere((r) => r.name == 'transaction-details');
+      final route = router.configuration.routes.whereType<GoRoute>().firstWhere((r) => r.name == 'transaction-details');
       expect(route.path, '/transaction/:id');
     });
 
     test('defines transaction-edit route', () {
-      final route = router.configuration.routes
-          .whereType<GoRoute>()
-          .firstWhere((r) => r.name == 'transaction-edit');
+      final route = router.configuration.routes.whereType<GoRoute>().firstWhere((r) => r.name == 'transaction-edit');
       expect(route.path, '/transaction/:id/edit');
     });
 
@@ -51,5 +43,4 @@ void main() {
       expect(routes.length, 4);
     });
   });
-
 }

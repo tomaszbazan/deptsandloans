@@ -1,4 +1,1 @@
-enum TransactionType {
-  debt,
-  loan,
-}
+enum TransactionType { debt, loan }

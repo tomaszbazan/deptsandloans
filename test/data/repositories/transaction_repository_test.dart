@@ -22,11 +22,7 @@ void main() {
   });
 
   setUp(() async {
-    isar = await Isar.open(
-      [TransactionSchema],
-      directory: testDbDir.path,
-      name: 'test_${DateTime.now().millisecondsSinceEpoch}',
-    );
+    isar = await Isar.open([TransactionSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
     repository = TransactionRepositoryImpl(isar);
   });
 
@@ -62,20 +58,10 @@ void main() {
     }
 
     group('create', () {
-      test('throws TransactionRepositoryException on validation error',
-          () async {
+      test('throws TransactionRepositoryException on validation error', () async {
         final transaction = createValidTransaction(name: '');
 
-        expect(
-          () => repository.create(transaction),
-          throwsA(
-            isA<TransactionRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              'Failed to create transaction',
-            ),
-          ),
-        );
+        expect(() => repository.create(transaction), throwsA(isA<TransactionRepositoryException>().having((e) => e.message, 'message', 'Failed to create transaction')));
       });
 
       test('successfully creates a transaction', () async {
@@ -99,18 +85,9 @@ void main() {
       });
 
       test('returns only transactions of specified type', () async {
-        final debt1 = createValidTransaction(
-          type: TransactionType.debt,
-          name: 'Debt 1',
-        );
-        final debt2 = createValidTransaction(
-          type: TransactionType.debt,
-          name: 'Debt 2',
-        );
-        final loan = createValidTransaction(
-          type: TransactionType.loan,
-          name: 'Loan 1',
-        );
+        final debt1 = createValidTransaction(type: TransactionType.debt, name: 'Debt 1');
+        final debt2 = createValidTransaction(type: TransactionType.debt, name: 'Debt 2');
+        final loan = createValidTransaction(type: TransactionType.loan, name: 'Loan 1');
 
         await repository.create(debt1);
         await repository.create(debt2);
@@ -127,53 +104,26 @@ void main() {
     });
 
     group('update', () {
-      test('throws TransactionNotFoundException when transaction not found',
-          () async {
+      test('throws TransactionNotFoundException when transaction not found', () async {
         final transaction = createValidTransaction(id: 999);
 
-        expect(
-          () => repository.update(transaction),
-          throwsA(
-            isA<TransactionNotFoundException>().having(
-              (e) => e.id,
-              'id',
-              999,
-            ),
-          ),
-        );
+        expect(() => repository.update(transaction), throwsA(isA<TransactionNotFoundException>().having((e) => e.id, 'id', 999)));
       });
 
-      test('throws TransactionRepositoryException on validation error',
-          () async {
+      test('throws TransactionRepositoryException on validation error', () async {
         final transaction = createValidTransaction();
         await repository.create(transaction);
 
-        final invalidTransaction = createValidTransaction(
-          id: transaction.id,
-          name: '',
-        );
+        final invalidTransaction = createValidTransaction(id: transaction.id, name: '');
 
-        expect(
-          () => repository.update(invalidTransaction),
-          throwsA(
-            isA<TransactionRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              'Failed to update transaction',
-            ),
-          ),
-        );
+        expect(() => repository.update(invalidTransaction), throwsA(isA<TransactionRepositoryException>().having((e) => e.message, 'message', 'Failed to update transaction')));
       });
 
       test('successfully updates a transaction', () async {
         final transaction = createValidTransaction(name: 'Original Name');
         await repository.create(transaction);
 
-        final updatedTransaction = createValidTransaction(
-          id: transaction.id,
-          name: 'Updated Name',
-          amount: 20000,
-        );
+        final updatedTransaction = createValidTransaction(id: transaction.id, name: 'Updated Name', amount: 20000);
 
         await repository.update(updatedTransaction);
 
@@ -185,18 +135,8 @@ void main() {
     });
 
     group('delete', () {
-      test('throws TransactionNotFoundException when transaction not found',
-          () async {
-        expect(
-          () => repository.delete(999),
-          throwsA(
-            isA<TransactionNotFoundException>().having(
-              (e) => e.id,
-              'id',
-              999,
-            ),
-          ),
-        );
+      test('throws TransactionNotFoundException when transaction not found', () async {
+        expect(() => repository.delete(999), throwsA(isA<TransactionNotFoundException>().having((e) => e.id, 'id', 999)));
       });
 
       test('successfully deletes a transaction', () async {
