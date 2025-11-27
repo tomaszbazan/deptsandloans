@@ -56,7 +56,7 @@ void main() {
 
     Transaction createTransaction({int id = Isar.autoIncrement}) {
       return Transaction()
-        ..id = 100
+        ..id = id
         ..type = TransactionType.debt
         ..name = 'Test Transaction'
         ..amount = 10000
@@ -68,7 +68,12 @@ void main() {
 
     group('createReminder', () {
       test('throws ReminderRepositoryException on validation error', () async {
-        final reminder = createReminder(type: ReminderType.recurring, intervalDays: null);
+        final transaction = createTransaction();
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final reminder = createReminder(transactionId: transaction.id, type: ReminderType.recurring, intervalDays: null);
 
         expect(() => repository.createReminder(reminder), throwsA(isA<ReminderRepositoryException>().having((e) => e.message, 'message', 'Failed to create reminder')));
       });
