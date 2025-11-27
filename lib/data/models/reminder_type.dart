@@ -1,0 +1,4 @@
+enum ReminderType {
+  oneTime,
+  recurring,
+}
