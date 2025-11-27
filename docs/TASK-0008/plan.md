@@ -114,6 +114,7 @@ Add validation logic:
 - Name must not be empty
 - Amount must be positive
 - Description max 200 characters (if provided)
+- The due date must be in the future
 
 ### 8. Testing
 

@@ -1,7 +1,8 @@
 import 'dart:developer' as developer;
+import 'package:deptsandloans/data/models/repayment.dart';
+import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:deptsandloans/data/models/placeholder.dart';
 
 class DatabaseService {
   static DatabaseService? _instance;
@@ -38,7 +39,7 @@ class DatabaseService {
       final dir = await getApplicationDocumentsDirectory();
 
       _isar = await Isar.open(
-        [PlaceholderSchema],
+        [TransactionSchema, RepaymentSchema],
         directory: dir.path,
         name: 'deptsandloans',
       );

@@ -14,14 +14,14 @@
 
 ## Data Layer & Models
 
-| ID        | Task Name                        | Description                                                                                                       | Done |
-|:----------|:---------------------------------|:------------------------------------------------------------------------------------------------------------------|:----:|
-| TASK-0008 | Create Transaction Model         | Define Transaction entity with fields: id, type (debt/loan), name, amount, currency, description, dueDate, status | [X]  |
-| TASK-0009 | Create Repayment Model           | Define Repayment entity with fields: id, transactionId, amount, date, timestamp                                   | [X]  |
-| TASK-0010 | Create Reminder Model            | Define Reminder entity with fields: id, transactionId, type (one-time/recurring), intervalDays, nextReminderDate  | [ ]  |
-| TASK-0011 | Implement Transaction Repository | Create repository layer for CRUD operations on transactions with local database                                   | [ ]  |
-| TASK-0012 | Implement Repayment Repository   | Create repository layer for recording and retrieving repayments                                                   | [ ]  |
-| TASK-0013 | Implement Reminder Repository    | Create repository layer for managing reminders                                                                    | [ ]  |
+| ID        | Task Name                        | Description                                                                                                                          | Done |
+|:----------|:---------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------|:----:|
+| TASK-0008 | Create Transaction Model         | Define Transaction database entity with fields: id, type (debt/loan), name, amount, currency, description, dueDate, status           | [X]  |
+| TASK-0009 | Create Repayment Model           | Define Repayment database entity with fields: id, transactionId, amount, when, createdAt                                             | [X]  |
+| TASK-0010 | Create Reminder Model            | Define Reminder database entity with fields: id, transactionId, type (one-time/recurring), intervalDays, nextReminderDate, createdAt | [ ]  |
+| TASK-0011 | Implement Transaction Repository | Create repository layer for CRUD operations on transactions with local database                                                      | [ ]  |
+| TASK-0012 | Implement Repayment Repository   | Create repository layer for recording and retrieving repayments                                                                      | [ ]  |
+| TASK-0013 | Implement Reminder Repository    | Create repository layer for managing reminders                                                                                       | [ ]  |
 
 ## Transaction Management
 

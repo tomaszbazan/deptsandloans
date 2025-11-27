@@ -44,4 +44,29 @@ class Transaction {
   bool get isActive => status == TransactionStatus.active;
 
   bool get isCompleted => status == TransactionStatus.completed;
+
+  void validate() {
+    final errors = <String>[];
+
+    if (name.trim().isEmpty) {
+      errors.add('Name must not be empty');
+    }
+
+    if (amount <= 0) {
+      errors.add('Amount must be positive');
+    }
+
+    if (description != null && description!.length > 200) {
+      errors.add('Description must not exceed 200 characters');
+    }
+
+    if (dueDate != null &&
+        dueDate!.isBefore(DateTime.now())) {
+      errors.add('Due date must be in the future');
+    }
+
+    if (errors.isNotEmpty) {
+      throw ArgumentError(errors.join(', '));
+    }
+  }
 }

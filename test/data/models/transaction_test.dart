@@ -231,5 +231,212 @@ void main() {
         expect(transaction.currency, currency);
       }
     });
+
+    group('validate', () {
+      test('passes validation for valid transaction', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..description = 'Valid description'
+          ..dueDate = tomorrow
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(() => transaction.validate(), returnsNormally);
+      });
+
+      test('passes validation with minimal fields', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(() => transaction.validate(), returnsNormally);
+      });
+
+      test('throws when name is empty', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = ''
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              contains('Name must not be empty'),
+            ),
+          ),
+        );
+      });
+
+      test('throws when name contains only whitespace', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = '   '
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              contains('Name must not be empty'),
+            ),
+          ),
+        );
+      });
+
+      test('throws when amount is zero', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = 0
+          ..currency = Currency.pln
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              contains('Amount must be positive'),
+            ),
+          ),
+        );
+      });
+
+      test('throws when amount is negative', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = -100
+          ..currency = Currency.pln
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              contains('Amount must be positive'),
+            ),
+          ),
+        );
+      });
+
+      test('throws when description exceeds 200 characters', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..description = 'a' * 201
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              contains('Description must not exceed 200 characters'),
+            ),
+          ),
+        );
+      });
+
+      test('passes when description is exactly 200 characters', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..description = 'a' * 200
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(() => transaction.validate(), returnsNormally);
+      });
+
+      test('throws when dueDate is in the past', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = 'John Doe'
+          ..amount = 1000
+          ..currency = Currency.pln
+          ..dueDate = yesterday
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              contains('Due date must be in the future'),
+            ),
+          ),
+        );
+      });
+
+      test('throws with multiple errors combined', () {
+        final transaction = Transaction()
+          ..type = TransactionType.debt
+          ..name = ''
+          ..amount = -100
+          ..currency = Currency.pln
+          ..description = 'a' * 201
+          ..dueDate = yesterday
+          ..status = TransactionStatus.active
+          ..createdAt = now
+          ..updatedAt = now;
+
+        expect(
+          () => transaction.validate(),
+          throwsA(
+            isA<ArgumentError>().having(
+              (e) => e.message,
+              'message',
+              allOf(
+                contains('Name must not be empty'),
+                contains('Amount must be positive'),
+                contains('Description must not exceed 200 characters'),
+                contains('Due date must be in the future'),
+              ),
+            ),
+          ),
+        );
+      });
+    });
   });
 }
