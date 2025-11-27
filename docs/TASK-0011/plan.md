@@ -62,15 +62,20 @@ lib/
 
 ### 6. Testing Strategy
 
-#### Unit Tests
-- Mock Isar instance using `mocktail`
-- Test each CRUD operation independently
-- Test error scenarios (not found, database errors)
+#### Integration Tests
+- Use real Isar database instances for testing
+- Create temporary test database for each test case
+- Test each CRUD operation independently with actual database operations
+- Test error scenarios (not found, validation errors)
+- Properly clean up test databases after each test
 
 #### Test Coverage Goals
 - All public methods tested
 - Edge cases covered (null values, empty results)
 - Error handling verified
+- Both success and error scenarios tested
+
+**Note:** Initially implemented with mocks using `mocktail`, but later converted to use real Isar database for more reliable integration testing, following the same pattern as repayment repository tests.
 
 ## Dependencies
 - `isar` - Already added (database)

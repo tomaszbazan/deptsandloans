@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
@@ -6,25 +8,30 @@ import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions
 import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
-import 'package:mocktail/mocktail.dart';
-
-class MockIsar extends Mock implements Isar {}
-
-class MockIsarCollection extends Mock implements IsarCollection<Transaction> {}
-
-typedef WriteTxnCallback = Future<void> Function();
 
 void main() {
-  late MockIsar mockIsar;
-  late MockIsarCollection mockCollection;
+  late Isar isar;
   late TransactionRepositoryImpl repository;
+  final testDbDir = Directory('build/test_db');
 
-  setUp(() {
-    mockIsar = MockIsar();
-    mockCollection = MockIsarCollection();
-    repository = TransactionRepositoryImpl(mockIsar);
+  setUpAll(() async {
+    await Isar.initializeIsarCore(download: true);
+    if (!testDbDir.existsSync()) {
+      testDbDir.createSync(recursive: true);
+    }
+  });
 
-    when(() => mockIsar.transactions).thenReturn(mockCollection);
+  setUp(() async {
+    isar = await Isar.open(
+      [TransactionSchema],
+      directory: testDbDir.path,
+      name: 'test_${DateTime.now().millisecondsSinceEpoch}',
+    );
+    repository = TransactionRepositoryImpl(isar);
+  });
+
+  tearDown(() async {
+    await isar.close(deleteFromDisk: true);
   });
 
   group('TransactionRepositoryImpl', () {
@@ -32,7 +39,7 @@ void main() {
     final tomorrow = now.add(const Duration(days: 1));
 
     Transaction createValidTransaction({
-      int id = 1,
+      int id = Isar.autoIncrement,
       TransactionType type = TransactionType.debt,
       String name = 'John Doe',
       int amount = 10000,
@@ -71,38 +78,51 @@ void main() {
         );
       });
 
-      test('throws TransactionRepositoryException on database error', () async {
+      test('successfully creates a transaction', () async {
         final transaction = createValidTransaction(dueDate: tomorrow);
 
-        when(() => mockIsar.writeTxn(any())).thenThrow(Exception('DB error'));
+        await repository.create(transaction);
 
-        expect(
-          () => repository.create(transaction),
-          throwsA(
-            isA<TransactionRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              'Failed to create transaction',
-            ),
-          ),
-        );
+        final savedTransaction = await isar.transactions.get(transaction.id);
+        expect(savedTransaction, isNotNull);
+        expect(savedTransaction!.name, equals('John Doe'));
+        expect(savedTransaction.amount, equals(10000));
+        expect(savedTransaction.type, equals(TransactionType.debt));
       });
     });
 
     group('getByType', () {
-      test('throws TransactionRepositoryException on database error', () async {
-        when(() => mockCollection.filter()).thenThrow(Exception('DB error'));
+      test('returns empty list when no transactions exist', () async {
+        final transactions = await repository.getByType(TransactionType.debt);
 
-        expect(
-          () => repository.getByType(TransactionType.debt),
-          throwsA(
-            isA<TransactionRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              contains('Failed to get transactions by type'),
-            ),
-          ),
+        expect(transactions, isEmpty);
+      });
+
+      test('returns only transactions of specified type', () async {
+        final debt1 = createValidTransaction(
+          type: TransactionType.debt,
+          name: 'Debt 1',
         );
+        final debt2 = createValidTransaction(
+          type: TransactionType.debt,
+          name: 'Debt 2',
+        );
+        final loan = createValidTransaction(
+          type: TransactionType.loan,
+          name: 'Loan 1',
+        );
+
+        await repository.create(debt1);
+        await repository.create(debt2);
+        await repository.create(loan);
+
+        final debts = await repository.getByType(TransactionType.debt);
+        final loans = await repository.getByType(TransactionType.loan);
+
+        expect(debts, hasLength(2));
+        expect(debts.every((t) => t.type == TransactionType.debt), isTrue);
+        expect(loans, hasLength(1));
+        expect(loans.first.type, equals(TransactionType.loan));
       });
     });
 
@@ -110,8 +130,6 @@ void main() {
       test('throws TransactionNotFoundException when transaction not found',
           () async {
         final transaction = createValidTransaction(id: 999);
-
-        when(() => mockCollection.get(999)).thenAnswer((_) async => null);
 
         expect(
           () => repository.update(transaction),
@@ -123,17 +141,17 @@ void main() {
             ),
           ),
         );
-
-        verify(() => mockCollection.get(999)).called(1);
       });
 
       test('throws TransactionRepositoryException on validation error',
           () async {
-        final existingTransaction = createValidTransaction(id: 1);
-        final invalidTransaction = createValidTransaction(id: 1, name: '');
+        final transaction = createValidTransaction();
+        await repository.create(transaction);
 
-        when(() => mockCollection.get(1))
-            .thenAnswer((_) async => existingTransaction);
+        final invalidTransaction = createValidTransaction(
+          id: transaction.id,
+          name: '',
+        );
 
         expect(
           () => repository.update(invalidTransaction),
@@ -145,43 +163,50 @@ void main() {
             ),
           ),
         );
-
-        verify(() => mockCollection.get(1)).called(1);
       });
 
-      test('throws TransactionRepositoryException on database error', () async {
-        final transaction = createValidTransaction(id: 1, dueDate: tomorrow);
+      test('successfully updates a transaction', () async {
+        final transaction = createValidTransaction(name: 'Original Name');
+        await repository.create(transaction);
 
-        when(() => mockCollection.get(1)).thenAnswer((_) async => transaction);
-        when(() => mockIsar.writeTxn(any())).thenThrow(Exception('DB error'));
-
-        expect(
-          () => repository.update(transaction),
-          throwsA(
-            isA<TransactionRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              'Failed to update transaction',
-            ),
-          ),
+        final updatedTransaction = createValidTransaction(
+          id: transaction.id,
+          name: 'Updated Name',
+          amount: 20000,
         );
+
+        await repository.update(updatedTransaction);
+
+        final savedTransaction = await isar.transactions.get(transaction.id);
+        expect(savedTransaction, isNotNull);
+        expect(savedTransaction!.name, equals('Updated Name'));
+        expect(savedTransaction.amount, equals(20000));
       });
     });
 
     group('delete', () {
-      test('throws TransactionRepositoryException on database error', () async {
-        when(() => mockIsar.writeTxn(any())).thenThrow(Exception('DB error'));
-
+      test('throws TransactionNotFoundException when transaction not found',
+          () async {
         expect(
-          () => repository.delete(1),
+          () => repository.delete(999),
           throwsA(
-            isA<TransactionRepositoryException>().having(
-              (e) => e.message,
-              'message',
-              'Failed to delete transaction',
+            isA<TransactionNotFoundException>().having(
+              (e) => e.id,
+              'id',
+              999,
             ),
           ),
         );
+      });
+
+      test('successfully deletes a transaction', () async {
+        final transaction = createValidTransaction();
+        await repository.create(transaction);
+
+        await repository.delete(transaction.id);
+
+        final deletedTransaction = await isar.transactions.get(transaction.id);
+        expect(deletedTransaction, isNull);
       });
     });
   });
