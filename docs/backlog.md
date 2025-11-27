@@ -21,7 +21,7 @@
 | TASK-0010 | Create Reminder Model            | Define Reminder database entity with fields: id, transactionId, type (one-time/recurring), intervalDays, nextReminderDate, createdAt | [X]  |
 | TASK-0011 | Implement Transaction Repository | Create repository layer for CRUD operations on transactions with local database                                                      | [X]  |
 | TASK-0012 | Implement Repayment Repository   | Create repository layer for recording and retrieving repayments                                                                      | [X]  |
-| TASK-0013 | Implement Reminder Repository    | Create repository layer for managing reminders                                                                                       | [ ]  |
+| TASK-0013 | Implement Reminder Repository    | Create repository layer for managing reminders                                                                                       | [X]  |
 
 ## Transaction Management
 

@@ -35,3 +35,22 @@ class RepaymentRepositoryException implements Exception {
   @override
   String toString() => 'RepaymentRepositoryException: $message${cause != null ? ' (caused by: $cause)' : ''}';
 }
+
+class ReminderNotFoundException implements Exception {
+  final int id;
+
+  const ReminderNotFoundException(this.id);
+
+  @override
+  String toString() => 'Reminder with id $id not found';
+}
+
+class ReminderRepositoryException implements Exception {
+  final String message;
+  final Object? cause;
+
+  const ReminderRepositoryException(this.message, [this.cause]);
+
+  @override
+  String toString() => 'ReminderRepositoryException: $message${cause != null ? ' (caused by: $cause)' : ''}';
+}
