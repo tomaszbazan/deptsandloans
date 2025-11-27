@@ -192,5 +192,13 @@
         "type": "int"
       }
     }
+  },
+  "amountRequired": "Amount is required",
+  "@amountRequired": {
+    "description": "Validation message for required amount field"
+  },
+  "amountMustBePositive": "Amount must be greater than zero",
+  "@amountMustBePositive": {
+    "description": "Validation message for positive amount"
   }
 }

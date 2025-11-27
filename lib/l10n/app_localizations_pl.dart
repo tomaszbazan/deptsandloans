@@ -150,4 +150,10 @@ class AppLocalizationsPl extends AppLocalizations {
   String charactersRemaining(int count) {
     return 'Pozostało $count znaków';
   }
+
+  @override
+  String get amountRequired => 'Kwota jest wymagana';
+
+  @override
+  String get amountMustBePositive => 'Kwota musi być większa od zera';
 }

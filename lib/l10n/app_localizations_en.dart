@@ -150,4 +150,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String charactersRemaining(int count) {
     return '$count characters remaining';
   }
+
+  @override
+  String get amountRequired => 'Amount is required';
+
+  @override
+  String get amountMustBePositive => 'Amount must be greater than zero';
 }

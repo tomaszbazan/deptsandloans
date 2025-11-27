@@ -17,6 +17,9 @@ class TransactionFormViewModel extends ChangeNotifier {
   DateTime? _dueDate;
   bool _isLoading = false;
   String? _errorMessage;
+  String? _nameError;
+  String? _descriptionError;
+  String? _amountError;
 
   TransactionFormViewModel({required TransactionRepository repository, required TransactionType type, Transaction? existingTransaction})
     : _repository = repository,
@@ -28,13 +31,27 @@ class TransactionFormViewModel extends ChangeNotifier {
   }
 
   String get name => _name;
+
   double? get amount => _amount;
+
   Currency get currency => _currency;
+
   String? get description => _description;
+
   DateTime? get dueDate => _dueDate;
+
   bool get isLoading => _isLoading;
+
   String? get errorMessage => _errorMessage;
+
+  String? get nameError => _nameError;
+
+  String? get descriptionError => _descriptionError;
+
+  String? get amountError => _amountError;
+
   TransactionType get type => _type;
+
   bool get isEditMode => _existingTransaction != null;
 
   void _loadExistingTransaction() {
@@ -49,12 +66,14 @@ class TransactionFormViewModel extends ChangeNotifier {
 
   void setName(String value) {
     _name = value;
+    _nameError = _validateName(value);
     _clearError();
     notifyListeners();
   }
 
   void setAmount(double? value) {
     _amount = value;
+    _amountError = _validateAmount(value);
     _clearError();
     notifyListeners();
   }
@@ -70,6 +89,7 @@ class TransactionFormViewModel extends ChangeNotifier {
     } else {
       _description = value;
     }
+    _descriptionError = _validateDescription(value);
     _clearError();
     notifyListeners();
   }
@@ -83,7 +103,45 @@ class TransactionFormViewModel extends ChangeNotifier {
     _errorMessage = null;
   }
 
+  String? _validateName(String value) {
+    if (value.trim().isEmpty) {
+      return 'nameRequired';
+    }
+    return null;
+  }
+
+  String? _validateDescription(String? value) {
+    if (value != null && value.length > 200) {
+      return 'descriptionTooLong';
+    }
+    return null;
+  }
+
+  String? _validateAmount(double? value) {
+    if (value == null) {
+      return 'amountRequired';
+    }
+    if (value <= 0) {
+      return 'amountMustBePositive';
+    }
+    return null;
+  }
+
+  bool validateForm() {
+    _nameError = _validateName(_name);
+    _descriptionError = _validateDescription(_description);
+    _amountError = _validateAmount(_amount);
+
+    notifyListeners();
+
+    return _nameError == null && _descriptionError == null && _amountError == null;
+  }
+
   Future<bool> saveTransaction() async {
+    if (!validateForm()) {
+      return false;
+    }
+
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();

@@ -46,5 +46,7 @@
   "databaseNotInitialized": "Baza danych: Niezainicjalizowana",
   "notSet": "Nie ustawiono",
   "optional": "opcjonalne",
-  "charactersRemaining": "Pozostało {count} znaków"
+  "charactersRemaining": "Pozostało {count} znaków",
+  "amountRequired": "Kwota jest wymagana",
+  "amountMustBePositive": "Kwota musi być większa od zera"
 }

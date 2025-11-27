@@ -60,6 +60,23 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     return DateFormat.yMMMd().format(date);
   }
 
+  String? _getLocalizedError(String? errorKey) {
+    if (errorKey == null) return null;
+    final l10n = AppLocalizations.of(context);
+    switch (errorKey) {
+      case 'nameRequired':
+        return l10n.nameRequired;
+      case 'descriptionTooLong':
+        return l10n.descriptionTooLong;
+      case 'amountRequired':
+        return l10n.amountRequired;
+      case 'amountMustBePositive':
+        return l10n.amountMustBePositive;
+      default:
+        return errorKey;
+    }
+  }
+
   Future<void> _selectDate() async {
     final now = DateTime.now();
     final initialDate = _viewModel.dueDate ?? now;
@@ -105,12 +122,17 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            TextField(
-              controller: _nameController,
-              focusNode: _nameFocusNode,
-              decoration: InputDecoration(labelText: l10n.name, border: const OutlineInputBorder()),
-              onChanged: _viewModel.setName,
-              textInputAction: TextInputAction.next,
+            ListenableBuilder(
+              listenable: _viewModel,
+              builder: (context, _) {
+                return TextField(
+                  controller: _nameController,
+                  focusNode: _nameFocusNode,
+                  decoration: InputDecoration(labelText: l10n.name, border: const OutlineInputBorder(), errorText: _getLocalizedError(_viewModel.nameError)),
+                  onChanged: _viewModel.setName,
+                  textInputAction: TextInputAction.next,
+                );
+              },
             ),
             const SizedBox(height: 16),
             Row(
@@ -118,16 +140,21 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
               children: [
                 Expanded(
                   flex: 2,
-                  child: TextField(
-                    controller: _amountController,
-                    decoration: InputDecoration(labelText: l10n.amount, border: const OutlineInputBorder()),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                    inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}'))],
-                    onChanged: (value) {
-                      final amount = double.tryParse(value);
-                      _viewModel.setAmount(amount);
+                  child: ListenableBuilder(
+                    listenable: _viewModel,
+                    builder: (context, _) {
+                      return TextField(
+                        controller: _amountController,
+                        decoration: InputDecoration(labelText: l10n.amount, border: const OutlineInputBorder(), errorText: _getLocalizedError(_viewModel.amountError)),
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}'))],
+                        onChanged: (value) {
+                          final amount = double.tryParse(value);
+                          _viewModel.setAmount(amount);
+                        },
+                        textInputAction: TextInputAction.next,
+                      );
                     },
-                    textInputAction: TextInputAction.next,
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -162,6 +189,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                     labelText: '${l10n.description} (${l10n.optional})',
                     border: const OutlineInputBorder(),
                     helperText: l10n.charactersRemaining(remaining),
+                    errorText: _getLocalizedError(_viewModel.descriptionError),
                   ),
                   maxLength: 200,
                   maxLines: 3,
