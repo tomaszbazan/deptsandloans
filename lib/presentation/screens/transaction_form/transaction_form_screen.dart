@@ -44,16 +44,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   }
 
   String _getCurrencySymbol(Currency currency) {
-    switch (currency) {
-      case Currency.pln:
-        return 'PLN';
-      case Currency.eur:
-        return '€';
-      case Currency.usd:
-        return '\$';
-      case Currency.gbp:
-        return '£';
-    }
+    return currency.symbol;
   }
 
   String _formatDate(DateTime date) {

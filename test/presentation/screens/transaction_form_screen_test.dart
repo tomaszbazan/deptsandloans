@@ -104,7 +104,7 @@ void main() {
       expect(find.text('Due Date (optional)'), findsOneWidget);
     });
 
-    testWidgets('currency dropdown shows all currencies', (tester) async {
+    testWidgets('currency dropdown shows default PLN with symbol', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
           localizationsDelegates: const [
@@ -120,8 +120,41 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      expect(find.text('PLN'), findsOneWidget);
+      expect(find.text('zł'), findsOneWidget);
     });
+
+    for (final currencyData in [
+      {'symbol': '€', 'name': 'EUR'},
+      {'symbol': '\$', 'name': 'USD'},
+      {'symbol': '£', 'name': 'GBP'},
+    ]) {
+      testWidgets('can select ${currencyData['name']} currency from dropdown', (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [Locale('en'), Locale('pl')],
+            home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          ),
+        );
+
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.text('zł'));
+        await tester.pumpAndSettle();
+
+        expect(find.text(currencyData['symbol']!), findsOneWidget);
+
+        await tester.tap(find.text(currencyData['symbol']!).last);
+        await tester.pumpAndSettle();
+
+        expect(find.text(currencyData['symbol']!), findsOneWidget);
+      });
+    }
 
     testWidgets('date picker opens when tapping due date field', (tester) async {
       await tester.pumpWidget(
