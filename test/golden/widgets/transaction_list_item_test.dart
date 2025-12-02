@@ -73,6 +73,25 @@ void main() {
             ),
           ),
         ),
+        GoldenTestScenario(
+          name: 'past_due_with_zero_balance',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(
+                  name: 'Charlie Brown',
+                  amount: 25000,
+                  currency: Currency.pln,
+                  dueDate: DateTime(2024, 1, 1),
+                  status: TransactionStatus.active,
+                ),
+                balance: 0.0,
+              ),
+            ),
+          ),
+        ),
       ],
     ),
   );

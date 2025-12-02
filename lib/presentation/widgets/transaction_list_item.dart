@@ -17,7 +17,7 @@ class TransactionListItem extends StatelessWidget {
     final theme = Theme.of(context);
     final currencyFormat = NumberFormat.currency(locale: Localizations.localeOf(context).toString(), symbol: transaction.currency.symbol, decimalDigits: 2);
 
-    final isOverdue = transaction.isOverdue;
+    final isOverdue = transaction.dueDate != null && DateTime.now().isAfter(transaction.dueDate!) && balance > 0 && transaction.isActive;
     final balanceDiffersFromAmount = balance != transaction.amountInMainUnit;
 
     return Card(

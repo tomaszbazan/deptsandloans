@@ -128,6 +128,58 @@ void main() {
       expect(find.text('Overdue'), findsNothing);
     });
 
+    testWidgets('does not show overdue badge when balance is zero', (tester) async {
+      final transaction = TransactionFixture.createTransaction(
+        amount: 10000,
+        currency: Currency.pln,
+        dueDate: DateTime.now().subtract(const Duration(days: 1)),
+        status: TransactionStatus.active,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 0.0)),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Overdue'), findsNothing);
+    });
+
+    testWidgets('does not show overdue badge when due date is in future', (tester) async {
+      final transaction = TransactionFixture.createTransaction(
+        amount: 10000,
+        currency: Currency.pln,
+        dueDate: DateTime.now().add(const Duration(days: 1)),
+        status: TransactionStatus.active,
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0)),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Overdue'), findsNothing);
+    });
+
     testWidgets('handles tap callback', (tester) async {
       final transaction = TransactionFixture.createTransaction();
       var tapped = false;
