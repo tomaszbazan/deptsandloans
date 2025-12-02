@@ -22,12 +22,7 @@ class AppFixture {
     return MaterialApp.router(
       locale: Locale(locale),
       routerConfig: createAppRouter(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository()),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
+      localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('pl')],
     );
   }

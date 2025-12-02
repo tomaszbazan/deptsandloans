@@ -3,15 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../fixtures/app_fixture.dart';
-import '../../mocks/mock_transaction_repository.dart';
 import '../../mocks/mock_repayment_repository.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('MainScreen localization tests', () {
     testWidgets('displays English texts when locale is en', (WidgetTester tester) async {
-      await tester.pumpWidget(
-        AppFixture.createDefaultApp(MainScreen(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository())),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(MainScreen(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository())));
 
       await tester.pumpAndSettle();
 

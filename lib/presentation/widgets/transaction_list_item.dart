@@ -1,3 +1,4 @@
+import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class TransactionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final currencyFormat = NumberFormat.currency(locale: Localizations.localeOf(context).toString(), symbol: _getCurrencySymbol(transaction.currency.name), decimalDigits: 2);
+    final currencyFormat = NumberFormat.currency(locale: Localizations.localeOf(context).toString(), symbol: transaction.currency.symbol, decimalDigits: 2);
 
     final isOverdue = transaction.isOverdue;
     final balanceDiffersFromAmount = balance != transaction.amountInMainUnit;
@@ -90,20 +91,5 @@ class TransactionListItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _getCurrencySymbol(String currencyCode) {
-    switch (currencyCode.toUpperCase()) {
-      case 'PLN':
-        return 'zł';
-      case 'EUR':
-        return '€';
-      case 'USD':
-        return '\$';
-      case 'GBP':
-        return '£';
-      default:
-        return currencyCode;
-    }
   }
 }
