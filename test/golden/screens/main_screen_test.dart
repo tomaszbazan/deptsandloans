@@ -23,14 +23,7 @@ void main() {
       dueDate: DateTime(2025, 01, 01),
     ),
   );
-  nonEmptyTransactionRepository.create(
-    TransactionFixture.createTransaction(
-      type: TransactionType.debt,
-      name: 'Money owed to Jane',
-      amount: 12345,
-      currency: Currency.eur
-    ),
-  );
+  nonEmptyTransactionRepository.create(TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Money owed to Jane', amount: 12345, currency: Currency.eur));
   nonEmptyTransactionRepository.create(
     TransactionFixture.createTransaction(
       type: TransactionType.loan,
@@ -41,14 +34,7 @@ void main() {
       dueDate: DateTime(2025, 01, 01),
     ),
   );
-  nonEmptyTransactionRepository.create(
-    TransactionFixture.createTransaction(
-        type: TransactionType.loan,
-        name: 'Money lent to Jane',
-        amount: 12345,
-        currency: Currency.eur
-    ),
-  );
+  nonEmptyTransactionRepository.create(TransactionFixture.createTransaction(type: TransactionType.loan, name: 'Money lent to Jane', amount: 12345, currency: Currency.eur));
 
   goldenTest(
     'MainScreen displays correctly',

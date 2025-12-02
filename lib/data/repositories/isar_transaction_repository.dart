@@ -47,7 +47,11 @@ class IsarTransactionRepository implements TransactionRepository {
   @override
   Future<List<Transaction>> getByType(TransactionType type) async {
     try {
-      final transactions = await _isar.transactions.filter().typeEqualTo(type).findAll();
+      final transactionsWithDueDate = await _isar.transactions.filter().typeEqualTo(type).dueDateIsNotNull().sortByDueDate().findAll();
+
+      final transactionsWithoutDueDate = await _isar.transactions.filter().typeEqualTo(type).dueDateIsNull().findAll();
+
+      final transactions = [...transactionsWithDueDate, ...transactionsWithoutDueDate];
 
       developer.log('Retrieved ${transactions.length} transactions of type $type', name: 'TransactionRepository');
 

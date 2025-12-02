@@ -1,13 +1,13 @@
 import 'dart:io';
 
-import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
-import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
 import 'package:deptsandloans/data/repositories/isar_transaction_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
+
+import '../../fixtures/transaction_fixture.dart';
 
 void main() {
   late Isar isar;
@@ -34,38 +34,15 @@ void main() {
     final now = DateTime.now();
     final tomorrow = now.add(const Duration(days: 1));
 
-    Transaction createValidTransaction({
-      int id = Isar.autoIncrement,
-      TransactionType type = TransactionType.debt,
-      String name = 'John Doe',
-      int amount = 10000,
-      Currency currency = Currency.pln,
-      String? description,
-      DateTime? dueDate,
-      TransactionStatus status = TransactionStatus.active,
-    }) {
-      return Transaction()
-        ..id = id
-        ..type = type
-        ..name = name
-        ..amount = amount
-        ..currency = currency
-        ..description = description
-        ..dueDate = dueDate
-        ..status = status
-        ..createdAt = now
-        ..updatedAt = now;
-    }
-
     group('create', () {
       test('throws TransactionRepositoryException on validation error', () async {
-        final transaction = createValidTransaction(name: '');
+        final transaction = TransactionFixture.createTransaction(name: '');
 
         expect(() => repository.create(transaction), throwsA(isA<TransactionRepositoryException>().having((e) => e.message, 'message', 'Failed to create transaction')));
       });
 
       test('successfully creates a transaction', () async {
-        final transaction = createValidTransaction(dueDate: tomorrow);
+        final transaction = TransactionFixture.createTransaction(dueDate: tomorrow);
 
         await repository.create(transaction);
 
@@ -85,7 +62,7 @@ void main() {
       });
 
       test('successfully returns transaction when it exists', () async {
-        final transaction = createValidTransaction(name: 'Test Transaction');
+        final transaction = TransactionFixture.createTransaction(name: 'Test Transaction');
         await repository.create(transaction);
 
         final retrieved = await repository.getById(transaction.id);
@@ -105,9 +82,9 @@ void main() {
       });
 
       test('returns only transactions of specified type', () async {
-        final debt1 = createValidTransaction(type: TransactionType.debt, name: 'Debt 1');
-        final debt2 = createValidTransaction(type: TransactionType.debt, name: 'Debt 2');
-        final loan = createValidTransaction(type: TransactionType.loan, name: 'Loan 1');
+        final debt1 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Debt 1');
+        final debt2 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Debt 2');
+        final loan = TransactionFixture.createTransaction(type: TransactionType.loan, name: 'Loan 1');
 
         await repository.create(debt1);
         await repository.create(debt2);
@@ -121,29 +98,119 @@ void main() {
         expect(loans, hasLength(1));
         expect(loans.first.type, equals(TransactionType.loan));
       });
+
+      test('sorts transactions by due date in ascending order', () async {
+        final inThreeDays = now.add(const Duration(days: 3));
+        final inFiveDays = now.add(const Duration(days: 5));
+
+        final debt1 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due in 5 days', dueDate: inFiveDays);
+        final debt2 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due tomorrow', dueDate: tomorrow);
+        final debt3 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due in 3 days', dueDate: inThreeDays);
+
+        await repository.create(debt1);
+        await repository.create(debt2);
+        await repository.create(debt3);
+
+        final debts = await repository.getByType(TransactionType.debt);
+
+        expect(debts, hasLength(3));
+        expect(debts[0].name, equals('Due tomorrow'));
+        expect(debts[1].name, equals('Due in 3 days'));
+        expect(debts[2].name, equals('Due in 5 days'));
+      });
+
+      test('places transactions without due date at the bottom', () async {
+        final inThreeDays = now.add(const Duration(days: 3));
+
+        final debt1 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'No due date 1', dueDate: null);
+        final debt2 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due in 3 days', dueDate: inThreeDays);
+        final debt3 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due tomorrow', dueDate: tomorrow);
+        final debt4 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'No due date 2', dueDate: null);
+
+        await repository.create(debt1);
+        await repository.create(debt2);
+        await repository.create(debt3);
+        await repository.create(debt4);
+
+        final debts = await repository.getByType(TransactionType.debt);
+
+        expect(debts, hasLength(4));
+        expect(debts[0].name, equals('Due tomorrow'));
+        expect(debts[1].name, equals('Due in 3 days'));
+        expect(debts[2].dueDate, isNull);
+        expect(debts[3].dueDate, isNull);
+      });
+
+      test('handles all transactions without due dates', () async {
+        final debt1 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Debt 1', dueDate: null);
+        final debt2 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Debt 2', dueDate: null);
+        final debt3 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Debt 3', dueDate: null);
+
+        await repository.create(debt1);
+        await repository.create(debt2);
+        await repository.create(debt3);
+
+        final debts = await repository.getByType(TransactionType.debt);
+
+        expect(debts, hasLength(3));
+        expect(debts.every((t) => t.dueDate == null), isTrue);
+      });
+
+      test('handles transactions with same due date', () async {
+        final debt1 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Same date 1', dueDate: tomorrow);
+        final debt2 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Same date 2', dueDate: tomorrow);
+
+        await repository.create(debt1);
+        await repository.create(debt2);
+
+        final debts = await repository.getByType(TransactionType.debt);
+
+        expect(debts, hasLength(2));
+        expect(debts.every((t) => t.dueDate == tomorrow), isTrue);
+      });
+
+      test('sorts multiple future due dates correctly', () async {
+        final inTwoDays = now.add(const Duration(days: 2));
+        final inFourDays = now.add(const Duration(days: 4));
+
+        final debt1 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due in 4 days', dueDate: inFourDays);
+        final debt2 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due in 2 days', dueDate: inTwoDays);
+        final debt3 = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Due tomorrow', dueDate: tomorrow);
+
+        await repository.create(debt1);
+        await repository.create(debt2);
+        await repository.create(debt3);
+
+        final debts = await repository.getByType(TransactionType.debt);
+
+        expect(debts, hasLength(3));
+        expect(debts[0].name, equals('Due tomorrow'));
+        expect(debts[1].name, equals('Due in 2 days'));
+        expect(debts[2].name, equals('Due in 4 days'));
+      });
     });
 
     group('update', () {
       test('throws TransactionNotFoundException when transaction not found', () async {
-        final transaction = createValidTransaction(id: 999);
+        final transaction = TransactionFixture.createTransaction(id: 999);
 
         expect(() => repository.update(transaction), throwsA(isA<TransactionNotFoundException>().having((e) => e.id, 'id', 999)));
       });
 
       test('throws TransactionRepositoryException on validation error', () async {
-        final transaction = createValidTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await repository.create(transaction);
 
-        final invalidTransaction = createValidTransaction(id: transaction.id, name: '');
+        final invalidTransaction = TransactionFixture.createTransaction(id: transaction.id, name: '');
 
         expect(() => repository.update(invalidTransaction), throwsA(isA<TransactionRepositoryException>().having((e) => e.message, 'message', 'Failed to update transaction')));
       });
 
       test('successfully updates a transaction', () async {
-        final transaction = createValidTransaction(name: 'Original Name');
+        final transaction = TransactionFixture.createTransaction(name: 'Original Name');
         await repository.create(transaction);
 
-        final updatedTransaction = createValidTransaction(id: transaction.id, name: 'Updated Name', amount: 20000);
+        final updatedTransaction = TransactionFixture.createTransaction(id: transaction.id, name: 'Updated Name', amount: 20000);
 
         await repository.update(updatedTransaction);
 
@@ -160,7 +227,7 @@ void main() {
       });
 
       test('successfully deletes a transaction', () async {
-        final transaction = createValidTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await repository.create(transaction);
 
         await repository.delete(transaction.id);
