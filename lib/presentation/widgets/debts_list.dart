@@ -4,6 +4,7 @@ import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class DebtsList extends StatelessWidget {
   final TransactionRepository transactionRepository;
@@ -33,6 +34,9 @@ class DebtsList extends StatelessWidget {
         return TransactionList(
           transactions: transactions,
           repaymentRepository: repaymentRepository,
+          onTransactionTap: (transaction) {
+            context.push('/transaction/${transaction.id}');
+          },
           emptyState: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

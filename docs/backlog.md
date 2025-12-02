@@ -31,8 +31,8 @@
 | TASK-0015 | Implement Form Validation      | Add validation for required Name field (non-empty) and Description field (max 200 characters)               | [X]  |
 | TASK-0016 | Implement Currency Selection   | Create currency picker supporting PLN, EUR, USD, GBP with proper locale-based formatting                    | [X]  |
 | TASK-0017 | Implement Save Transaction     | Connect form to repository to save new transactions to local database                                       | [X]  |
-| TASK-0018 | Implement Edit Transaction     | Enable editing existing transactions (excluding initial Amount)                                             | [X]  |
-| TASK-0019 | Implement Delete Transaction   | Add functionality to delete transactions with confirmation dialog                                           | [X]  |
+| TASK-0018 | Implement Edit Transaction     | Enable editing existing transactions (excluding initial Amount)                                             | [ ]  |
+| TASK-0019 | Implement Delete Transaction   | Add functionality to delete transactions with confirmation dialog                                           | [ ]  |
 
 ## Transaction Listing & Display
 
@@ -43,7 +43,7 @@
 | TASK-0022 | Implement Transaction Sorting     | Sort active transactions by due date (ascending), placing transactions without due date at the bottom | [X]  |
 | TASK-0023 | Implement Overdue Highlighting    | Visually highlight (red color) transactions where due date has passed and remaining balance > 0       | [X]  |
 | TASK-0024 | Implement FAB for Adding          | Add Floating Action Button to open transaction form for adding new debt/loan                          | [X]  |
-| TASK-0025 | Create Transaction Details Screen | Build screen showing full transaction details including repayment history and progress                | [ ]  |
+| TASK-0025 | Create Transaction Details Screen | Build screen showing full transaction details including repayment history and progress                | [X]  |
 
 ## Repayments & Transaction Status
 

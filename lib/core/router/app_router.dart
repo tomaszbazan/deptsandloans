@@ -32,7 +32,7 @@ GoRouter createAppRouter({required TransactionRepository transactionRepository, 
         name: 'transaction-details',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return TransactionDetailsScreen(transactionRepository: transactionRepository, transactionId: id);
+          return TransactionDetailsScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, transactionId: id);
         },
       ),
       GoRoute(
