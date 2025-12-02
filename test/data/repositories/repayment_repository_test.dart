@@ -1,14 +1,13 @@
 import 'dart:io';
 
-import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
-import 'package:deptsandloans/data/models/transaction_status.dart';
-import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
 import 'package:deptsandloans/data/repositories/repayment_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
+
+import '../../fixtures/transaction_fixture.dart';
 
 void main() {
   late Isar isar;
@@ -44,18 +43,6 @@ void main() {
         ..createdAt = createdAt ?? now;
     }
 
-    Transaction createTransaction({int id = Isar.autoIncrement, int transactionIdValue = 100}) {
-      return Transaction()
-        ..id = transactionIdValue
-        ..type = TransactionType.debt
-        ..name = 'Test Transaction'
-        ..amount = 10000
-        ..currency = Currency.pln
-        ..status = TransactionStatus.active
-        ..createdAt = now
-        ..updatedAt = now;
-    }
-
     group('addRepayment', () {
       test('throws RepaymentRepositoryException on validation error', () async {
         final repayment = createRepayment(amount: -100);
@@ -70,7 +57,7 @@ void main() {
       });
 
       test('successfully adds a repayment when transaction exists', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -93,7 +80,7 @@ void main() {
       });
 
       test('returns repayments sorted by when date', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -115,8 +102,8 @@ void main() {
       });
 
       test('returns only repayments for specified transaction', () async {
-        final transaction1 = createTransaction(transactionIdValue: 100);
-        final transaction2 = createTransaction(transactionIdValue: 200);
+        final transaction1 = TransactionFixture.createTransaction(id: 100);
+        final transaction2 = TransactionFixture.createTransaction(id: 200);
 
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction1);
@@ -138,7 +125,7 @@ void main() {
 
     group('deleteRepayment', () {
       test('successfully deletes a repayment when it exists', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });

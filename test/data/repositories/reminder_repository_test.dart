@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/reminder.dart';
 import 'package:deptsandloans/data/models/reminder_type.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
-import 'package:deptsandloans/data/models/transaction_status.dart';
-import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
 import 'package:deptsandloans/data/repositories/reminder_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
+
+import '../../fixtures/transaction_fixture.dart';
 
 void main() {
   late Isar isar;
@@ -54,21 +53,9 @@ void main() {
         ..createdAt = createdAt ?? now;
     }
 
-    Transaction createTransaction({int id = Isar.autoIncrement}) {
-      return Transaction()
-        ..id = id
-        ..type = TransactionType.debt
-        ..name = 'Test Transaction'
-        ..amount = 10000
-        ..currency = Currency.pln
-        ..status = TransactionStatus.active
-        ..createdAt = now
-        ..updatedAt = now;
-    }
-
     group('createReminder', () {
       test('throws ReminderRepositoryException on validation error', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -85,7 +72,7 @@ void main() {
       });
 
       test('successfully creates a one-time reminder', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -101,7 +88,7 @@ void main() {
       });
 
       test('successfully creates a recurring reminder', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -124,7 +111,7 @@ void main() {
       });
 
       test('returns reminders sorted by creation date', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -146,8 +133,8 @@ void main() {
       });
 
       test('returns only reminders for specified transaction', () async {
-        final transaction1 = createTransaction(id: 100);
-        final transaction2 = createTransaction(id: 200);
+        final transaction1 = TransactionFixture.createTransaction(id: 100);
+        final transaction2 = TransactionFixture.createTransaction(id: 200);
 
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction1);
@@ -169,7 +156,7 @@ void main() {
 
     group('getActiveReminders', () {
       test('returns empty list when no active reminders exist', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -183,7 +170,7 @@ void main() {
       });
 
       test('returns reminders with nextReminderDate in the past', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -201,7 +188,7 @@ void main() {
       });
 
       test('returns reminders with nextReminderDate equal to now', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -224,7 +211,7 @@ void main() {
       });
 
       test('successfully updates an existing reminder', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -249,7 +236,7 @@ void main() {
       });
 
       test('successfully updates next reminder date', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -268,7 +255,7 @@ void main() {
 
     group('deleteRemindersByTransactionId', () {
       test('successfully deletes all reminders for a transaction', () async {
-        final transaction = createTransaction();
+        final transaction = TransactionFixture.createTransaction();
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction);
         });
@@ -286,8 +273,8 @@ void main() {
       });
 
       test('does not delete reminders for other transactions', () async {
-        final transaction1 = createTransaction(id: 100);
-        final transaction2 = createTransaction(id: 200);
+        final transaction1 = TransactionFixture.createTransaction(id: 100);
+        final transaction2 = TransactionFixture.createTransaction(id: 200);
 
         await isar.writeTxn(() async {
           await isar.transactions.put(transaction1);
