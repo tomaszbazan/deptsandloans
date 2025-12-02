@@ -1,26 +1,19 @@
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
-import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('TransactionFormScreen', () {
-    late MockDatabaseService mockDatabaseService;
     late TransactionRepository repository;
 
-    setUpAll(() async {
-      await initializeTestIsar();
-    });
-
     setUp(() {
-      mockDatabaseService = createMockDatabaseService();
-      repository = TransactionRepositoryImpl(mockDatabaseService.instance);
+      repository = MockTransactionRepository();
     });
 
     testWidgets('displays new debt transaction mode correctly', (tester) async {
@@ -33,7 +26,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -53,7 +46,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt, transactionId: 456),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 456),
         ),
       );
 
@@ -72,7 +65,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.loan),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.loan),
         ),
       );
 
@@ -91,7 +84,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -114,7 +107,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -138,7 +131,7 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: const [Locale('en'), Locale('pl')],
-            home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+            home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
           ),
         );
 
@@ -166,7 +159,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -188,7 +181,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -213,7 +206,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -241,7 +234,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 
@@ -268,7 +261,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(repository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
         ),
       );
 

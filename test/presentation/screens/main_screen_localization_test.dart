@@ -1,32 +1,16 @@
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../fixtures/app_fixture.dart';
+import '../../mocks/mock_transaction_repository.dart';
+import '../../mocks/mock_repayment_repository.dart';
 
 void main() {
   group('MainScreen localization tests', () {
-    late MockDatabaseService mockDatabaseService;
-
-    setUp(() {
-      mockDatabaseService = createMockDatabaseService();
-    });
-
     testWidgets('displays English texts when locale is en', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: MainScreen(databaseService: mockDatabaseService),
-        ),
+        AppFixture.createDefaultApp(MainScreen(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository())),
       );
 
       await tester.pumpAndSettle();
@@ -42,16 +26,9 @@ void main() {
 
     testWidgets('displays Polish texts when locale is pl', (WidgetTester tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('pl'),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: MainScreen(databaseService: mockDatabaseService),
+        AppFixture.createDefaultApp(
+          MainScreen(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository()),
+          locale: 'pl',
         ),
       );
 
@@ -73,16 +50,9 @@ void main() {
         ValueListenableBuilder<Locale>(
           valueListenable: localeNotifier,
           builder: (context, locale, child) {
-            return MaterialApp(
-              locale: locale,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [Locale('en'), Locale('pl')],
-              home: MainScreen(databaseService: mockDatabaseService),
+            return AppFixture.createDefaultApp(
+              MainScreen(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository()),
+              locale: locale.languageCode,
             );
           },
         ),
@@ -113,16 +83,9 @@ void main() {
         ValueListenableBuilder<Locale>(
           valueListenable: localeNotifier,
           builder: (context, locale, child) {
-            return MaterialApp(
-              locale: locale,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [Locale('en'), Locale('pl')],
-              home: MainScreen(databaseService: mockDatabaseService),
+            return AppFixture.createDefaultApp(
+              MainScreen(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository()),
+              locale: locale.languageCode,
             );
           },
         ),

@@ -2,25 +2,18 @@ import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
-import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('TransactionFormViewModel', () {
-    late MockDatabaseService mockDatabaseService;
     late TransactionRepository repository;
     late TransactionFormViewModel viewModel;
 
-    setUpAll(() async {
-      await initializeTestIsar();
-    });
-
     setUp(() {
-      mockDatabaseService = createMockDatabaseService();
-      repository = TransactionRepositoryImpl(mockDatabaseService.instance);
+      repository = MockTransactionRepository();
       viewModel = TransactionFormViewModel(repository: repository, type: TransactionType.debt);
     });
 

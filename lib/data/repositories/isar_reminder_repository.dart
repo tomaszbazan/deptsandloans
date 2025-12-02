@@ -5,10 +5,10 @@ import '../models/transaction.dart';
 import 'exceptions/repository_exceptions.dart';
 import 'reminder_repository.dart';
 
-class ReminderRepositoryImpl implements ReminderRepository {
+class IsarReminderRepository implements ReminderRepository {
   final Isar _isar;
 
-  const ReminderRepositoryImpl(this._isar);
+  const IsarReminderRepository(this._isar);
 
   @override
   Future<void> createReminder(Reminder reminder) async {

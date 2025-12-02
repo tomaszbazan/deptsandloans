@@ -4,16 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('TransactionDetailsScreen', () {
-    late MockDatabaseService mockDatabaseService;
-
-    setUp(() {
-      mockDatabaseService = createMockDatabaseService();
-    });
-
     testWidgets('displays transaction details correctly', (tester) async {
       await tester.pumpWidget(
         MaterialApp(
@@ -24,7 +18,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionDetailsScreen(databaseService: mockDatabaseService, transactionId: '789'),
+          home: TransactionDetailsScreen(transactionRepository: MockTransactionRepository(), transactionId: '789'),
         ),
       );
 
@@ -45,7 +39,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionDetailsScreen(databaseService: mockDatabaseService, transactionId: '789'),
+          home: TransactionDetailsScreen(transactionRepository: MockTransactionRepository(), transactionId: '789'),
         ),
       );
 
@@ -64,7 +58,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionDetailsScreen(databaseService: mockDatabaseService, transactionId: '789'),
+          home: TransactionDetailsScreen(transactionRepository: MockTransactionRepository(), transactionId: '789'),
         ),
       );
 
@@ -83,7 +77,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionDetailsScreen(databaseService: mockDatabaseService, transactionId: '789'),
+          home: TransactionDetailsScreen(transactionRepository: MockTransactionRepository(), transactionId: '789'),
         ),
       );
 
@@ -103,7 +97,7 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: const [Locale('en'), Locale('pl')],
-            home: TransactionDetailsScreen(databaseService: mockDatabaseService, transactionId: id),
+            home: TransactionDetailsScreen(transactionRepository: MockTransactionRepository(), transactionId: id),
           ),
         );
 

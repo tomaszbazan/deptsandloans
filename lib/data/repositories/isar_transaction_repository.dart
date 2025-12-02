@@ -5,10 +5,10 @@ import '../models/transaction_type.dart';
 import 'exceptions/repository_exceptions.dart';
 import 'transaction_repository.dart';
 
-class TransactionRepositoryImpl implements TransactionRepository {
+class IsarTransactionRepository implements TransactionRepository {
   final Isar _isar;
 
-  const TransactionRepositoryImpl(this._isar);
+  const IsarTransactionRepository(this._isar);
 
   @override
   Future<void> create(Transaction transaction) async {

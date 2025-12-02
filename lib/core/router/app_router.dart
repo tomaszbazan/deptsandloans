@@ -1,19 +1,21 @@
-import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
-import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
+import 'package:deptsandloans/data/repositories/repayment_repository.dart';
+import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/presentation/screens/main_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_details_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:go_router/go_router.dart';
 
-GoRouter createAppRouter(DatabaseService databaseService) {
+GoRouter createAppRouter({required TransactionRepository transactionRepository, required RepaymentRepository repaymentRepository}) {
   return GoRouter(
     initialLocation: '/',
     routes: [
       GoRoute(
         path: '/',
         name: 'home',
-        builder: (context, state) => MainScreen(databaseService: databaseService),
+        builder: (context, state) {
+          return MainScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository);
+        },
       ),
       GoRoute(
         path: '/transaction/new',
@@ -21,8 +23,8 @@ GoRouter createAppRouter(DatabaseService databaseService) {
         builder: (context, state) {
           final typeParam = state.uri.queryParameters['type'];
           final type = typeParam == 'loan' ? TransactionType.loan : TransactionType.debt;
-          final repository = TransactionRepositoryImpl(databaseService.instance);
-          return TransactionFormScreen(repository: repository, type: type);
+
+          return TransactionFormScreen(transactionRepository: transactionRepository, type: type);
         },
       ),
       GoRoute(
@@ -30,7 +32,7 @@ GoRouter createAppRouter(DatabaseService databaseService) {
         name: 'transaction-details',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return TransactionDetailsScreen(databaseService: databaseService, transactionId: id);
+          return TransactionDetailsScreen(transactionRepository: transactionRepository, transactionId: id);
         },
       ),
       GoRoute(
@@ -40,8 +42,7 @@ GoRouter createAppRouter(DatabaseService databaseService) {
           final id = int.parse(state.pathParameters['id']!);
           final typeParam = state.uri.queryParameters['type'];
           final type = typeParam == 'loan' ? TransactionType.loan : TransactionType.debt;
-          final repository = TransactionRepositoryImpl(databaseService.instance);
-          return TransactionFormScreen(repository: repository, type: type, transactionId: id);
+          return TransactionFormScreen(transactionRepository: transactionRepository, type: type, transactionId: id);
         },
       ),
     ],

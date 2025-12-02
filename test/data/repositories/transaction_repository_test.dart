@@ -5,13 +5,13 @@ import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
-import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
+import 'package:deptsandloans/data/repositories/isar_transaction_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
 
 void main() {
   late Isar isar;
-  late TransactionRepositoryImpl repository;
+  late IsarTransactionRepository repository;
   final testDbDir = Directory('build/test_db');
 
   setUpAll(() async {
@@ -23,7 +23,7 @@ void main() {
 
   setUp(() async {
     isar = await Isar.open([TransactionSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
-    repository = TransactionRepositoryImpl(isar);
+    repository = IsarTransactionRepository(isar);
   });
 
   tearDown(() async {

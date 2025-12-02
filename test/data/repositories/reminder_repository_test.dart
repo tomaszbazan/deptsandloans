@@ -4,7 +4,7 @@ import 'package:deptsandloans/data/models/reminder.dart';
 import 'package:deptsandloans/data/models/reminder_type.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
-import 'package:deptsandloans/data/repositories/reminder_repository_impl.dart';
+import 'package:deptsandloans/data/repositories/isar_reminder_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
 
@@ -12,7 +12,7 @@ import '../../fixtures/transaction_fixture.dart';
 
 void main() {
   late Isar isar;
-  late ReminderRepositoryImpl repository;
+  late IsarReminderRepository repository;
   final testDbDir = Directory('build/test_db');
 
   setUpAll(() async {
@@ -24,7 +24,7 @@ void main() {
 
   setUp(() async {
     isar = await Isar.open([ReminderSchema, TransactionSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
-    repository = ReminderRepositoryImpl(isar);
+    repository = IsarReminderRepository(isar);
   });
 
   tearDown(() async {

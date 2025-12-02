@@ -2,15 +2,18 @@ import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../mocks/mock_repayment_repository.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
-  late MockDatabaseService databaseService;
+  late MockTransactionRepository transactionRepository;
+  late MockRepaymentRepository repaymentRepository;
   late GoRouter router;
 
   setUp(() {
-    databaseService = createMockDatabaseService();
-    router = createAppRouter(databaseService);
+    transactionRepository = MockTransactionRepository();
+    repaymentRepository = MockRepaymentRepository();
+    router = createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository);
   });
 
   group('AppRouter', () {

@@ -1,12 +1,12 @@
-import 'package:deptsandloans/core/database/database_service.dart';
+import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class TransactionDetailsScreen extends StatelessWidget {
-  final DatabaseService databaseService;
+  final TransactionRepository transactionRepository;
   final String transactionId;
 
-  const TransactionDetailsScreen({required this.databaseService, required this.transactionId, super.key});
+  const TransactionDetailsScreen({required this.transactionRepository, required this.transactionId, super.key});
 
   @override
   Widget build(BuildContext context) {

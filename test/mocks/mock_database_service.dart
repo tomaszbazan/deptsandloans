@@ -1,8 +1,4 @@
-import 'dart:io';
 import 'package:deptsandloans/core/database/database_service.dart';
-import 'package:deptsandloans/data/models/reminder.dart';
-import 'package:deptsandloans/data/models/repayment.dart';
-import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:isar_community/isar.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -13,15 +9,15 @@ Future<void> initializeTestIsar() async {
 }
 
 MockDatabaseService createMockDatabaseService() {
-  final testDbDir = Directory('build/test_db');
-  if (!testDbDir.existsSync()) {
-    testDbDir.createSync(recursive: true);
-  }
-
-  final isar = Isar.openSync([TransactionSchema, RepaymentSchema, ReminderSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
+  // final testDbDir = Directory('build/test_db');
+  // if (!testDbDir.existsSync()) {
+  //   testDbDir.createSync(recursive: true);
+  // }
+  //
+  // final isar = Isar.openSync([TransactionSchema, RepaymentSchema, ReminderSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
 
   final mock = MockDatabaseService();
   when(() => mock.isInitialized).thenReturn(true);
-  when(() => mock.instance).thenReturn(isar);
+  // when(() => mock.instance).thenReturn(Isar.);
   return mock;
 }

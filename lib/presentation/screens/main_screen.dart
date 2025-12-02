@@ -1,5 +1,6 @@
-import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
+import 'package:deptsandloans/data/repositories/repayment_repository.dart';
+import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/widgets/debts_list.dart';
 import 'package:deptsandloans/presentation/widgets/loans_list.dart';
@@ -7,10 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class MainScreen extends StatefulWidget {
-  final DatabaseService databaseService;
+  final TransactionRepository transactionRepository;
+  final RepaymentRepository repaymentRepository;
   final int initialIndex;
 
-  const MainScreen({required this.databaseService, this.initialIndex = 0, super.key});
+  const MainScreen({required this.transactionRepository, required this.repaymentRepository, this.initialIndex = 0, super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -59,7 +61,13 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           ],
         ),
       ),
-      body: TabBarView(controller: _tabController, children: const [DebtsList(), LoansList()]),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          DebtsList(transactionRepository: widget.transactionRepository, repaymentRepository: widget.repaymentRepository),
+          LoansList(transactionRepository: widget.transactionRepository, repaymentRepository: widget.repaymentRepository),
+        ],
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _onAddTransaction,
         icon: const Icon(Icons.add),

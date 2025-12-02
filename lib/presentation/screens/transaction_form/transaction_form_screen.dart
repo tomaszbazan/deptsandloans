@@ -9,11 +9,11 @@ import '../../../data/repositories/transaction_repository.dart';
 import 'transaction_form_view_model.dart';
 
 class TransactionFormScreen extends StatefulWidget {
-  final TransactionRepository repository;
+  final TransactionRepository transactionRepository;
   final TransactionType type;
   final int? transactionId;
 
-  const TransactionFormScreen({required this.repository, required this.type, this.transactionId, super.key});
+  const TransactionFormScreen({required this.transactionRepository, required this.type, this.transactionId, super.key});
 
   @override
   State<TransactionFormScreen> createState() => _TransactionFormScreenState();
@@ -29,7 +29,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   @override
   void initState() {
     super.initState();
-    _viewModel = TransactionFormViewModel(repository: widget.repository, type: widget.type);
+    _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, type: widget.type);
     _nameFocusNode.requestFocus();
   }
 

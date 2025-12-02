@@ -1,32 +1,12 @@
-import 'package:deptsandloans/core/router/app_router.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../fixtures/app_fixture.dart';
 
 void main() {
   group('MainScreen navigation tests', () {
-    late MockDatabaseService mockDatabaseService;
-
-    setUp(() {
-      mockDatabaseService = createMockDatabaseService();
-    });
-
     testWidgets('displays tabs and FAB', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 
@@ -36,18 +16,7 @@ void main() {
     });
 
     testWidgets('FAB navigates to new transaction screen', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 
@@ -58,18 +27,7 @@ void main() {
     });
 
     testWidgets('back navigation from transaction form works', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 

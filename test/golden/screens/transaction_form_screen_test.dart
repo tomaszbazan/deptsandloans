@@ -1,20 +1,13 @@
 import 'package:alchemist/alchemist.dart';
 import 'package:deptsandloans/core/theme/app_theme.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
-import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_test/flutter_test.dart';
 
-import '../../mocks/mock_database_service.dart';
+import '../../fixtures/app_fixture.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
-  setUpAll(() async {
-    await initializeTestIsar();
-  });
-
   goldenTest(
     'TransactionFormScreen displays correctly',
     fileName: 'transaction_form_screen',
@@ -43,17 +36,12 @@ void main() {
 }
 
 Widget _buildScenario(TransactionType type, int? transactionId, ThemeData theme) {
-  final mockDatabaseService = createMockDatabaseService();
-  final repository = TransactionRepositoryImpl(mockDatabaseService.instance);
-
-  return MaterialApp(
-    theme: theme,
-    localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-    supportedLocales: const [Locale('en'), Locale('pl')],
-    home: SizedBox(
+  return AppFixture.createDefaultApp(
+    SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(repository: repository, type: type, transactionId: transactionId),
+      child: TransactionFormScreen(transactionRepository: MockTransactionRepository(), type: type, transactionId: transactionId),
     ),
+    theme: theme,
   );
 }

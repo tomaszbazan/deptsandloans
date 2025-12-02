@@ -4,20 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../mocks/mock_database_service.dart';
+import '../fixtures/app_fixture.dart';
+import '../mocks/mock_repayment_repository.dart';
+import '../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('Navigation flow integration tests', () {
-    late MockDatabaseService mockDatabaseService;
+    late MockTransactionRepository mockTransactionRepository;
+    late MockRepaymentRepository mockRepaymentRepository;
 
     setUp(() {
-      mockDatabaseService = createMockDatabaseService();
+      mockTransactionRepository = MockTransactionRepository();
+      mockRepaymentRepository = MockRepaymentRepository();
     });
 
     testWidgets('complete flow: home -> new transaction -> back', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
+          routerConfig: createAppRouter(transactionRepository: mockTransactionRepository, repaymentRepository: mockRepaymentRepository),
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -46,18 +50,7 @@ void main() {
     });
 
     testWidgets('navigation with tabs switches FAB label', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 
@@ -72,7 +65,7 @@ void main() {
     testWidgets('multiple navigation actions maintain correct state', (tester) async {
       await tester.pumpWidget(
         MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
+          routerConfig: createAppRouter(transactionRepository: mockTransactionRepository, repaymentRepository: mockRepaymentRepository),
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -109,18 +102,7 @@ void main() {
     });
 
     testWidgets('all navigation elements are accessible', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 
@@ -133,18 +115,7 @@ void main() {
     });
 
     testWidgets('navigation maintains database service reference', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(mockDatabaseService),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 

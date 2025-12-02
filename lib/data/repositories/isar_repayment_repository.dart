@@ -5,10 +5,10 @@ import '../models/transaction.dart';
 import 'exceptions/repository_exceptions.dart';
 import 'repayment_repository.dart';
 
-class RepaymentRepositoryImpl implements RepaymentRepository {
+class IsarRepaymentRepository implements RepaymentRepository {
   final Isar _isar;
 
-  const RepaymentRepositoryImpl(this._isar);
+  const IsarRepaymentRepository(this._isar);
 
   @override
   Future<void> addRepayment(Repayment repayment) async {
