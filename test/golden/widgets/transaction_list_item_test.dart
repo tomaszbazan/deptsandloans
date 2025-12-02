@@ -103,7 +103,7 @@ void main() {
     builder: () => GoldenTestGroup(
       children: [
         GoldenTestScenario(
-          name: 'basic_transaction_dark',
+          name: 'basic_transaction',
           child: AppFixture.createDefaultApp(
             SizedBox(
               width: 400,
@@ -117,7 +117,21 @@ void main() {
           ),
         ),
         GoldenTestScenario(
-          name: 'overdue_transaction_dark',
+          name: 'transaction_with_due_date',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Jane Smith', amount: 50000, currency: Currency.eur, dueDate: DateTime(2025, 12, 31)),
+                balance: 500.0,
+              ),
+            ),
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'overdue_transaction',
           child: AppFixture.createDefaultApp(
             SizedBox(
               width: 400,
@@ -131,6 +145,40 @@ void main() {
                   status: TransactionStatus.active,
                 ),
                 balance: 150.0,
+              ),
+            ),
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'transaction_with_partial_payment',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Alice Williams', amount: 30000, currency: Currency.gbp),
+                balance: 150.0,
+              ),
+            ),
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'past_due_with_zero_balance',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(
+                  name: 'Charlie Brown',
+                  amount: 25000,
+                  currency: Currency.pln,
+                  dueDate: DateTime(2024, 1, 1),
+                  status: TransactionStatus.active,
+                ),
+                balance: 0.0,
               ),
             ),
             theme: AppTheme.darkTheme(),

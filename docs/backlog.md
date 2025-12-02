@@ -42,7 +42,7 @@
 | TASK-0021 | Implement Transaction List Widget | Create reusable list widget to display transactions with name, amount, balance, and due date          | [X]  |
 | TASK-0022 | Implement Transaction Sorting     | Sort active transactions by due date (ascending), placing transactions without due date at the bottom | [X]  |
 | TASK-0023 | Implement Overdue Highlighting    | Visually highlight (red color) transactions where due date has passed and remaining balance > 0       | [X]  |
-| TASK-0024 | Implement FAB for Adding          | Add Floating Action Button to open transaction form for adding new debt/loan                          | [ ]  |
+| TASK-0024 | Implement FAB for Adding          | Add Floating Action Button to open transaction form for adding new debt/loan                          | [X]  |
 | TASK-0025 | Create Transaction Details Screen | Build screen showing full transaction details including repayment history and progress                | [ ]  |
 
 ## Repayments & Transaction Status
