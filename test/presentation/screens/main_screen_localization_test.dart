@@ -1,14 +1,13 @@
 import 'package:deptsandloans/l10n/app_localizations.dart';
-import 'package:deptsandloans/presentation/screens/home_screen.dart';
+import 'package:deptsandloans/presentation/screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
 import '../../mocks/mock_database_service.dart';
 
 void main() {
-  group('HomeScreen localization tests', () {
+  group('MainScreen localization tests', () {
     late MockDatabaseService mockDatabaseService;
 
     setUp(() {
@@ -26,19 +25,19 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: HomeScreen(databaseService: mockDatabaseService),
+          home: MainScreen(databaseService: mockDatabaseService),
         ),
       );
 
       await tester.pumpAndSettle();
 
       expect(find.text('Debts and Loans'), findsOneWidget);
-      expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
-      expect(find.text('Database: Ready'), findsOneWidget);
+      expect(find.text('My Debts'), findsOneWidget);
+      expect(find.text('My Loans'), findsOneWidget);
 
       expect(find.text('Długi i Pożyczki'), findsNothing);
-      expect(find.text('Witaj w Długach i Pożyczkach'), findsNothing);
-      expect(find.text('Baza danych: Gotowa'), findsNothing);
+      expect(find.text('Moje Długi'), findsNothing);
+      expect(find.text('Moje Pożyczki'), findsNothing);
     });
 
     testWidgets('displays Polish texts when locale is pl', (WidgetTester tester) async {
@@ -52,71 +51,19 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: HomeScreen(databaseService: mockDatabaseService),
+          home: MainScreen(databaseService: mockDatabaseService),
         ),
       );
 
       await tester.pumpAndSettle();
 
       expect(find.text('Długi i Pożyczki'), findsOneWidget);
-      expect(find.text('Witaj w Długach i Pożyczkach'), findsOneWidget);
-      expect(find.text('Baza danych: Gotowa'), findsOneWidget);
+      expect(find.text('Moje Długi'), findsOneWidget);
+      expect(find.text('Moje Pożyczki'), findsOneWidget);
 
       expect(find.text('Debts and Loans'), findsNothing);
-      expect(find.text('Welcome to Debts and Loans'), findsNothing);
-      expect(find.text('Database: Ready'), findsNothing);
-    });
-
-    testWidgets('displays correct database status for uninitialized database', (WidgetTester tester) async {
-      when(() => mockDatabaseService.isInitialized).thenReturn(false);
-
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('en'),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: HomeScreen(databaseService: mockDatabaseService),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      expect(find.text('Database: Not initialized'), findsOneWidget);
-      expect(find.text('Database: Ready'), findsNothing);
-
-      final textWidget = tester.widget<Text>(find.text('Database: Not initialized'));
-      expect(textWidget.style?.color, Colors.red);
-    });
-
-    testWidgets('displays Polish database status for uninitialized database', (WidgetTester tester) async {
-      when(() => mockDatabaseService.isInitialized).thenReturn(false);
-
-      await tester.pumpWidget(
-        MaterialApp(
-          locale: const Locale('pl'),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: HomeScreen(databaseService: mockDatabaseService),
-        ),
-      );
-
-      await tester.pumpAndSettle();
-
-      expect(find.text('Baza danych: Niezainicjalizowana'), findsOneWidget);
-      expect(find.text('Baza danych: Gotowa'), findsNothing);
-
-      final textWidget = tester.widget<Text>(find.text('Baza danych: Niezainicjalizowana'));
-      expect(textWidget.style?.color, Colors.red);
+      expect(find.text('My Debts'), findsNothing);
+      expect(find.text('My Loans'), findsNothing);
     });
 
     testWidgets('changes language from English to Polish dynamically', (WidgetTester tester) async {
@@ -135,7 +82,7 @@ void main() {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [Locale('en'), Locale('pl')],
-              home: HomeScreen(databaseService: mockDatabaseService),
+              home: MainScreen(databaseService: mockDatabaseService),
             );
           },
         ),
@@ -144,19 +91,19 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Debts and Loans'), findsOneWidget);
-      expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
-      expect(find.text('Database: Ready'), findsOneWidget);
+      expect(find.text('My Debts'), findsOneWidget);
+      expect(find.text('My Loans'), findsOneWidget);
 
       localeNotifier.value = const Locale('pl');
       await tester.pumpAndSettle();
 
       expect(find.text('Długi i Pożyczki'), findsOneWidget);
-      expect(find.text('Witaj w Długach i Pożyczkach'), findsOneWidget);
-      expect(find.text('Baza danych: Gotowa'), findsOneWidget);
+      expect(find.text('Moje Długi'), findsOneWidget);
+      expect(find.text('Moje Pożyczki'), findsOneWidget);
 
       expect(find.text('Debts and Loans'), findsNothing);
-      expect(find.text('Welcome to Debts and Loans'), findsNothing);
-      expect(find.text('Database: Ready'), findsNothing);
+      expect(find.text('My Debts'), findsNothing);
+      expect(find.text('My Loans'), findsNothing);
     });
 
     testWidgets('changes language from Polish to English dynamically', (WidgetTester tester) async {
@@ -175,7 +122,7 @@ void main() {
                 GlobalCupertinoLocalizations.delegate,
               ],
               supportedLocales: const [Locale('en'), Locale('pl')],
-              home: HomeScreen(databaseService: mockDatabaseService),
+              home: MainScreen(databaseService: mockDatabaseService),
             );
           },
         ),
@@ -184,19 +131,19 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Długi i Pożyczki'), findsOneWidget);
-      expect(find.text('Witaj w Długach i Pożyczkach'), findsOneWidget);
-      expect(find.text('Baza danych: Gotowa'), findsOneWidget);
+      expect(find.text('Moje Długi'), findsOneWidget);
+      expect(find.text('Moje Pożyczki'), findsOneWidget);
 
       localeNotifier.value = const Locale('en');
       await tester.pumpAndSettle();
 
       expect(find.text('Debts and Loans'), findsOneWidget);
-      expect(find.text('Welcome to Debts and Loans'), findsOneWidget);
-      expect(find.text('Database: Ready'), findsOneWidget);
+      expect(find.text('My Debts'), findsOneWidget);
+      expect(find.text('My Loans'), findsOneWidget);
 
       expect(find.text('Długi i Pożyczki'), findsNothing);
-      expect(find.text('Witaj w Długach i Pożyczkach'), findsNothing);
-      expect(find.text('Baza danych: Gotowa'), findsNothing);
+      expect(find.text('Moje Długi'), findsNothing);
+      expect(find.text('Moje Pożyczki'), findsNothing);
     });
   });
 }

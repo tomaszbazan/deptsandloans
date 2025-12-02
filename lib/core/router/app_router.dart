@@ -1,7 +1,7 @@
 import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository_impl.dart';
-import 'package:deptsandloans/presentation/screens/home_screen.dart';
+import 'package:deptsandloans/presentation/screens/main_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_details_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +13,7 @@ GoRouter createAppRouter(DatabaseService databaseService) {
       GoRoute(
         path: '/',
         name: 'home',
-        builder: (context, state) => HomeScreen(databaseService: databaseService),
+        builder: (context, state) => MainScreen(databaseService: databaseService),
       ),
       GoRoute(
         path: '/transaction/new',

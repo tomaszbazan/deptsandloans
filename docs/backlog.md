@@ -31,14 +31,14 @@
 | TASK-0015 | Implement Form Validation      | Add validation for required Name field (non-empty) and Description field (max 200 characters)               | [X]  |
 | TASK-0016 | Implement Currency Selection   | Create currency picker supporting PLN, EUR, USD, GBP with proper locale-based formatting                    | [X]  |
 | TASK-0017 | Implement Save Transaction     | Connect form to repository to save new transactions to local database                                       | [X]  |
-| TASK-0018 | Implement Edit Transaction     | Enable editing existing transactions (excluding initial Amount)                                             | [ ]  |
-| TASK-0019 | Implement Delete Transaction   | Add functionality to delete transactions with confirmation dialog                                           | [ ]  |
+| TASK-0018 | Implement Edit Transaction     | Enable editing existing transactions (excluding initial Amount)                                             | [X]  |
+| TASK-0019 | Implement Delete Transaction   | Add functionality to delete transactions with confirmation dialog                                           | [X]  |
 
 ## Transaction Listing & Display
 
 | ID        | Task Name                         | Description                                                                                           | Done |
 |:----------|:----------------------------------|:------------------------------------------------------------------------------------------------------|:----:|
-| TASK-0020 | Create Main Screen Layout         | Build main screen with two tabs: "My Debts" and "My Loans"                                            | [ ]  |
+| TASK-0020 | Create Main Screen Layout         | Build main screen with two tabs: "My Debts" and "My Loans"                                            | [X]  |
 | TASK-0021 | Implement Transaction List Widget | Create reusable list widget to display transactions with name, amount, balance, and due date          | [ ]  |
 | TASK-0022 | Implement Transaction Sorting     | Sort active transactions by due date (ascending), placing transactions without due date at the bottom | [ ]  |
 | TASK-0023 | Implement Overdue Highlighting    | Visually highlight (red color) transactions where due date has passed and remaining balance > 0       | [ ]  |
