@@ -77,6 +77,26 @@ void main() {
       });
     });
 
+    group('getById', () {
+      test('returns null when transaction not found', () async {
+        final transaction = await repository.getById(999);
+
+        expect(transaction, isNull);
+      });
+
+      test('successfully returns transaction when it exists', () async {
+        final transaction = createValidTransaction(name: 'Test Transaction');
+        await repository.create(transaction);
+
+        final retrieved = await repository.getById(transaction.id);
+
+        expect(retrieved, isNotNull);
+        expect(retrieved!.id, equals(transaction.id));
+        expect(retrieved.name, equals('Test Transaction'));
+        expect(retrieved.amount, equals(10000));
+      });
+    });
+
     group('getByType', () {
       test('returns empty list when no transactions exist', () async {
         final transactions = await repository.getByType(TransactionType.debt);

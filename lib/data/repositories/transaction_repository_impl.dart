@@ -27,6 +27,24 @@ class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @override
+  Future<Transaction?> getById(int id) async {
+    try {
+      final transaction = await _isar.transactions.get(id);
+
+      if (transaction != null) {
+        developer.log('Retrieved transaction: id=$id, name=${transaction.name}', name: 'TransactionRepository');
+      } else {
+        developer.log('Transaction not found: id=$id', name: 'TransactionRepository');
+      }
+
+      return transaction;
+    } catch (e, stackTrace) {
+      developer.log('Failed to get transaction by id', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw TransactionRepositoryException('Failed to get transaction by id $id', e);
+    }
+  }
+
+  @override
   Future<List<Transaction>> getByType(TransactionType type) async {
     try {
       final transactions = await _isar.transactions.filter().typeEqualTo(type).findAll();
