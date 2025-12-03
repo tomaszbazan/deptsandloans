@@ -74,13 +74,7 @@ class LoansList extends StatelessWidget {
                       emptyState: const SizedBox.shrink(),
                     ),
             ),
-            ArchiveSection(
-              completedTransactions: completedTransactions,
-              repaymentRepository: repaymentRepository,
-              onTransactionTap: (transaction) {
-                context.push('/transaction/${transaction.id}');
-              },
-            ),
+            ArchiveSection(completedTransactions: completedTransactions, repaymentRepository: repaymentRepository),
           ],
         );
       },

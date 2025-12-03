@@ -7,10 +7,9 @@ import 'package:flutter/material.dart';
 class ArchiveSection extends StatelessWidget {
   final List<Transaction> completedTransactions;
   final RepaymentRepository repaymentRepository;
-  final void Function(Transaction)? onTransactionTap;
   final bool initiallyExpanded;
 
-  const ArchiveSection({required this.completedTransactions, required this.repaymentRepository, this.onTransactionTap, this.initiallyExpanded = false, super.key});
+  const ArchiveSection({required this.completedTransactions, required this.repaymentRepository, this.initiallyExpanded = false, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class ArchiveSection extends StatelessWidget {
                   final remainingBalance = transaction.amountInMainUnit - snapshot.data!;
                   return Opacity(
                     opacity: 0.7,
-                    child: TransactionListItem(transaction: transaction, balance: remainingBalance, onTap: onTransactionTap != null ? () => onTransactionTap!(transaction) : null),
+                    child: TransactionListItem(transaction: transaction, balance: remainingBalance, onTap: null),
                   );
                 },
               ),

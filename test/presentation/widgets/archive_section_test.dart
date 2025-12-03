@@ -1,4 +1,3 @@
-import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/presentation/widgets/archive_section.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_list_item.dart';
@@ -121,21 +120,14 @@ void main() {
       expect(find.byType(TransactionListItem), findsNothing);
     });
 
-    testWidgets('handles transaction tap callback', (tester) async {
+    testWidgets('archived transactions are read-only', (tester) async {
       final transaction = TransactionFixture.createTransaction(id: 1, name: 'Completed', status: TransactionStatus.completed);
       final completedTransactions = [transaction];
-      Transaction? tappedTransaction;
 
       await tester.pumpWidget(
         AppFixture.createDefaultApp(
           Scaffold(
-            body: ArchiveSection(
-              completedTransactions: completedTransactions,
-              repaymentRepository: mockRepaymentRepository,
-              onTransactionTap: (t) {
-                tappedTransaction = t;
-              },
-            ),
+            body: ArchiveSection(completedTransactions: completedTransactions, repaymentRepository: mockRepaymentRepository),
           ),
         ),
       );
@@ -145,10 +137,8 @@ void main() {
       await tester.tap(find.text('Archive (1)'));
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byType(TransactionListItem));
-      await tester.pumpAndSettle();
-
-      expect(tappedTransaction, equals(transaction));
+      final transactionItem = tester.widget<TransactionListItem>(find.byType(TransactionListItem));
+      expect(transactionItem.onTap, isNull);
     });
 
     testWidgets('displays transactions with reduced opacity', (tester) async {
