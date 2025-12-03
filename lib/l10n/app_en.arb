@@ -216,5 +216,21 @@
   "transactionFullyRepaid": "This transaction has been fully repaid",
   "@transactionFullyRepaid": {
     "description": "Message shown when trying to add repayment to fully repaid transaction"
+  },
+  "markAsCompletedConfirmTitle": "Mark as Completed?",
+  "@markAsCompletedConfirmTitle": {
+    "description": "Confirmation dialog title for marking transaction as completed"
+  },
+  "markAsCompletedConfirmMessage": "This action will move the transaction to archive. Any remaining balance will be considered forgiven.",
+  "@markAsCompletedConfirmMessage": {
+    "description": "Confirmation dialog message for marking transaction as completed"
+  },
+  "transactionMarkedCompleted": "Transaction marked as completed",
+  "@transactionMarkedCompleted": {
+    "description": "Success message after marking transaction as completed"
+  },
+  "failedToMarkCompleted": "Failed to mark transaction as completed",
+  "@failedToMarkCompleted": {
+    "description": "Error message when marking transaction as completed fails"
   }
 }

@@ -168,4 +168,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transactionFullyRepaid => 'This transaction has been fully repaid';
+
+  @override
+  String get markAsCompletedConfirmTitle => 'Mark as Completed?';
+
+  @override
+  String get markAsCompletedConfirmMessage => 'This action will move the transaction to archive. Any remaining balance will be considered forgiven.';
+
+  @override
+  String get transactionMarkedCompleted => 'Transaction marked as completed';
+
+  @override
+  String get failedToMarkCompleted => 'Failed to mark transaction as completed';
 }

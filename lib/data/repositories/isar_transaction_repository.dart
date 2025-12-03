@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 import 'package:isar_community/isar.dart';
 import '../models/repayment.dart';
 import '../models/transaction.dart';
+import '../models/transaction_status.dart';
 import '../models/transaction_type.dart';
 import 'exceptions/repository_exceptions.dart';
 import 'transaction_repository.dart';
@@ -106,6 +107,35 @@ class IsarTransactionRepository implements TransactionRepository {
     } catch (e, stackTrace) {
       developer.log('Failed to delete transaction', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw TransactionRepositoryException('Failed to delete transaction', e);
+    }
+  }
+
+  @override
+  Future<void> markAsCompleted(int id) async {
+    try {
+      final transaction = await _isar.transactions.get(id);
+      if (transaction == null) {
+        throw TransactionNotFoundException(id);
+      }
+
+      if (transaction.status == TransactionStatus.completed) {
+        developer.log('Transaction already completed: id=$id', name: 'TransactionRepository');
+        return;
+      }
+
+      transaction.status = TransactionStatus.completed;
+      transaction.updatedAt = DateTime.now();
+
+      await _isar.writeTxn(() async {
+        await _isar.transactions.put(transaction);
+      });
+
+      developer.log('Transaction marked as completed: id=$id, name=${transaction.name}', name: 'TransactionRepository');
+    } on TransactionNotFoundException {
+      rethrow;
+    } catch (e, stackTrace) {
+      developer.log('Failed to mark transaction as completed', name: 'TransactionRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw TransactionRepositoryException('Failed to mark transaction as completed', e);
     }
   }
 }

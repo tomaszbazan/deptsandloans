@@ -289,5 +289,52 @@ void main() {
         expect(otherRepaymentsAfterDelete.length, equals(1));
       });
     });
+
+    group('markAsCompleted', () {
+      test('throws TransactionNotFoundException when transaction not found', () async {
+        expect(() => repository.markAsCompleted(999), throwsA(isA<TransactionNotFoundException>().having((e) => e.id, 'id', 999)));
+      });
+
+      test('successfully marks active transaction as completed', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        expect(transaction.isActive, isTrue);
+        expect(transaction.isCompleted, isFalse);
+
+        await repository.markAsCompleted(transaction.id);
+
+        final completedTransaction = await isar.transactions.get(transaction.id);
+        expect(completedTransaction, isNotNull);
+        expect(completedTransaction!.isCompleted, isTrue);
+        expect(completedTransaction.isActive, isFalse);
+      });
+
+      test('updates updatedAt timestamp when marking as completed', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        final originalUpdatedAt = transaction.updatedAt;
+        await Future<void>.delayed(const Duration(milliseconds: 10));
+
+        await repository.markAsCompleted(transaction.id);
+
+        final completedTransaction = await isar.transactions.get(transaction.id);
+        expect(completedTransaction, isNotNull);
+        expect(completedTransaction!.updatedAt.isAfter(originalUpdatedAt), isTrue);
+      });
+
+      test('does not throw error when marking already completed transaction', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        await repository.markAsCompleted(transaction.id);
+        await repository.markAsCompleted(transaction.id);
+
+        final completedTransaction = await isar.transactions.get(transaction.id);
+        expect(completedTransaction, isNotNull);
+        expect(completedTransaction!.isCompleted, isTrue);
+      });
+    });
   });
 }

@@ -54,7 +54,7 @@
 | TASK-0028 | Calculate Remaining Balance    | Implement logic to calculate current balance based on initial amount and repayments   | [X]  |
 | TASK-0029 | Implement Progress Bar         | Create visual progress bar showing repayment percentage on transaction details screen | [X]  |
 | TASK-0030 | Implement Auto-Completion      | Automatically mark transaction as completed when balance reaches zero                 | [X]  |
-| TASK-0031 | Implement Manual Completion    | Add option for user to manually mark transaction as completed at any time             | [ ]  |
+| TASK-0031 | Implement Manual Completion    | Add option for user to manually mark transaction as completed at any time             | [X]  |
 
 ## Archive Management
 

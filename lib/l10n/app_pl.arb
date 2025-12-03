@@ -52,5 +52,9 @@
   "amountCannotBeChanged": "Kwoty nie można zmienić po utworzeniu",
   "repaymentHistory": "Historia Spłat",
   "noRepaymentsYet": "Nie zarejestrowano jeszcze żadnych spłat",
-  "transactionFullyRepaid": "Ta transakcja została w pełni spłacona"
+  "transactionFullyRepaid": "Ta transakcja została w pełni spłacona",
+  "markAsCompletedConfirmTitle": "Oznaczyć jako Zakończone?",
+  "markAsCompletedConfirmMessage": "Ta akcja przeniesie transakcję do archiwum. Każde pozostałe saldo zostanie uznane za umorzone.",
+  "transactionMarkedCompleted": "Transakcja oznaczona jako zakończona",
+  "failedToMarkCompleted": "Nie udało się oznaczyć transakcji jako zakończonej"
 }

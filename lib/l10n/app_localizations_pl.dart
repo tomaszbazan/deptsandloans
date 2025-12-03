@@ -168,4 +168,16 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get transactionFullyRepaid => 'Ta transakcja została w pełni spłacona';
+
+  @override
+  String get markAsCompletedConfirmTitle => 'Oznaczyć jako Zakończone?';
+
+  @override
+  String get markAsCompletedConfirmMessage => 'Ta akcja przeniesie transakcję do archiwum. Każde pozostałe saldo zostanie uznane za umorzone.';
+
+  @override
+  String get transactionMarkedCompleted => 'Transakcja oznaczona jako zakończona';
+
+  @override
+  String get failedToMarkCompleted => 'Nie udało się oznaczyć transakcji jako zakończonej';
 }

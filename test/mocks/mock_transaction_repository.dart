@@ -1,4 +1,5 @@
 import 'package:deptsandloans/data/models/transaction.dart';
+import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:isar_community/isar.dart';
@@ -33,5 +34,14 @@ class MockTransactionRepository implements TransactionRepository {
   @override
   Future<void> delete(int id) async {
     _transactions.remove(id);
+  }
+
+  @override
+  Future<void> markAsCompleted(int id) async {
+    final transaction = _transactions[id];
+    if (transaction != null) {
+      transaction.status = TransactionStatus.completed;
+      transaction.updatedAt = DateTime.now();
+    }
   }
 }

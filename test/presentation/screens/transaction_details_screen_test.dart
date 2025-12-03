@@ -210,5 +210,131 @@ void main() {
       final retrievedTransaction = await transactionRepository.getById(transaction.id);
       expect(retrievedTransaction, isNull);
     });
+
+    testWidgets('shows mark as completed menu button for active transaction', (tester) async {
+      final transaction = TransactionFixture.createTransaction(
+        id: 1,
+        name: 'Test Transaction',
+        type: TransactionType.debt,
+        amount: 10000,
+        currency: Currency.usd,
+        status: TransactionStatus.active,
+      );
+
+      await transactionRepository.create(transaction);
+
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(TransactionDetailsScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, transactionId: '1')),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PopupMenuButton<String>), findsOneWidget);
+    });
+
+    testWidgets('does not show mark as completed menu button for completed transaction', (tester) async {
+      final transaction = TransactionFixture.createTransaction(
+        id: 1,
+        name: 'Test Transaction',
+        type: TransactionType.debt,
+        amount: 10000,
+        currency: Currency.usd,
+        status: TransactionStatus.completed,
+      );
+
+      await transactionRepository.create(transaction);
+
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(TransactionDetailsScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, transactionId: '1')),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.byType(PopupMenuButton<String>), findsNothing);
+    });
+
+    testWidgets('shows confirmation dialog when mark as completed is tapped', (tester) async {
+      final transaction = TransactionFixture.createTransaction(
+        id: 1,
+        name: 'Test Transaction',
+        type: TransactionType.debt,
+        amount: 10000,
+        currency: Currency.usd,
+        status: TransactionStatus.active,
+      );
+
+      await transactionRepository.create(transaction);
+
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(TransactionDetailsScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, transactionId: '1')),
+      );
+
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(PopupMenuButton<String>));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Mark as Completed'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mark as Completed?'), findsOneWidget);
+      expect(find.text('This action will move the transaction to archive. Any remaining balance will be considered forgiven.'), findsOneWidget);
+      expect(find.text('Cancel'), findsOneWidget);
+    });
+
+    testWidgets('closes dialog without marking completed when cancel is tapped', (tester) async {
+      final transaction = TransactionFixture.createTransaction(id: 1, status: TransactionStatus.active);
+
+      await transactionRepository.create(transaction);
+
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(TransactionDetailsScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, transactionId: '1')),
+      );
+
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(PopupMenuButton<String>));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Mark as Completed'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Mark as Completed?'), findsNothing);
+
+      final retrievedTransaction = await transactionRepository.getById(transaction.id);
+      expect(retrievedTransaction, isNotNull);
+      expect(retrievedTransaction!.isActive, isTrue);
+    });
+
+    testWidgets('marks transaction as completed and refreshes when confirmed', (tester) async {
+      final transaction = TransactionFixture.createTransaction(id: 1, status: TransactionStatus.active);
+
+      await transactionRepository.create(transaction);
+
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(TransactionDetailsScreen(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, transactionId: '1')),
+      );
+
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(PopupMenuButton<String>));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Mark as Completed'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Mark as Completed').last);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Transaction marked as completed'), findsOneWidget);
+
+      final retrievedTransaction = await transactionRepository.getById(transaction.id);
+      expect(retrievedTransaction, isNotNull);
+      expect(retrievedTransaction!.isCompleted, isTrue);
+      expect(retrievedTransaction.isActive, isFalse);
+    });
   });
 }

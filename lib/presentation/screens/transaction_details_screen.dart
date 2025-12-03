@@ -119,6 +119,48 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
     }
   }
 
+  Future<void> _showMarkAsCompletedDialog(BuildContext context, Transaction transaction) async {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.markAsCompletedConfirmTitle),
+        content: Text(l10n.markAsCompletedConfirmMessage),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: theme.colorScheme.primary),
+            child: Text(l10n.markAsCompleted),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      await _markAsCompleted(context, transaction);
+    }
+  }
+
+  Future<void> _markAsCompleted(BuildContext context, Transaction transaction) async {
+    final l10n = AppLocalizations.of(context);
+
+    try {
+      await widget.transactionRepository.markAsCompleted(transaction.id);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.transactionMarkedCompleted)));
+        _refreshData();
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${l10n.failedToMarkCompleted}: $e'), backgroundColor: Theme.of(context).colorScheme.error));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -136,6 +178,15 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                 return Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    if (!transaction.isCompleted)
+                      PopupMenuButton<String>(
+                        onSelected: (value) {
+                          if (value == 'mark_completed') {
+                            _showMarkAsCompletedDialog(context, transaction);
+                          }
+                        },
+                        itemBuilder: (context) => [PopupMenuItem(value: 'mark_completed', child: Text(AppLocalizations.of(context).markAsCompleted))],
+                      ),
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {

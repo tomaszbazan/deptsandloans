@@ -11,4 +11,6 @@ abstract class TransactionRepository {
   Future<void> update(Transaction transaction);
 
   Future<void> delete(int id);
+
+  Future<void> markAsCompleted(int id);
 }

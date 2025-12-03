@@ -409,6 +409,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This transaction has been fully repaid'**
   String get transactionFullyRepaid;
+
+  /// Confirmation dialog title for marking transaction as completed
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Completed?'**
+  String get markAsCompletedConfirmTitle;
+
+  /// Confirmation dialog message for marking transaction as completed
+  ///
+  /// In en, this message translates to:
+  /// **'This action will move the transaction to archive. Any remaining balance will be considered forgiven.'**
+  String get markAsCompletedConfirmMessage;
+
+  /// Success message after marking transaction as completed
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction marked as completed'**
+  String get transactionMarkedCompleted;
+
+  /// Error message when marking transaction as completed fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to mark transaction as completed'**
+  String get failedToMarkCompleted;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
