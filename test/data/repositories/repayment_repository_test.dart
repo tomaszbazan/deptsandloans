@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
+import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
 import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -69,6 +70,70 @@ void main() {
         expect(savedRepayment, isNotNull);
         expect(savedRepayment!.amount, equals(5000));
         expect(savedRepayment.transactionId, equals(transaction.id));
+      });
+
+      test('auto-completes transaction when balance reaches zero', () async {
+        final transaction = TransactionFixture.createTransaction(amount: 10000);
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final repayment = createRepayment(transactionId: transaction.id, amount: 10000);
+        await repository.addRepayment(repayment);
+
+        final updatedTransaction = await isar.transactions.get(transaction.id);
+        expect(updatedTransaction, isNotNull);
+        expect(updatedTransaction!.isCompleted, isTrue);
+      });
+
+      test('auto-completes transaction with multiple repayments when balance reaches zero', () async {
+        final transaction = TransactionFixture.createTransaction(amount: 10000);
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final repayment1 = createRepayment(transactionId: transaction.id, amount: 6000);
+        await repository.addRepayment(repayment1);
+
+        var updatedTransaction = await isar.transactions.get(transaction.id);
+        expect(updatedTransaction!.isActive, isTrue);
+
+        final repayment2 = createRepayment(transactionId: transaction.id, amount: 4000);
+        await repository.addRepayment(repayment2);
+
+        updatedTransaction = await isar.transactions.get(transaction.id);
+        expect(updatedTransaction!.isCompleted, isTrue);
+      });
+
+      test('does not complete transaction when balance is above zero', () async {
+        final transaction = TransactionFixture.createTransaction(amount: 10000);
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final repayment = createRepayment(transactionId: transaction.id, amount: 5000);
+        await repository.addRepayment(repayment);
+
+        final updatedTransaction = await isar.transactions.get(transaction.id);
+        expect(updatedTransaction, isNotNull);
+        expect(updatedTransaction!.isActive, isTrue);
+      });
+
+      test('does not update transaction status if already completed', () async {
+        final transaction = TransactionFixture.createTransaction(amount: 10000, status: TransactionStatus.completed);
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final originalUpdatedAt = transaction.updatedAt;
+
+        final repayment = createRepayment(transactionId: transaction.id, amount: 5000);
+        await repository.addRepayment(repayment);
+
+        final updatedTransaction = await isar.transactions.get(transaction.id);
+        expect(updatedTransaction, isNotNull);
+        expect(updatedTransaction!.isCompleted, isTrue);
+        expect(updatedTransaction.updatedAt, equals(originalUpdatedAt));
       });
     });
 

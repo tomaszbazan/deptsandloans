@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 import 'package:isar_community/isar.dart';
 import '../models/repayment.dart';
 import '../models/transaction.dart';
+import '../models/transaction_status.dart';
 import 'exceptions/repository_exceptions.dart';
 import 'repayment_repository.dart';
 
@@ -15,13 +16,24 @@ class IsarRepaymentRepository implements RepaymentRepository {
     try {
       repayment.validate();
 
-      final transactionExists = await _isar.transactions.get(repayment.transactionId);
-      if (transactionExists == null) {
+      final transaction = await _isar.transactions.get(repayment.transactionId);
+      if (transaction == null) {
         throw TransactionNotFoundException(repayment.transactionId);
       }
 
       await _isar.writeTxn(() async {
         await _isar.repayments.put(repayment);
+
+        final totalRepaidAmount = await _calculateTotalRepaid(repayment.transactionId);
+        final remainingBalance = transaction.amount - totalRepaidAmount;
+
+        if (remainingBalance <= 0 && transaction.status != TransactionStatus.completed) {
+          transaction.status = TransactionStatus.completed;
+          transaction.updatedAt = DateTime.now();
+          await _isar.transactions.put(transaction);
+
+          developer.log('Transaction auto-completed: id=${transaction.id}', name: 'RepaymentRepository');
+        }
       });
 
       developer.log('Repayment added: id=${repayment.id}, transactionId=${repayment.transactionId}, amount=${repayment.amount}', name: 'RepaymentRepository');
@@ -31,6 +43,11 @@ class IsarRepaymentRepository implements RepaymentRepository {
       developer.log('Failed to add repayment', name: 'RepaymentRepository', level: 1000, error: e, stackTrace: stackTrace);
       throw RepaymentRepositoryException('Failed to add repayment', e);
     }
+  }
+
+  Future<int> _calculateTotalRepaid(int transactionId) async {
+    final repayments = await _isar.repayments.filter().transactionIdEqualTo(transactionId).findAll();
+    return repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
   }
 
   @override
