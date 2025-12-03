@@ -139,5 +139,97 @@ void main() {
 
       expect(find.text('€'), findsOneWidget);
     });
+
+    testWidgets('accepts amount equal to remaining balance', (tester) async {
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(
+          Material(
+            child: RepaymentForm(provider: provider, transactionId: 1, transactionName: 'Test Transaction', remainingBalance: 100.0, currency: Currency.pln, onSuccess: () {}),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final amountField = find.byType(TextFormField);
+      await tester.enterText(amountField, '100.00');
+      await tester.pump();
+
+      final saveButton = find.text('Save');
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Repayment amount cannot exceed remaining balance'), findsNothing);
+      expect(find.text('Amount is required'), findsNothing);
+      expect(find.text('Amount must be greater than zero'), findsNothing);
+    });
+
+    testWidgets('shows validation error when amount is zero', (tester) async {
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(
+          Material(
+            child: RepaymentForm(provider: provider, transactionId: 1, transactionName: 'Test Transaction', remainingBalance: 100.0, currency: Currency.pln, onSuccess: () {}),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final amountField = find.byType(TextFormField);
+      await tester.enterText(amountField, '0');
+      await tester.pump();
+
+      final saveButton = find.text('Save');
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Amount must be greater than zero'), findsOneWidget);
+    });
+
+    testWidgets('shows validation error when amount is one unit over balance', (tester) async {
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(
+          Material(
+            child: RepaymentForm(provider: provider, transactionId: 1, transactionName: 'Test Transaction', remainingBalance: 100.0, currency: Currency.pln, onSuccess: () {}),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final amountField = find.byType(TextFormField);
+      await tester.enterText(amountField, '100.01');
+      await tester.pump();
+
+      final saveButton = find.text('Save');
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Repayment amount cannot exceed remaining balance'), findsOneWidget);
+    });
+
+    testWidgets('accepts comma as decimal separator', (tester) async {
+      await tester.pumpWidget(
+        AppFixture.createDefaultApp(
+          Material(
+            child: RepaymentForm(provider: provider, transactionId: 1, transactionName: 'Test Transaction', remainingBalance: 100.0, currency: Currency.pln, onSuccess: () {}),
+          ),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final amountField = find.byType(TextFormField);
+      await tester.enterText(amountField, '50,50');
+      await tester.pump();
+
+      final saveButton = find.text('Save');
+      await tester.tap(saveButton);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Repayment amount cannot exceed remaining balance'), findsNothing);
+      expect(find.text('Amount is required'), findsNothing);
+      expect(find.text('Amount must be greater than zero'), findsNothing);
+    });
   });
 }

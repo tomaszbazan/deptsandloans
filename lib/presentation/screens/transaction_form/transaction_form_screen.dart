@@ -187,7 +187,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                     builder: (context, _) {
                       return DropdownButtonFormField<Currency>(
                         decoration: InputDecoration(labelText: l10n.currency, border: const OutlineInputBorder()),
-                        value: _viewModel.currency,
+                        initialValue: _viewModel.currency,
                         items: Currency.values.map((currency) => DropdownMenuItem(value: currency, child: Text(_getCurrencySymbol(currency)))).toList(),
                         onChanged: isEditMode
                             ? null
