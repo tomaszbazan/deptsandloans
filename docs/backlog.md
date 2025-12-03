@@ -61,7 +61,7 @@
 | ID        | Task Name                      | Description                                                                       | Done |
 |:----------|:-------------------------------|:----------------------------------------------------------------------------------|:----:|
 | TASK-0032 | Implement Archive Section      | Create collapsible accordion section for completed transactions below active list | [X]  |
-| TASK-0033 | Default Collapsed State        | Ensure Archive section is collapsed by default on app launch                      | [ ]  |
+| TASK-0033 | Default Collapsed State        | Ensure Archive section is collapsed by default on app launch                      | [X]  |
 | TASK-0034 | Implement Archive Toggle       | Add functionality to expand/collapse Archive section by clicking header           | [ ]  |
 | TASK-0035 | Display Completed Transactions | Show completed transactions in Archive with read-only view                        | [ ]  |
 
