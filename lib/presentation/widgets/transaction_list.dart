@@ -22,7 +22,7 @@ class TransactionList extends StatelessWidget {
       itemBuilder: (context, index) {
         final transaction = transactions[index];
         return FutureBuilder<double>(
-          future: _calculateBalance(transaction),
+          future: repaymentRepository.totalRepaid(transaction.id),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return Card(
@@ -32,16 +32,11 @@ class TransactionList extends StatelessWidget {
               );
             }
 
-            return TransactionListItem(transaction: transaction, balance: snapshot.data!, onTap: onTransactionTap != null ? () => onTransactionTap!(transaction) : null);
+            final remainingBalance = transaction.amountInMainUnit - snapshot.data!;
+            return TransactionListItem(transaction: transaction, balance: remainingBalance, onTap: onTransactionTap != null ? () => onTransactionTap!(transaction) : null);
           },
         );
       },
     );
-  }
-
-  Future<double> _calculateBalance(Transaction transaction) async {
-    final repayments = await repaymentRepository.getRepaymentsByTransactionId(transaction.id);
-    final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
-    return (transaction.amount - totalRepaid) / 100.0;
   }
 }

@@ -66,4 +66,22 @@ class IsarRepaymentRepository implements RepaymentRepository {
       throw RepaymentRepositoryException('Failed to delete repayment', e);
     }
   }
+
+  @override
+  Future<double> totalRepaid(int transactionId) async {
+    try {
+      final repayments = await _isar.repayments.filter().transactionIdEqualTo(transactionId).findAll();
+
+      final totalRepaidAmount = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
+
+      final totalRepaidInMainUnit = totalRepaidAmount / 100.0;
+
+      developer.log('Calculated total repaid for transaction $transactionId: $totalRepaidInMainUnit', name: 'RepaymentRepository');
+
+      return totalRepaidInMainUnit;
+    } catch (e, stackTrace) {
+      developer.log('Failed to calculate total repaid', name: 'RepaymentRepository', level: 1000, error: e, stackTrace: stackTrace);
+      throw RepaymentRepositoryException('Failed to calculate total repaid for transaction $transactionId', e);
+    }
+  }
 }

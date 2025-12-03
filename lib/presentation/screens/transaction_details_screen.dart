@@ -37,7 +37,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
     final repayments = await widget.repaymentRepository.getRepaymentsByTransactionId(id);
     repayments.sort((a, b) => b.when.compareTo(a.when));
 
-    final totalRepaid = repayments.fold<double>(0.0, (sum, repayment) => sum + repayment.amountInMainUnit);
+    final totalRepaid = await widget.repaymentRepository.totalRepaid(id);
     final remainingBalance = (transaction.amountInMainUnit - totalRepaid).clamp(0.0, double.infinity);
 
     return _TransactionDetailsData(transaction: transaction, repayments: repayments, totalRepaid: totalRepaid, remainingBalance: remainingBalance);

@@ -6,4 +6,6 @@ abstract class RepaymentRepository {
   Future<List<Repayment>> getRepaymentsByTransactionId(int transactionId);
 
   Future<void> deleteRepayment(int id);
+
+  Future<double> totalRepaid(int transactionId);
 }

@@ -143,5 +143,66 @@ void main() {
         expect(() => repository.deleteRepayment(999), throwsA(isA<RepaymentNotFoundException>().having((e) => e.id, 'id', 999)));
       });
     });
+
+    group('totalRepaid', () {
+      test('returns zero when no repayments exist', () async {
+        final total = await repository.totalRepaid(100);
+
+        expect(total, equals(0.0));
+      });
+
+      test('calculates total repaid with single repayment', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final repayment = createRepayment(transactionId: transaction.id, amount: 3000);
+        await repository.addRepayment(repayment);
+
+        final total = await repository.totalRepaid(transaction.id);
+
+        expect(total, equals(30.0));
+      });
+
+      test('calculates total repaid with multiple repayments', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction);
+        });
+
+        final repayment1 = createRepayment(transactionId: transaction.id, amount: 3000);
+        final repayment2 = createRepayment(transactionId: transaction.id, amount: 2000);
+        final repayment3 = createRepayment(transactionId: transaction.id, amount: 1500);
+
+        await repository.addRepayment(repayment1);
+        await repository.addRepayment(repayment2);
+        await repository.addRepayment(repayment3);
+
+        final total = await repository.totalRepaid(transaction.id);
+
+        expect(total, equals(65.0));
+      });
+
+      test('returns only total for specified transaction', () async {
+        final transaction1 = TransactionFixture.createTransaction(id: 100);
+        final transaction2 = TransactionFixture.createTransaction(id: 200);
+
+        await isar.writeTxn(() async {
+          await isar.transactions.put(transaction1);
+          await isar.transactions.put(transaction2);
+        });
+
+        final repayment1 = createRepayment(transactionId: transaction1.id, amount: 3000);
+        final repayment2 = createRepayment(transactionId: transaction2.id, amount: 5000);
+
+        await repository.addRepayment(repayment1);
+        await repository.addRepayment(repayment2);
+
+        final total = await repository.totalRepaid(transaction1.id);
+
+        expect(total, equals(30.0));
+      });
+    });
   });
 }

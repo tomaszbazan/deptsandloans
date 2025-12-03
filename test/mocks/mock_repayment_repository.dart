@@ -20,4 +20,11 @@ class MockRepaymentRepository implements RepaymentRepository {
       list.removeWhere((r) => r.id == id);
     }
   }
+
+  @override
+  Future<double> totalRepaid(int transactionId) async {
+    final repayments = _repayments[transactionId] ?? [];
+    final totalRepaidAmount = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
+    return totalRepaidAmount / 100.0;
+  }
 }
