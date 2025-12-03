@@ -180,4 +180,35 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get failedToMarkCompleted => 'Nie udało się oznaczyć transakcji jako zakończonej';
+
+  @override
+  String get notificationReminderTitle => 'Przypomnienie o Płatności';
+
+  @override
+  String notificationDebtBody(String name, String amount) {
+    return 'Przypomnienie: Zwróć $name - pozostało $amount';
+  }
+
+  @override
+  String notificationLoanBody(String name, String amount) {
+    return 'Przypomnienie: Odbierz od $name - pozostało $amount';
+  }
+
+  @override
+  String get notificationChannelName => 'Przypomnienia o Długach i Pożyczkach';
+
+  @override
+  String get notificationChannelDescription => 'Powiadomienia o przypomnieniach dotyczących spłat długów i pożyczek';
+
+  @override
+  String get notificationPermissionTitle => 'Włącz Powiadomienia';
+
+  @override
+  String get notificationPermissionMessage => 'Zezwól na powiadomienia, aby otrzymywać przypomnienia o długach i pożyczkach o godzinie 19:00 każdego dnia.';
+
+  @override
+  String get notificationPermissionDenied => 'Odmówiono uprawnień do powiadomień. Możesz włączyć je w ustawieniach aplikacji.';
+
+  @override
+  String get openSettings => 'Otwórz Ustawienia';
 }

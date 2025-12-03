@@ -6,18 +6,28 @@ import 'package:deptsandloans/core/theme/app_theme.dart';
 import 'package:deptsandloans/data/repositories/isar_transaction_repository.dart';
 import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
+import 'package:deptsandloans/core/notifications/local_notifications_service.dart';
+import 'package:deptsandloans/core/notifications/notification_service.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 import 'dart:developer' as developer;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Europe/Warsaw'));
+
     final databaseService = DatabaseService();
     await databaseService.initialize();
 
-    developer.log('Application starting with database initialized', name: 'main');
+    final notificationService = LocalNotificationsService();
+    await notificationService.initialize();
 
-    runApp(DeptsAndLoansApp(databaseService: databaseService));
+    developer.log('Application starting with database and notifications initialized', name: 'main');
+
+    runApp(DeptsAndLoansApp(databaseService: databaseService, notificationService: notificationService));
   } catch (e, stackTrace) {
     developer.log('Failed to initialize application', name: 'main', level: 1000, error: e, stackTrace: stackTrace);
 
@@ -35,8 +45,9 @@ void main() async {
 
 class DeptsAndLoansApp extends StatelessWidget {
   final DatabaseService databaseService;
+  final NotificationService notificationService;
 
-  const DeptsAndLoansApp({required this.databaseService, super.key});
+  const DeptsAndLoansApp({required this.databaseService, required this.notificationService, super.key});
 
   @override
   Widget build(BuildContext context) {

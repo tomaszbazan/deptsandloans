@@ -433,6 +433,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to mark transaction as completed'**
   String get failedToMarkCompleted;
+
+  /// Title for notification reminders
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Reminder'**
+  String get notificationReminderTitle;
+
+  /// Notification body for debt reminders
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder: Pay back {name} - {amount} remaining'**
+  String notificationDebtBody(String name, String amount);
+
+  /// Notification body for loan reminders
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder: Collect from {name} - {amount} remaining'**
+  String notificationLoanBody(String name, String amount);
+
+  /// Name of the notification channel
+  ///
+  /// In en, this message translates to:
+  /// **'Debt and Loan Reminders'**
+  String get notificationChannelName;
+
+  /// Description of the notification channel
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications for debt and loan payment reminders'**
+  String get notificationChannelDescription;
+
+  /// Title for notification permission dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Notifications'**
+  String get notificationPermissionTitle;
+
+  /// Message explaining why notification permission is needed
+  ///
+  /// In en, this message translates to:
+  /// **'Allow notifications to receive reminders for your debts and loans at 19:00 each day.'**
+  String get notificationPermissionMessage;
+
+  /// Message when notification permission is denied
+  ///
+  /// In en, this message translates to:
+  /// **'Notification permission denied. You can enable it in app settings.'**
+  String get notificationPermissionDenied;
+
+  /// Button label to open app settings
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings'**
+  String get openSettings;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

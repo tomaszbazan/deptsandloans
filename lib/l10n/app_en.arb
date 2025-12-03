@@ -232,5 +232,57 @@
   "failedToMarkCompleted": "Failed to mark transaction as completed",
   "@failedToMarkCompleted": {
     "description": "Error message when marking transaction as completed fails"
+  },
+  "notificationReminderTitle": "Payment Reminder",
+  "@notificationReminderTitle": {
+    "description": "Title for notification reminders"
+  },
+  "notificationDebtBody": "Reminder: Pay back {name} - {amount} remaining",
+  "@notificationDebtBody": {
+    "description": "Notification body for debt reminders",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationLoanBody": "Reminder: Collect from {name} - {amount} remaining",
+  "@notificationLoanBody": {
+    "description": "Notification body for loan reminders",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationChannelName": "Debt and Loan Reminders",
+  "@notificationChannelName": {
+    "description": "Name of the notification channel"
+  },
+  "notificationChannelDescription": "Notifications for debt and loan payment reminders",
+  "@notificationChannelDescription": {
+    "description": "Description of the notification channel"
+  },
+  "notificationPermissionTitle": "Enable Notifications",
+  "@notificationPermissionTitle": {
+    "description": "Title for notification permission dialog"
+  },
+  "notificationPermissionMessage": "Allow notifications to receive reminders for your debts and loans at 19:00 each day.",
+  "@notificationPermissionMessage": {
+    "description": "Message explaining why notification permission is needed"
+  },
+  "notificationPermissionDenied": "Notification permission denied. You can enable it in app settings.",
+  "@notificationPermissionDenied": {
+    "description": "Message when notification permission is denied"
+  },
+  "openSettings": "Open Settings",
+  "@openSettings": {
+    "description": "Button label to open app settings"
   }
 }

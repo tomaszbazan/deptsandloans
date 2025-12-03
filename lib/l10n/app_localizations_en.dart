@@ -180,4 +180,35 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToMarkCompleted => 'Failed to mark transaction as completed';
+
+  @override
+  String get notificationReminderTitle => 'Payment Reminder';
+
+  @override
+  String notificationDebtBody(String name, String amount) {
+    return 'Reminder: Pay back $name - $amount remaining';
+  }
+
+  @override
+  String notificationLoanBody(String name, String amount) {
+    return 'Reminder: Collect from $name - $amount remaining';
+  }
+
+  @override
+  String get notificationChannelName => 'Debt and Loan Reminders';
+
+  @override
+  String get notificationChannelDescription => 'Notifications for debt and loan payment reminders';
+
+  @override
+  String get notificationPermissionTitle => 'Enable Notifications';
+
+  @override
+  String get notificationPermissionMessage => 'Allow notifications to receive reminders for your debts and loans at 19:00 each day.';
+
+  @override
+  String get notificationPermissionDenied => 'Notification permission denied. You can enable it in app settings.';
+
+  @override
+  String get openSettings => 'Open Settings';
 }

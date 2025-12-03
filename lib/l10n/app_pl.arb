@@ -56,5 +56,14 @@
   "markAsCompletedConfirmTitle": "Oznaczyć jako Zakończone?",
   "markAsCompletedConfirmMessage": "Ta akcja przeniesie transakcję do archiwum. Każde pozostałe saldo zostanie uznane za umorzone.",
   "transactionMarkedCompleted": "Transakcja oznaczona jako zakończona",
-  "failedToMarkCompleted": "Nie udało się oznaczyć transakcji jako zakończonej"
+  "failedToMarkCompleted": "Nie udało się oznaczyć transakcji jako zakończonej",
+  "notificationReminderTitle": "Przypomnienie o Płatności",
+  "notificationDebtBody": "Przypomnienie: Zwróć {name} - pozostało {amount}",
+  "notificationLoanBody": "Przypomnienie: Odbierz od {name} - pozostało {amount}",
+  "notificationChannelName": "Przypomnienia o Długach i Pożyczkach",
+  "notificationChannelDescription": "Powiadomienia o przypomnieniach dotyczących spłat długów i pożyczek",
+  "notificationPermissionTitle": "Włącz Powiadomienia",
+  "notificationPermissionMessage": "Zezwól na powiadomienia, aby otrzymywać przypomnienia o długach i pożyczkach o godzinie 19:00 każdego dnia.",
+  "notificationPermissionDenied": "Odmówiono uprawnień do powiadomień. Możesz włączyć je w ustawieniach aplikacji.",
+  "openSettings": "Otwórz Ustawienia"
 }
