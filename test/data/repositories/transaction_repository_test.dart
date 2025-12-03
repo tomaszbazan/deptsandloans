@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/exceptions/repository_exceptions.dart';
+import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
 import 'package:deptsandloans/data/repositories/isar_transaction_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
@@ -12,6 +14,7 @@ import '../../fixtures/transaction_fixture.dart';
 void main() {
   late Isar isar;
   late IsarTransactionRepository repository;
+  late IsarRepaymentRepository repaymentRepository;
   final testDbDir = Directory('build/test_db');
 
   setUpAll(() async {
@@ -22,8 +25,9 @@ void main() {
   });
 
   setUp(() async {
-    isar = await Isar.open([TransactionSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
+    isar = await Isar.open([TransactionSchema, RepaymentSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
     repository = IsarTransactionRepository(isar);
+    repaymentRepository = IsarRepaymentRepository(isar);
   });
 
   tearDown(() async {
@@ -234,6 +238,55 @@ void main() {
 
         final deletedTransaction = await isar.transactions.get(transaction.id);
         expect(deletedTransaction, isNull);
+      });
+
+      test('cascades deletion to associated repayments', () async {
+        final transaction1 = TransactionFixture.createTransaction();
+        await repository.create(transaction1);
+        final transaction2 = TransactionFixture.createTransaction();
+        await repository.create(transaction2);
+
+        final repayment1 = Repayment()
+          ..id = 1
+          ..transactionId = transaction1.id
+          ..amount = 5000
+          ..when = DateTime.now()
+          ..createdAt = DateTime.now();
+
+        final repayment2 = Repayment()
+          ..id = 2
+          ..transactionId = transaction1.id
+          ..amount = 3000
+          ..when = DateTime.now()
+          ..createdAt = DateTime.now();
+
+        final repayment3 = Repayment()
+          ..id = 3
+          ..transactionId = transaction2.id
+          ..amount = 3000
+          ..when = DateTime.now()
+          ..createdAt = DateTime.now();
+        await repaymentRepository.addRepayment(repayment1);
+        await repaymentRepository.addRepayment(repayment2);
+        await repaymentRepository.addRepayment(repayment3);
+
+        final repaymentsBeforeDelete = await repaymentRepository.getRepaymentsByTransactionId(transaction1.id);
+        expect(repaymentsBeforeDelete.length, equals(2));
+
+        await repository.delete(transaction1.id);
+
+        final deletedTransaction = await repository.getById(transaction1.id);
+        expect(deletedTransaction, isNull);
+
+        final repaymentsAfterDelete = await repaymentRepository.getRepaymentsByTransactionId(transaction1.id);
+        expect(repaymentsAfterDelete.length, equals(0));
+
+        final otherTransaction = await repository.getById(transaction2.id);
+        expect(otherTransaction, isNotNull);
+        expect(otherTransaction!.id, equals(transaction2.id));
+
+        final otherRepaymentsAfterDelete = await repaymentRepository.getRepaymentsByTransactionId(transaction2.id);
+        expect(otherRepaymentsAfterDelete.length, equals(1));
       });
     });
   });

@@ -32,7 +32,7 @@
 | TASK-0016 | Implement Currency Selection   | Create currency picker supporting PLN, EUR, USD, GBP with proper locale-based formatting                    | [X]  |
 | TASK-0017 | Implement Save Transaction     | Connect form to repository to save new transactions to local database                                       | [X]  |
 | TASK-0018 | Implement Edit Transaction     | Enable editing existing transactions (excluding initial Amount)                                             | [X]  |
-| TASK-0019 | Implement Delete Transaction   | Add functionality to delete transactions with confirmation dialog                                           | [ ]  |
+| TASK-0019 | Implement Delete Transaction   | Add functionality to delete transactions with confirmation dialog                                           | [X]  |
 
 ## Transaction Listing & Display
 

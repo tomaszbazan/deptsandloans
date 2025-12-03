@@ -33,6 +33,52 @@ class TransactionDetailsScreen extends StatelessWidget {
     return _TransactionDetailsData(transaction: transaction, repayments: repayments, totalRepaid: totalRepaid, remainingBalance: remainingBalance);
   }
 
+  Future<void> _showDeleteConfirmationDialog(BuildContext context, Transaction transaction) async {
+    final theme = Theme.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Transaction?'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('This action cannot be undone. The transaction and all associated repayments will be permanently deleted.'),
+            const SizedBox(height: 16),
+            Text('Transaction: ${transaction.name}', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: theme.colorScheme.error),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      await _deleteTransaction(context, transaction);
+    }
+  }
+
+  Future<void> _deleteTransaction(BuildContext context, Transaction transaction) async {
+    try {
+      await transactionRepository.delete(transaction.id);
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaction deleted successfully')));
+        context.pop(true);
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to delete transaction: $e'), backgroundColor: Theme.of(context).colorScheme.error));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -47,12 +93,18 @@ class TransactionDetailsScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final transaction = snapshot.data!.transaction;
-                return IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    final typeParam = transaction.type == TransactionType.loan ? 'loan' : 'debt';
-                    context.push('/transaction/$transactionId/edit?type=$typeParam');
-                  },
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () {
+                        final typeParam = transaction.type == TransactionType.loan ? 'loan' : 'debt';
+                        context.push('/transaction/$transactionId/edit?type=$typeParam');
+                      },
+                    ),
+                    IconButton(icon: const Icon(Icons.delete_outline), onPressed: () => _showDeleteConfirmationDialog(context, transaction)),
+                  ],
                 );
               }
               return const SizedBox.shrink();

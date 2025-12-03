@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 import 'package:isar_community/isar.dart';
+import '../models/repayment.dart';
 import '../models/transaction.dart';
 import '../models/transaction_type.dart';
 import 'exceptions/repository_exceptions.dart';
@@ -89,6 +90,9 @@ class IsarTransactionRepository implements TransactionRepository {
   Future<void> delete(int id) async {
     try {
       final deleted = await _isar.writeTxn(() async {
+        final repaymentsDeleted = await _isar.repayments.filter().transactionIdEqualTo(id).deleteAll();
+        developer.log('Deleted $repaymentsDeleted repayments for transaction $id', name: 'TransactionRepository');
+
         return await _isar.transactions.delete(id);
       });
 
