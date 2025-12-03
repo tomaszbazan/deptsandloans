@@ -25,12 +25,30 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   final _amountController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _nameFocusNode = FocusNode();
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, type: widget.type);
-    _nameFocusNode.requestFocus();
+    _initializeViewModel();
+  }
+
+  Future<void> _initializeViewModel() async {
+    if (widget.transactionId != null) {
+      final transaction = await widget.transactionRepository.getById(widget.transactionId!);
+      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, type: widget.type, existingTransaction: transaction);
+      _nameController.text = _viewModel.name;
+      _amountController.text = _viewModel.amount?.toString() ?? '';
+      _descriptionController.text = _viewModel.description ?? '';
+    } else {
+      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, type: widget.type);
+      _nameFocusNode.requestFocus();
+    }
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -93,6 +111,13 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     final isEditMode = widget.transactionId != null;
     final title = isEditMode ? l10n.editTransaction : (widget.type == TransactionType.debt ? l10n.addDebt : l10n.addLoan);
 
+    if (_isLoading) {
+      return Scaffold(
+        appBar: AppBar(title: Text(title)),
+        body: const Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(title),
@@ -136,7 +161,14 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                     builder: (context, _) {
                       return TextField(
                         controller: _amountController,
-                        decoration: InputDecoration(labelText: l10n.amount, border: const OutlineInputBorder(), errorText: _getLocalizedError(_viewModel.amountError)),
+                        decoration: InputDecoration(
+                          labelText: l10n.amount,
+                          border: const OutlineInputBorder(),
+                          errorText: _getLocalizedError(_viewModel.amountError),
+                          helperText: isEditMode ? l10n.amountCannotBeChanged : null,
+                          helperMaxLines: 2,
+                        ),
+                        enabled: !isEditMode,
                         keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}'))],
                         onChanged: (value) {
@@ -155,13 +187,15 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                     builder: (context, _) {
                       return DropdownButtonFormField<Currency>(
                         decoration: InputDecoration(labelText: l10n.currency, border: const OutlineInputBorder()),
-                        initialValue: _viewModel.currency,
+                        value: _viewModel.currency,
                         items: Currency.values.map((currency) => DropdownMenuItem(value: currency, child: Text(_getCurrencySymbol(currency)))).toList(),
-                        onChanged: (value) {
-                          if (value != null) {
-                            _viewModel.setCurrency(value);
-                          }
-                        },
+                        onChanged: isEditMode
+                            ? null
+                            : (value) {
+                                if (value != null) {
+                                  _viewModel.setCurrency(value);
+                                }
+                              },
                       );
                     },
                   ),

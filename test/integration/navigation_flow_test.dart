@@ -1,36 +1,12 @@
-import 'package:deptsandloans/core/router/app_router.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../fixtures/app_fixture.dart';
-import '../mocks/mock_repayment_repository.dart';
-import '../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('Navigation flow integration tests', () {
-    late MockTransactionRepository mockTransactionRepository;
-    late MockRepaymentRepository mockRepaymentRepository;
-
-    setUp(() {
-      mockTransactionRepository = MockTransactionRepository();
-      mockRepaymentRepository = MockRepaymentRepository();
-    });
-
     testWidgets('complete flow: home -> new transaction -> back', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(transactionRepository: mockTransactionRepository, repaymentRepository: mockRepaymentRepository),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 
@@ -63,18 +39,7 @@ void main() {
     });
 
     testWidgets('multiple navigation actions maintain correct state', (tester) async {
-      await tester.pumpWidget(
-        MaterialApp.router(
-          routerConfig: createAppRouter(transactionRepository: mockTransactionRepository, repaymentRepository: mockRepaymentRepository),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultRouter());
 
       await tester.pumpAndSettle();
 

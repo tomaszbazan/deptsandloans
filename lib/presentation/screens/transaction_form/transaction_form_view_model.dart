@@ -130,7 +130,9 @@ class TransactionFormViewModel extends ChangeNotifier {
   bool validateForm() {
     _nameError = _validateName(_name);
     _descriptionError = _validateDescription(_description);
-    _amountError = _validateAmount(_amount);
+    if (!isEditMode) {
+      _amountError = _validateAmount(_amount);
+    }
 
     notifyListeners();
 

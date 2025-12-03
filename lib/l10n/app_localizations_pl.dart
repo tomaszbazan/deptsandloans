@@ -156,4 +156,7 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get amountMustBePositive => 'Kwota musi być większa od zera';
+
+  @override
+  String get amountCannotBeChanged => 'Kwoty nie można zmienić po utworzeniu';
 }

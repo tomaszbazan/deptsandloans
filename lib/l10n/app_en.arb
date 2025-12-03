@@ -200,5 +200,9 @@
   "amountMustBePositive": "Amount must be greater than zero",
   "@amountMustBePositive": {
     "description": "Validation message for positive amount"
+  },
+  "amountCannotBeChanged": "Amount cannot be changed after creation",
+  "@amountCannotBeChanged": {
+    "description": "Helper text for disabled amount field in edit mode"
   }
 }

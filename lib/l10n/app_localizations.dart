@@ -385,6 +385,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amount must be greater than zero'**
   String get amountMustBePositive;
+
+  /// Helper text for disabled amount field in edit mode
+  ///
+  /// In en, this message translates to:
+  /// **'Amount cannot be changed after creation'**
+  String get amountCannotBeChanged;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,5 +1,6 @@
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
+import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/repayment_repository.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_details/progress_section.dart';
@@ -41,10 +42,20 @@ class TransactionDetailsScreen extends StatelessWidget {
         title: const Text('Transaction Details'),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              context.push('/transaction/$transactionId/edit');
+          FutureBuilder<_TransactionDetailsData>(
+            future: _loadData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final transaction = snapshot.data!.transaction;
+                return IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    final typeParam = transaction.type == TransactionType.loan ? 'loan' : 'debt';
+                    context.push('/transaction/$transactionId/edit?type=$typeParam');
+                  },
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
         ],

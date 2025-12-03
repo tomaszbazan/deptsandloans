@@ -1,13 +1,12 @@
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_list.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/app_fixture.dart';
 import '../../fixtures/transaction_fixture.dart';
 import '../../mocks/mock_repayment_repository.dart';
 
@@ -21,15 +20,8 @@ void main() {
 
     testWidgets('displays empty state when no transactions', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(
+        AppFixture.createDefaultApp(
+          Scaffold(
             body: TransactionList(
               transactions: [],
               repaymentRepository: mockRepaymentRepository,
@@ -52,15 +44,8 @@ void main() {
       ];
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(
+        AppFixture.createDefaultApp(
+          Scaffold(
             body: TransactionList(
               transactions: transactions,
               repaymentRepository: mockRepaymentRepository,
@@ -81,15 +66,8 @@ void main() {
       final transaction = TransactionFixture.createTransaction(id: 1, amount: 10000, currency: Currency.pln);
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(
+        AppFixture.createDefaultApp(
+          Scaffold(
             body: TransactionList(
               transactions: [transaction],
               repaymentRepository: mockRepaymentRepository,
@@ -116,15 +94,8 @@ void main() {
       await mockRepaymentRepository.addRepayment(repayment);
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(
+        AppFixture.createDefaultApp(
+          Scaffold(
             body: TransactionList(
               transactions: [transaction],
               repaymentRepository: mockRepaymentRepository,
@@ -144,15 +115,8 @@ void main() {
       Transaction? tappedTransaction;
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(
+        AppFixture.createDefaultApp(
+          Scaffold(
             body: TransactionList(
               transactions: [transaction],
               repaymentRepository: mockRepaymentRepository,

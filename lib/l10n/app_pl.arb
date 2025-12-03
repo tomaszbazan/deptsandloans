@@ -48,5 +48,6 @@
   "optional": "opcjonalne",
   "charactersRemaining": "Pozostało {count} znaków",
   "amountRequired": "Kwota jest wymagana",
-  "amountMustBePositive": "Kwota musi być większa od zera"
+  "amountMustBePositive": "Kwota musi być większa od zera",
+  "amountCannotBeChanged": "Kwoty nie można zmienić po utworzeniu"
 }

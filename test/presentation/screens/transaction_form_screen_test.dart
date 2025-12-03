@@ -1,3 +1,4 @@
+import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/transaction_fixture.dart';
 import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
@@ -271,6 +273,133 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Name is required'), findsOneWidget);
+    });
+  });
+
+  group('TransactionFormScreen - Edit Mode', () {
+    late MockTransactionRepository repository;
+
+    setUp(() async {
+      repository = MockTransactionRepository();
+    });
+
+    testWidgets('amount field is disabled in edit mode', (tester) async {
+      await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Test Debt'));
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final amountField = tester.widget<TextField>(find.widgetWithText(TextField, 'Amount'));
+      expect(amountField.enabled, isFalse);
+    });
+
+    testWidgets('shows helper text for disabled amount field', (tester) async {
+      await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Test Debt'));
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Amount cannot be changed after creation'), findsOneWidget);
+    });
+
+    testWidgets('currency dropdown is disabled in edit mode', (tester) async {
+      await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Test Debt'));
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final currencyDropdown = tester.widget<DropdownButtonFormField<Currency>>(find.byType(DropdownButtonFormField<Currency>));
+      expect(currencyDropdown.onChanged, isNull);
+    });
+
+    testWidgets('populates form fields with existing transaction data', (tester) async {
+      final testDate = DateTime(2025, 12, 31);
+      await repository.create(
+        TransactionFixture.createTransaction(id: 1, name: 'Existing Debt', amount: 25000, currency: Currency.eur, description: 'Test description', dueDate: testDate),
+      );
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      expect(find.text('Existing Debt'), findsOneWidget);
+      expect(find.text('250.0'), findsOneWidget);
+      expect(find.text('€'), findsOneWidget);
+      expect(find.text('Test description'), findsOneWidget);
+    });
+
+    testWidgets('can edit name field in edit mode', (tester) async {
+      await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Original Name'));
+
+      await tester.pumpWidget(
+        MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+        ),
+      );
+
+      await tester.pumpAndSettle();
+
+      final nameField = tester.widget<TextField>(find.widgetWithText(TextField, 'Name'));
+      expect(nameField.enabled, isNull);
+
+      await tester.enterText(find.widgetWithText(TextField, 'Name'), 'Updated Name');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Updated Name'), findsOneWidget);
     });
   });
 }

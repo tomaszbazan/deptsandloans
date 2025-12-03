@@ -1,12 +1,11 @@
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/app_fixture.dart';
 import '../../fixtures/transaction_fixture.dart';
 
 void main() {
@@ -14,18 +13,7 @@ void main() {
     testWidgets('displays transaction name', (tester) async {
       final transaction = TransactionFixture.createTransaction(name: 'Test Transaction', amount: 10000, currency: Currency.pln);
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0))));
 
       await tester.pumpAndSettle();
 
@@ -35,18 +23,7 @@ void main() {
     testWidgets('displays amount and balance', (tester) async {
       final transaction = TransactionFixture.createTransaction(amount: 10000, currency: Currency.pln);
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0))));
 
       await tester.pumpAndSettle();
 
@@ -58,18 +35,7 @@ void main() {
       final dueDate = DateTime(2025, 12, 31);
       final transaction = TransactionFixture.createTransaction(amount: 10000, currency: Currency.pln, dueDate: dueDate);
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0))));
 
       await tester.pumpAndSettle();
 
@@ -84,18 +50,7 @@ void main() {
         status: TransactionStatus.active,
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0))));
 
       await tester.pumpAndSettle();
 
@@ -110,18 +65,7 @@ void main() {
         status: TransactionStatus.completed,
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 0.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 0.0))));
 
       await tester.pumpAndSettle();
 
@@ -136,18 +80,7 @@ void main() {
         status: TransactionStatus.active,
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 0.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 0.0))));
 
       await tester.pumpAndSettle();
 
@@ -162,18 +95,7 @@ void main() {
         status: TransactionStatus.active,
       );
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 50.0))));
 
       await tester.pumpAndSettle();
 
@@ -185,15 +107,8 @@ void main() {
       var tapped = false;
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(
+        AppFixture.createDefaultApp(
+          Scaffold(
             body: TransactionListItem(
               transaction: transaction,
               balance: 100.0,
@@ -219,18 +134,7 @@ void main() {
       for (final (currency, symbol) in currencies) {
         final transaction = TransactionFixture.createTransaction(amount: 10000, currency: currency);
 
-        await tester.pumpWidget(
-          MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [Locale('en'), Locale('pl')],
-            home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0)),
-          ),
-        );
+        await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0))));
 
         await tester.pumpAndSettle();
 
@@ -241,18 +145,7 @@ void main() {
     testWidgets('displays debt type transaction', (tester) async {
       final transaction = TransactionFixture.createTransaction(type: TransactionType.debt, name: 'Money owed to John');
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0))));
 
       await tester.pumpAndSettle();
 
@@ -262,18 +155,7 @@ void main() {
     testWidgets('displays loan type transaction', (tester) async {
       final transaction = TransactionFixture.createTransaction(type: TransactionType.loan, name: 'Money lent to Jane');
 
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0)),
-        ),
-      );
+      await tester.pumpWidget(AppFixture.createDefaultApp(Scaffold(body: TransactionListItem(transaction: transaction, balance: 100.0))));
 
       await tester.pumpAndSettle();
 
