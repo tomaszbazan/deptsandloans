@@ -159,4 +159,13 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get amountCannotBeChanged => 'Kwoty nie można zmienić po utworzeniu';
+
+  @override
+  String get repaymentHistory => 'Historia Spłat';
+
+  @override
+  String get noRepaymentsYet => 'Nie zarejestrowano jeszcze żadnych spłat';
+
+  @override
+  String get transactionFullyRepaid => 'Ta transakcja została w pełni spłacona';
 }

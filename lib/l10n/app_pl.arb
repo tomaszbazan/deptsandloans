@@ -49,5 +49,8 @@
   "charactersRemaining": "Pozostało {count} znaków",
   "amountRequired": "Kwota jest wymagana",
   "amountMustBePositive": "Kwota musi być większa od zera",
-  "amountCannotBeChanged": "Kwoty nie można zmienić po utworzeniu"
+  "amountCannotBeChanged": "Kwoty nie można zmienić po utworzeniu",
+  "repaymentHistory": "Historia Spłat",
+  "noRepaymentsYet": "Nie zarejestrowano jeszcze żadnych spłat",
+  "transactionFullyRepaid": "Ta transakcja została w pełni spłacona"
 }

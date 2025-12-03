@@ -49,7 +49,7 @@
 
 | ID        | Task Name                      | Description                                                                           | Done |
 |:----------|:-------------------------------|:--------------------------------------------------------------------------------------|:----:|
-| TASK-0026 | Create Repayment Form          | Build UI for recording partial repayments with amount input                           | [ ]  |
+| TASK-0026 | Create Repayment Form          | Build UI for recording partial repayments with amount input                           | [X]  |
 | TASK-0027 | Implement Repayment Validation | Prevent entering repayment amount exceeding remaining balance                         | [ ]  |
 | TASK-0028 | Calculate Remaining Balance    | Implement logic to calculate current balance based on initial amount and repayments   | [ ]  |
 | TASK-0029 | Implement Progress Bar         | Create visual progress bar showing repayment percentage on transaction details screen | [ ]  |

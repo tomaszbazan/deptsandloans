@@ -204,5 +204,17 @@
   "amountCannotBeChanged": "Amount cannot be changed after creation",
   "@amountCannotBeChanged": {
     "description": "Helper text for disabled amount field in edit mode"
+  },
+  "repaymentHistory": "Repayment History",
+  "@repaymentHistory": {
+    "description": "Title for repayment history section"
+  },
+  "noRepaymentsYet": "No repayments recorded yet",
+  "@noRepaymentsYet": {
+    "description": "Empty state message for repayment history"
+  },
+  "transactionFullyRepaid": "This transaction has been fully repaid",
+  "@transactionFullyRepaid": {
+    "description": "Message shown when trying to add repayment to fully repaid transaction"
   }
 }

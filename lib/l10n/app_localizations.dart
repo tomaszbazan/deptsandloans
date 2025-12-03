@@ -391,6 +391,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Amount cannot be changed after creation'**
   String get amountCannotBeChanged;
+
+  /// Title for repayment history section
+  ///
+  /// In en, this message translates to:
+  /// **'Repayment History'**
+  String get repaymentHistory;
+
+  /// Empty state message for repayment history
+  ///
+  /// In en, this message translates to:
+  /// **'No repayments recorded yet'**
+  String get noRepaymentsYet;
+
+  /// Message shown when trying to add repayment to fully repaid transaction
+  ///
+  /// In en, this message translates to:
+  /// **'This transaction has been fully repaid'**
+  String get transactionFullyRepaid;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

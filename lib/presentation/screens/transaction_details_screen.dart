@@ -3,34 +3,74 @@ import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/repayment_repository.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
+import 'package:deptsandloans/presentation/providers/repayment_provider.dart';
+import 'package:deptsandloans/presentation/widgets/repayment_form.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_details/progress_section.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_details/repayment_history_section.dart';
 import 'package:deptsandloans/presentation/widgets/transaction_details/transaction_info_section.dart';
 import 'package:flutter/material.dart';
+import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
-class TransactionDetailsScreen extends StatelessWidget {
+class TransactionDetailsScreen extends StatefulWidget {
   final TransactionRepository transactionRepository;
   final RepaymentRepository repaymentRepository;
   final String transactionId;
 
   const TransactionDetailsScreen({required this.transactionRepository, required this.repaymentRepository, required this.transactionId, super.key});
 
+  @override
+  State<TransactionDetailsScreen> createState() => _TransactionDetailsScreenState();
+}
+
+class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
+  int _refreshKey = 0;
+
   Future<_TransactionDetailsData> _loadData() async {
-    final id = int.parse(transactionId);
-    final transaction = await transactionRepository.getById(id);
+    final id = int.parse(widget.transactionId);
+    final transaction = await widget.transactionRepository.getById(id);
 
     if (transaction == null) {
       throw Exception('Transaction not found');
     }
 
-    final repayments = await repaymentRepository.getRepaymentsByTransactionId(id);
+    final repayments = await widget.repaymentRepository.getRepaymentsByTransactionId(id);
     repayments.sort((a, b) => b.when.compareTo(a.when));
 
     final totalRepaid = repayments.fold<double>(0.0, (sum, repayment) => sum + repayment.amountInMainUnit);
     final remainingBalance = (transaction.amountInMainUnit - totalRepaid).clamp(0.0, double.infinity);
 
     return _TransactionDetailsData(transaction: transaction, repayments: repayments, totalRepaid: totalRepaid, remainingBalance: remainingBalance);
+  }
+
+  void _refreshData() {
+    setState(() {
+      _refreshKey++;
+    });
+  }
+
+  Future<void> _showRepaymentForm(BuildContext context, Transaction transaction, double remainingBalance) async {
+    final l10n = AppLocalizations.of(context);
+
+    if (remainingBalance <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.transactionFullyRepaid)));
+      return;
+    }
+
+    final provider = RepaymentProvider(widget.repaymentRepository);
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => RepaymentForm(
+        provider: provider,
+        transactionId: transaction.id,
+        transactionName: transaction.name,
+        remainingBalance: remainingBalance,
+        currency: transaction.currency,
+        onSuccess: _refreshData,
+      ),
+    );
   }
 
   Future<void> _showDeleteConfirmationDialog(BuildContext context, Transaction transaction) async {
@@ -66,7 +106,7 @@ class TransactionDetailsScreen extends StatelessWidget {
 
   Future<void> _deleteTransaction(BuildContext context, Transaction transaction) async {
     try {
-      await transactionRepository.delete(transaction.id);
+      await widget.transactionRepository.delete(transaction.id);
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaction deleted successfully')));
@@ -100,7 +140,7 @@ class TransactionDetailsScreen extends StatelessWidget {
                       icon: const Icon(Icons.edit),
                       onPressed: () {
                         final typeParam = transaction.type == TransactionType.loan ? 'loan' : 'debt';
-                        context.push('/transaction/$transactionId/edit?type=$typeParam');
+                        context.push('/transaction/${widget.transactionId}/edit?type=$typeParam');
                       },
                     ),
                     IconButton(icon: const Icon(Icons.delete_outline), onPressed: () => _showDeleteConfirmationDialog(context, transaction)),
@@ -113,6 +153,7 @@ class TransactionDetailsScreen extends StatelessWidget {
         ],
       ),
       body: FutureBuilder<_TransactionDetailsData>(
+        key: ValueKey(_refreshKey),
         future: _loadData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -160,6 +201,22 @@ class TransactionDetailsScreen extends StatelessWidget {
                 RepaymentHistorySection(repayments: data.repayments, currency: transaction.currency),
               ],
             ),
+          );
+        },
+      ),
+      floatingActionButton: FutureBuilder<_TransactionDetailsData>(
+        future: _loadData(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data!.transaction.isCompleted) {
+            return const SizedBox.shrink();
+          }
+
+          final l10n = AppLocalizations.of(context);
+          final data = snapshot.data!;
+          return FloatingActionButton.extended(
+            onPressed: () => _showRepaymentForm(context, data.transaction, data.remainingBalance),
+            icon: const Icon(Icons.add),
+            label: Text(l10n.addRepayment),
           );
         },
       ),

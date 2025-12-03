@@ -159,4 +159,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get amountCannotBeChanged => 'Amount cannot be changed after creation';
+
+  @override
+  String get repaymentHistory => 'Repayment History';
+
+  @override
+  String get noRepaymentsYet => 'No repayments recorded yet';
+
+  @override
+  String get transactionFullyRepaid => 'This transaction has been fully repaid';
 }
