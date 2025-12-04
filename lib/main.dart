@@ -9,6 +9,7 @@ import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/core/notifications/local_notifications_service.dart';
 import 'package:deptsandloans/core/notifications/notification_service.dart';
+import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:developer' as developer;
@@ -55,10 +56,11 @@ class DeptsAndLoansApp extends StatelessWidget {
     final transactionRepository = IsarTransactionRepository(databaseService.instance);
     final repaymentRepository = IsarRepaymentRepository(databaseService.instance);
     final reminderRepository = IsarReminderRepository(databaseService.instance);
+    final notificationScheduler = NotificationScheduler(notificationService);
 
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      routerConfig: createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository),
+      routerConfig: createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository, notificationScheduler: notificationScheduler),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('pl')],
       localeResolutionCallback: (locale, supportedLocales) {

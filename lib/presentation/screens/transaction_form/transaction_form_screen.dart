@@ -7,16 +7,20 @@ import '../../../data/models/currency.dart';
 import '../../../data/models/transaction_type.dart';
 import '../../../data/repositories/reminder_repository.dart';
 import '../../../data/repositories/transaction_repository.dart';
+import '../../../data/repositories/repayment_repository.dart';
+import '../../../core/notifications/notification_scheduler.dart';
 import '../../widgets/reminder_configuration_widget.dart';
 import 'transaction_form_view_model.dart';
 
 class TransactionFormScreen extends StatefulWidget {
   final TransactionRepository transactionRepository;
   final ReminderRepository reminderRepository;
+  final RepaymentRepository repaymentRepository;
+  final NotificationScheduler notificationScheduler;
   final TransactionType type;
   final int? transactionId;
 
-  const TransactionFormScreen({required this.transactionRepository, required this.reminderRepository, required this.type, this.transactionId, super.key});
+  const TransactionFormScreen({required this.transactionRepository, required this.reminderRepository, required this.repaymentRepository, required this.notificationScheduler, required this.type, this.transactionId, super.key});
 
   @override
   State<TransactionFormScreen> createState() => _TransactionFormScreenState();
@@ -42,6 +46,8 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
       _viewModel = TransactionFormViewModel(
         repository: widget.transactionRepository,
         reminderRepository: widget.reminderRepository,
+        repaymentRepository: widget.repaymentRepository,
+        notificationScheduler: widget.notificationScheduler,
         type: widget.type,
         existingTransaction: transaction,
       );
@@ -49,7 +55,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
       _amountController.text = _viewModel.amount?.toString() ?? '';
       _descriptionController.text = _viewModel.description ?? '';
     } else {
-      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, reminderRepository: widget.reminderRepository, type: widget.type);
+      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, reminderRepository: widget.reminderRepository, repaymentRepository: widget.repaymentRepository, notificationScheduler: widget.notificationScheduler, type: widget.type);
       _nameFocusNode.requestFocus();
     }
     if (mounted) {

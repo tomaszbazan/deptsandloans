@@ -17,6 +17,8 @@ class Reminder {
 
   late DateTime nextReminderDate;
 
+  int? notificationId;
+
   late DateTime createdAt;
 
   Reminder();

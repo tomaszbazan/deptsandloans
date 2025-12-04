@@ -7,10 +7,14 @@ import '../../../data/models/transaction_status.dart';
 import '../../../data/models/transaction_type.dart';
 import '../../../data/repositories/reminder_repository.dart';
 import '../../../data/repositories/transaction_repository.dart';
+import '../../../data/repositories/repayment_repository.dart';
+import '../../../core/notifications/notification_scheduler.dart';
 
 class TransactionFormViewModel extends ChangeNotifier {
   final TransactionRepository _repository;
   final ReminderRepository _reminderRepository;
+  final RepaymentRepository _repaymentRepository;
+  final NotificationScheduler _notificationScheduler;
   final TransactionType _type;
   final Transaction? _existingTransaction;
 
@@ -37,10 +41,14 @@ class TransactionFormViewModel extends ChangeNotifier {
   TransactionFormViewModel({
     required TransactionRepository repository,
     required ReminderRepository reminderRepository,
+    required RepaymentRepository repaymentRepository,
+    required NotificationScheduler notificationScheduler,
     required TransactionType type,
     Transaction? existingTransaction,
   }) : _repository = repository,
        _reminderRepository = reminderRepository,
+       _repaymentRepository = repaymentRepository,
+       _notificationScheduler = notificationScheduler,
        _type = type,
        _existingTransaction = existingTransaction {
     if (existingTransaction != null) {
@@ -301,6 +309,13 @@ class TransactionFormViewModel extends ChangeNotifier {
   }
 
   Future<void> _handleReminderUpdate(int transactionId) async {
+    final existingReminders = await _reminderRepository.getRemindersByTransactionId(transactionId);
+    for (final reminder in existingReminders) {
+      if (reminder.notificationId != null) {
+        await _notificationScheduler.cancelReminder(reminder.notificationId!);
+      }
+    }
+
     await _reminderRepository.deleteRemindersByTransactionId(transactionId);
 
     if (_enableReminder) {
@@ -328,6 +343,26 @@ class TransactionFormViewModel extends ChangeNotifier {
 
     reminder.validate();
     await _reminderRepository.createReminder(reminder);
+
+    if (_reminderType == ReminderType.oneTime) {
+      final transaction = await _repository.getById(transactionId);
+      final repayments = await _repaymentRepository.getRepaymentsByTransactionId(transactionId);
+      final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
+      final remainingBalance = (transaction.amount - totalRepaid) / 100.0;
+      final locale = _getLocale();
+      final notificationId = await _notificationScheduler.scheduleOneTimeReminder(
+        reminder: reminder,
+        transaction: transaction,
+        locale: locale,
+        remainingBalance: remainingBalance,
+      );
+      reminder.notificationId = notificationId;
+      await _reminderRepository.updateReminder(reminder);
+    }
+  }
+
+  String _getLocale() {
+    return 'en';
   }
 
   Transaction _buildTransaction() {

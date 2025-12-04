@@ -2,6 +2,7 @@ import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../mocks/mock_notification_scheduler.dart';
 import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_repayment_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
@@ -10,13 +11,15 @@ void main() {
   late MockTransactionRepository transactionRepository;
   late MockRepaymentRepository repaymentRepository;
   late MockReminderRepository reminderRepository;
+  late MockNotificationScheduler notificationScheduler;
   late GoRouter router;
 
   setUp(() {
     transactionRepository = MockTransactionRepository();
     repaymentRepository = MockRepaymentRepository();
     reminderRepository = MockReminderRepository();
-    router = createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository);
+    notificationScheduler = MockNotificationScheduler();
+    router = createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository, notificationScheduler: notificationScheduler);
   });
 
   group('AppRouter', () {
