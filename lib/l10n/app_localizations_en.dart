@@ -211,4 +211,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get openSettings => 'Open Settings';
+
+  @override
+  String get enableReminder => 'Enable Reminder';
+
+  @override
+  String get reminderType => 'Reminder Type';
+
+  @override
+  String get reminderDateRequired => 'Reminder date is required';
+
+  @override
+  String get reminderDateMustBeFuture => 'Reminder date must be in the future';
+
+  @override
+  String get intervalRequired => 'Interval is required';
+
+  @override
+  String get intervalOutOfRange => 'Interval must be between 1 and 365 days';
+
+  @override
+  String get reminderTypeRequired => 'Please select a reminder type';
+
+  @override
+  String get days => 'days';
 }

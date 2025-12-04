@@ -70,7 +70,7 @@
 | ID        | Task Name                           | Description                                                                        | Done |
 |:----------|:------------------------------------|:-----------------------------------------------------------------------------------|:----:|
 | TASK-0036 | Setup Push Notifications            | Configure Android push notifications permissions and local notification channel    | [X]  |
-| TASK-0037 | Implement Reminder Configuration UI | Add UI controls in transaction form for setting one-time or recurring reminders    | [ ]  |
+| TASK-0037 | Implement Reminder Configuration UI | Add UI controls in transaction form for setting one-time or recurring reminders    | [X]  |
 | TASK-0038 | Implement One-Time Reminder         | Schedule single push notification at 19:00 on specified date                       | [ ]  |
 | TASK-0039 | Implement Recurring Reminder        | Schedule repeating notifications every X days at 19:00                             | [ ]  |
 | TASK-0040 | Implement Reminder Cancellation     | Automatically cancel all notifications when transaction reaches 100% repaid status | [ ]  |

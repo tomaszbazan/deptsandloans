@@ -65,5 +65,13 @@
   "notificationPermissionTitle": "Włącz Powiadomienia",
   "notificationPermissionMessage": "Zezwól na powiadomienia, aby otrzymywać przypomnienia o długach i pożyczkach o godzinie 19:00 każdego dnia.",
   "notificationPermissionDenied": "Odmówiono uprawnień do powiadomień. Możesz włączyć je w ustawieniach aplikacji.",
-  "openSettings": "Otwórz Ustawienia"
+  "openSettings": "Otwórz Ustawienia",
+  "enableReminder": "Włącz Przypomnienie",
+  "reminderType": "Typ Przypomnienia",
+  "reminderDateRequired": "Data przypomnienia jest wymagana",
+  "reminderDateMustBeFuture": "Data przypomnienia musi być w przyszłości",
+  "intervalRequired": "Interwał jest wymagany",
+  "intervalOutOfRange": "Interwał musi wynosić od 1 do 365 dni",
+  "reminderTypeRequired": "Proszę wybrać typ przypomnienia",
+  "days": "dni"
 }

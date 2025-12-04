@@ -2,18 +2,21 @@ import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_repayment_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   late MockTransactionRepository transactionRepository;
   late MockRepaymentRepository repaymentRepository;
+  late MockReminderRepository reminderRepository;
   late GoRouter router;
 
   setUp(() {
     transactionRepository = MockTransactionRepository();
     repaymentRepository = MockRepaymentRepository();
-    router = createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository);
+    reminderRepository = MockReminderRepository();
+    router = createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository);
   });
 
   group('AppRouter', () {

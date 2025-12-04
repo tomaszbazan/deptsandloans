@@ -5,15 +5,18 @@ import 'package:intl/intl.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../data/models/currency.dart';
 import '../../../data/models/transaction_type.dart';
+import '../../../data/repositories/reminder_repository.dart';
 import '../../../data/repositories/transaction_repository.dart';
+import '../../widgets/reminder_configuration_widget.dart';
 import 'transaction_form_view_model.dart';
 
 class TransactionFormScreen extends StatefulWidget {
   final TransactionRepository transactionRepository;
+  final ReminderRepository reminderRepository;
   final TransactionType type;
   final int? transactionId;
 
-  const TransactionFormScreen({required this.transactionRepository, required this.type, this.transactionId, super.key});
+  const TransactionFormScreen({required this.transactionRepository, required this.reminderRepository, required this.type, this.transactionId, super.key});
 
   @override
   State<TransactionFormScreen> createState() => _TransactionFormScreenState();
@@ -36,12 +39,17 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   Future<void> _initializeViewModel() async {
     if (widget.transactionId != null) {
       final transaction = await widget.transactionRepository.getById(widget.transactionId!);
-      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, type: widget.type, existingTransaction: transaction);
+      _viewModel = TransactionFormViewModel(
+        repository: widget.transactionRepository,
+        reminderRepository: widget.reminderRepository,
+        type: widget.type,
+        existingTransaction: transaction,
+      );
       _nameController.text = _viewModel.name;
       _amountController.text = _viewModel.amount?.toString() ?? '';
       _descriptionController.text = _viewModel.description ?? '';
     } else {
-      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, type: widget.type);
+      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, reminderRepository: widget.reminderRepository, type: widget.type);
       _nameFocusNode.requestFocus();
     }
     if (mounted) {
@@ -81,6 +89,16 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
         return l10n.amountRequired;
       case 'amountMustBePositive':
         return l10n.amountMustBePositive;
+      case 'reminderDateRequired':
+        return l10n.reminderDateRequired;
+      case 'reminderDateMustBeFuture':
+        return l10n.reminderDateMustBeFuture;
+      case 'intervalRequired':
+        return l10n.intervalRequired;
+      case 'intervalOutOfRange':
+        return l10n.intervalOutOfRange;
+      case 'reminderTypeRequired':
+        return l10n.reminderTypeRequired;
       default:
         return errorKey;
     }
@@ -249,6 +267,25 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                       style: TextStyle(color: _viewModel.dueDate != null ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                   ),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            ListenableBuilder(
+              listenable: _viewModel,
+              builder: (context, _) {
+                return ReminderConfigurationWidget(
+                  isEnabled: _viewModel.enableReminder,
+                  reminderType: _viewModel.reminderType,
+                  oneTimeReminderDate: _viewModel.oneTimeReminderDate,
+                  recurringIntervalDays: _viewModel.recurringIntervalDays,
+                  reminderTypeError: _getLocalizedError(_viewModel.reminderTypeError),
+                  reminderDateError: _getLocalizedError(_viewModel.reminderDateError),
+                  intervalError: _getLocalizedError(_viewModel.intervalError),
+                  onEnabledChanged: _viewModel.setEnableReminder,
+                  onReminderTypeChanged: _viewModel.setReminderType,
+                  onOneTimeReminderDateChanged: _viewModel.setOneTimeReminderDate,
+                  onRecurringIntervalDaysChanged: _viewModel.setRecurringIntervalDays,
                 );
               },
             ),

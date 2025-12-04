@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:deptsandloans/core/theme/app_theme.dart';
+import 'package:deptsandloans/data/repositories/isar_reminder_repository.dart';
 import 'package:deptsandloans/data/repositories/isar_transaction_repository.dart';
 import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
@@ -53,10 +54,11 @@ class DeptsAndLoansApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final transactionRepository = IsarTransactionRepository(databaseService.instance);
     final repaymentRepository = IsarRepaymentRepository(databaseService.instance);
+    final reminderRepository = IsarReminderRepository(databaseService.instance);
 
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      routerConfig: createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository),
+      routerConfig: createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('pl')],
       localeResolutionCallback: (locale, supportedLocales) {

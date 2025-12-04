@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../mocks/mock_repayment_repository.dart';
 import '../mocks/mock_transaction_repository.dart';
+import '../mocks/mock_reminder_repository.dart';
 
 class AppFixture {
   static Widget createDefaultApp(Widget child, {String locale = 'en', ThemeData? theme}) {
@@ -21,7 +22,11 @@ class AppFixture {
   static Widget createDefaultRouter({String locale = 'en'}) {
     return MaterialApp.router(
       locale: Locale(locale),
-      routerConfig: createAppRouter(transactionRepository: MockTransactionRepository(), repaymentRepository: MockRepaymentRepository()),
+      routerConfig: createAppRouter(
+        transactionRepository: MockTransactionRepository(),
+        repaymentRepository: MockRepaymentRepository(),
+        reminderRepository: MockReminderRepository(),
+      ),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('pl')],
     );

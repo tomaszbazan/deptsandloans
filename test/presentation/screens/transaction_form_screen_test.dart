@@ -8,14 +8,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../fixtures/transaction_fixture.dart';
+import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('TransactionFormScreen', () {
     late TransactionRepository repository;
+    late MockReminderRepository reminderRepository;
 
     setUp(() {
       repository = MockTransactionRepository();
+      reminderRepository = MockReminderRepository();
     });
 
     testWidgets('displays new debt transaction mode correctly', (tester) async {
@@ -28,7 +31,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -48,7 +51,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 456),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt, transactionId: 456),
         ),
       );
 
@@ -67,7 +70,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.loan),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.loan),
         ),
       );
 
@@ -86,7 +89,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -109,7 +112,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -133,7 +136,7 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: const [Locale('en'), Locale('pl')],
-            home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+            home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
           ),
         );
 
@@ -161,7 +164,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -183,7 +186,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -208,7 +211,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -236,7 +239,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -263,7 +266,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt),
         ),
       );
 
@@ -278,9 +281,11 @@ void main() {
 
   group('TransactionFormScreen - Edit Mode', () {
     late MockTransactionRepository repository;
+    late MockReminderRepository reminderRepository;
 
     setUp(() async {
       repository = MockTransactionRepository();
+      reminderRepository = MockReminderRepository();
     });
 
     testWidgets('amount field is disabled in edit mode', (tester) async {
@@ -295,7 +300,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt, transactionId: 1),
         ),
       );
 
@@ -317,7 +322,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt, transactionId: 1),
         ),
       );
 
@@ -338,7 +343,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt, transactionId: 1),
         ),
       );
 
@@ -363,7 +368,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt, transactionId: 1),
         ),
       );
 
@@ -387,7 +392,7 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, type: TransactionType.debt, transactionId: 1),
         ),
       );
 

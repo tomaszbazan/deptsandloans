@@ -1,4 +1,5 @@
 import 'package:deptsandloans/data/models/transaction_type.dart';
+import 'package:deptsandloans/data/repositories/reminder_repository.dart';
 import 'package:deptsandloans/data/repositories/repayment_repository.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/presentation/screens/main_screen.dart';
@@ -6,7 +7,7 @@ import 'package:deptsandloans/presentation/screens/transaction_details_screen.da
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:go_router/go_router.dart';
 
-GoRouter createAppRouter({required TransactionRepository transactionRepository, required RepaymentRepository repaymentRepository}) {
+GoRouter createAppRouter({required TransactionRepository transactionRepository, required RepaymentRepository repaymentRepository, required ReminderRepository reminderRepository}) {
   return GoRouter(
     initialLocation: '/',
     routes: [
@@ -24,7 +25,7 @@ GoRouter createAppRouter({required TransactionRepository transactionRepository, 
           final typeParam = state.uri.queryParameters['type'];
           final type = typeParam == 'loan' ? TransactionType.loan : TransactionType.debt;
 
-          return TransactionFormScreen(transactionRepository: transactionRepository, type: type);
+          return TransactionFormScreen(transactionRepository: transactionRepository, reminderRepository: reminderRepository, type: type);
         },
       ),
       GoRoute(
@@ -42,7 +43,7 @@ GoRouter createAppRouter({required TransactionRepository transactionRepository, 
           final id = int.parse(state.pathParameters['id']!);
           final typeParam = state.uri.queryParameters['type'];
           final type = typeParam == 'loan' ? TransactionType.loan : TransactionType.debt;
-          return TransactionFormScreen(transactionRepository: transactionRepository, type: type, transactionId: id);
+          return TransactionFormScreen(transactionRepository: transactionRepository, reminderRepository: reminderRepository, type: type, transactionId: id);
         },
       ),
     ],

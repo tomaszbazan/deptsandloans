@@ -211,4 +211,28 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get openSettings => 'Otwórz Ustawienia';
+
+  @override
+  String get enableReminder => 'Włącz Przypomnienie';
+
+  @override
+  String get reminderType => 'Typ Przypomnienia';
+
+  @override
+  String get reminderDateRequired => 'Data przypomnienia jest wymagana';
+
+  @override
+  String get reminderDateMustBeFuture => 'Data przypomnienia musi być w przyszłości';
+
+  @override
+  String get intervalRequired => 'Interwał jest wymagany';
+
+  @override
+  String get intervalOutOfRange => 'Interwał musi wynosić od 1 do 365 dni';
+
+  @override
+  String get reminderTypeRequired => 'Proszę wybrać typ przypomnienia';
+
+  @override
+  String get days => 'dni';
 }

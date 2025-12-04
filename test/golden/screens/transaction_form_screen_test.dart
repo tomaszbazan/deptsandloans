@@ -8,6 +8,7 @@ import 'package:deptsandloans/presentation/screens/transaction_form/transaction_
 import 'package:flutter/material.dart';
 
 import '../../fixtures/app_fixture.dart';
+import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
@@ -43,7 +44,7 @@ Widget _buildScenario(TransactionType type, int? transactionId, ThemeData theme)
     SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(transactionRepository: MockTransactionRepository(), type: type, transactionId: transactionId),
+      child: TransactionFormScreen(transactionRepository: MockTransactionRepository(), reminderRepository: MockReminderRepository(), type: type, transactionId: transactionId),
     ),
     theme: theme,
   );
@@ -69,7 +70,7 @@ Widget _buildEditScenario(ThemeData theme) {
     SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(transactionRepository: repository, type: TransactionType.debt, transactionId: 123),
+      child: TransactionFormScreen(transactionRepository: repository, reminderRepository: MockReminderRepository(), type: TransactionType.debt, transactionId: 123),
     ),
     theme: theme,
   );

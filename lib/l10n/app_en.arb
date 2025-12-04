@@ -284,5 +284,37 @@
   "openSettings": "Open Settings",
   "@openSettings": {
     "description": "Button label to open app settings"
+  },
+  "enableReminder": "Enable Reminder",
+  "@enableReminder": {
+    "description": "Switch label for enabling reminder"
+  },
+  "reminderType": "Reminder Type",
+  "@reminderType": {
+    "description": "Label for reminder type selection"
+  },
+  "reminderDateRequired": "Reminder date is required",
+  "@reminderDateRequired": {
+    "description": "Validation message for required reminder date"
+  },
+  "reminderDateMustBeFuture": "Reminder date must be in the future",
+  "@reminderDateMustBeFuture": {
+    "description": "Validation message for reminder date in the past"
+  },
+  "intervalRequired": "Interval is required",
+  "@intervalRequired": {
+    "description": "Validation message for required interval"
+  },
+  "intervalOutOfRange": "Interval must be between 1 and 365 days",
+  "@intervalOutOfRange": {
+    "description": "Validation message for interval outside valid range (1-365 days)"
+  },
+  "reminderTypeRequired": "Please select a reminder type",
+  "@reminderTypeRequired": {
+    "description": "Validation message for required reminder type"
+  },
+  "days": "days",
+  "@days": {
+    "description": "Label for days unit"
   }
 }

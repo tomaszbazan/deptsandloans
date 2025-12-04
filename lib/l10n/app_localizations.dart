@@ -487,6 +487,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Open Settings'**
   String get openSettings;
+
+  /// Switch label for enabling reminder
+  ///
+  /// In en, this message translates to:
+  /// **'Enable Reminder'**
+  String get enableReminder;
+
+  /// Label for reminder type selection
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder Type'**
+  String get reminderType;
+
+  /// Validation message for required reminder date
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder date is required'**
+  String get reminderDateRequired;
+
+  /// Validation message for reminder date in the past
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder date must be in the future'**
+  String get reminderDateMustBeFuture;
+
+  /// Validation message for required interval
+  ///
+  /// In en, this message translates to:
+  /// **'Interval is required'**
+  String get intervalRequired;
+
+  /// Validation message for interval outside valid range (1-365 days)
+  ///
+  /// In en, this message translates to:
+  /// **'Interval must be between 1 and 365 days'**
+  String get intervalOutOfRange;
+
+  /// Validation message for required reminder type
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a reminder type'**
+  String get reminderTypeRequired;
+
+  /// Label for days unit
+  ///
+  /// In en, this message translates to:
+  /// **'days'**
+  String get days;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

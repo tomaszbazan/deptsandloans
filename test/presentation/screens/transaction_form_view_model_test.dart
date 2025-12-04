@@ -5,16 +5,19 @@ import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_view_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('TransactionFormViewModel', () {
     late TransactionRepository repository;
+    late MockReminderRepository reminderRepository;
     late TransactionFormViewModel viewModel;
 
     setUp(() {
       repository = MockTransactionRepository();
-      viewModel = TransactionFormViewModel(repository: repository, type: TransactionType.debt);
+      reminderRepository = MockReminderRepository();
+      viewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, type: TransactionType.debt);
     });
 
     group('initial state', () {
@@ -292,7 +295,7 @@ void main() {
       });
 
       test('creates loan type transaction correctly', () async {
-        final loanViewModel = TransactionFormViewModel(repository: repository, type: TransactionType.loan);
+        final loanViewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, type: TransactionType.loan);
 
         loanViewModel.setName('Test Loan');
         loanViewModel.setAmount(200);
