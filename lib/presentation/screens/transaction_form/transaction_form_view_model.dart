@@ -346,6 +346,9 @@ class TransactionFormViewModel extends ChangeNotifier {
 
     if (_reminderType == ReminderType.oneTime) {
       final transaction = await _repository.getById(transactionId);
+      if (transaction == null) {
+        throw Exception('Transaction not found');
+      }
       final repayments = await _repaymentRepository.getRepaymentsByTransactionId(transactionId);
       final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
       final remainingBalance = (transaction.amount - totalRepaid) / 100.0;

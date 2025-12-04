@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import '../mocks/mock_repayment_repository.dart';
 import '../mocks/mock_transaction_repository.dart';
 import '../mocks/mock_reminder_repository.dart';
+import '../mocks/mock_notification_scheduler.dart';
 
 class AppFixture {
   static Widget createDefaultApp(Widget child, {String locale = 'en', ThemeData? theme}) {
@@ -26,6 +27,7 @@ class AppFixture {
         transactionRepository: MockTransactionRepository(),
         repaymentRepository: MockRepaymentRepository(),
         reminderRepository: MockReminderRepository(),
+        notificationScheduler: MockNotificationScheduler(),
       ),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('pl')],

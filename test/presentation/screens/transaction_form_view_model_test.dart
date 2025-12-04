@@ -7,17 +7,23 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
+import '../../mocks/mock_repayment_repository.dart';
+import '../../mocks/mock_notification_scheduler.dart';
 
 void main() {
   group('TransactionFormViewModel', () {
     late TransactionRepository repository;
     late MockReminderRepository reminderRepository;
+    late MockRepaymentRepository repaymentRepository;
+    late MockNotificationScheduler notificationScheduler;
     late TransactionFormViewModel viewModel;
 
     setUp(() {
       repository = MockTransactionRepository();
       reminderRepository = MockReminderRepository();
-      viewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, type: TransactionType.debt);
+      repaymentRepository = MockRepaymentRepository();
+      notificationScheduler = MockNotificationScheduler();
+      viewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt);
     });
 
     group('initial state', () {
@@ -295,7 +301,7 @@ void main() {
       });
 
       test('creates loan type transaction correctly', () async {
-        final loanViewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, type: TransactionType.loan);
+        final loanViewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.loan);
 
         loanViewModel.setName('Test Loan');
         loanViewModel.setAmount(200);

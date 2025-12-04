@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import '../../fixtures/app_fixture.dart';
 import '../../mocks/mock_reminder_repository.dart';
 import '../../mocks/mock_transaction_repository.dart';
+import '../../mocks/mock_repayment_repository.dart';
+import '../../mocks/mock_notification_scheduler.dart';
 
 void main() {
   goldenTest(
@@ -44,7 +46,7 @@ Widget _buildScenario(TransactionType type, int? transactionId, ThemeData theme)
     SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(transactionRepository: MockTransactionRepository(), reminderRepository: MockReminderRepository(), type: type, transactionId: transactionId),
+      child: TransactionFormScreen(transactionRepository: MockTransactionRepository(), reminderRepository: MockReminderRepository(), repaymentRepository: MockRepaymentRepository(), notificationScheduler: MockNotificationScheduler(), type: type, transactionId: transactionId),
     ),
     theme: theme,
   );
@@ -70,7 +72,7 @@ Widget _buildEditScenario(ThemeData theme) {
     SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(transactionRepository: repository, reminderRepository: MockReminderRepository(), type: TransactionType.debt, transactionId: 123),
+      child: TransactionFormScreen(transactionRepository: repository, reminderRepository: MockReminderRepository(), repaymentRepository: MockRepaymentRepository(), notificationScheduler: MockNotificationScheduler(), type: TransactionType.debt, transactionId: 123),
     ),
     theme: theme,
   );
