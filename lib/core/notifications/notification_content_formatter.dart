@@ -8,8 +8,8 @@ class NotificationContentFormatter {
     return 'Payment Reminder';
   }
 
-  static String formatBody(String locale, String transactionName, double remainingAmount, String currency, String transactionType) {
-    final formattedAmount = NumberFormat.currency(locale: locale, symbol: currency, decimalDigits: 2).format(remainingAmount);
+  static String formatBody(String locale, String transactionName, double remainingAmount, String currencySymbol, String transactionType) {
+    final formattedAmount = NumberFormat.currency(locale: locale, symbol: currencySymbol, decimalDigits: 2).format(remainingAmount);
 
     if (locale.startsWith('pl')) {
       if (transactionType == 'debt') {

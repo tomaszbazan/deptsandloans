@@ -2,6 +2,7 @@ import 'dart:developer' as developer;
 import 'package:deptsandloans/core/notifications/notification_content_formatter.dart';
 import 'package:deptsandloans/core/notifications/notification_service.dart';
 import 'package:deptsandloans/core/notifications/models/notification_payload.dart';
+import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/reminder.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 
@@ -22,14 +23,14 @@ class NotificationScheduler {
 
       final title = NotificationContentFormatter.formatTitle(locale, transaction.type.name);
 
-      final body = NotificationContentFormatter.formatBody(locale, transaction.name, remainingBalance, transaction.currency.name, transaction.type.name);
+      final body = NotificationContentFormatter.formatBody(locale, transaction.name, remainingBalance, transaction.currency.symbol, transaction.type.name);
 
       final payload = NotificationPayload(
         transactionId: transaction.id.toString(),
         transactionType: transaction.type.name,
         transactionName: transaction.name,
         remainingAmount: remainingBalance,
-        currency: transaction.currency.name,
+        currency: transaction.currency.symbol,
       );
 
       await _notificationService.scheduleNotification(id: notificationId, title: title, body: body, scheduledDate: scheduledDateTime, payload: payload);
@@ -55,14 +56,14 @@ class NotificationScheduler {
 
       final title = NotificationContentFormatter.formatTitle(locale, transaction.type.name);
 
-      final body = NotificationContentFormatter.formatBody(locale, transaction.name, remainingBalance, transaction.currency.name, transaction.type.name);
+      final body = NotificationContentFormatter.formatBody(locale, transaction.name, remainingBalance, transaction.currency.symbol, transaction.type.name);
 
       final payload = NotificationPayload(
         transactionId: transaction.id.toString(),
         transactionType: transaction.type.name,
         transactionName: transaction.name,
         remainingAmount: remainingBalance,
-        currency: transaction.currency.name,
+        currency: transaction.currency.symbol,
       );
 
       await _notificationService.scheduleNotification(id: notificationId, title: title, body: body, scheduledDate: scheduledDateTime, payload: payload);
