@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:deptsandloans/data/models/reminder.dart';
+import 'package:deptsandloans/data/models/reminder_type.dart';
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
@@ -10,11 +12,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
 
 import '../../fixtures/transaction_fixture.dart';
+import '../../mocks/mock_notification_scheduler.dart';
 
 void main() {
   late Isar isar;
   late IsarTransactionRepository repository;
   late IsarRepaymentRepository repaymentRepository;
+  late MockNotificationScheduler mockNotificationScheduler;
   final testDbDir = Directory('build/test_db');
 
   setUpAll(() async {
@@ -25,8 +29,9 @@ void main() {
   });
 
   setUp(() async {
-    isar = await Isar.open([TransactionSchema, RepaymentSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
-    repository = IsarTransactionRepository(isar);
+    isar = await Isar.open([TransactionSchema, RepaymentSchema, ReminderSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
+    mockNotificationScheduler = MockNotificationScheduler();
+    repository = IsarTransactionRepository(isar, mockNotificationScheduler);
     repaymentRepository = IsarRepaymentRepository(isar);
   });
 
@@ -330,6 +335,113 @@ void main() {
 
         await repository.markAsCompleted(transaction.id);
         await repository.markAsCompleted(transaction.id);
+
+        final completedTransaction = await isar.transactions.get(transaction.id);
+        expect(completedTransaction, isNotNull);
+        expect(completedTransaction!.isCompleted, isTrue);
+      });
+
+      test('cancels notifications for all reminders when marking transaction as completed', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        final reminder1 = Reminder()
+          ..id = 1
+          ..transactionId = transaction.id
+          ..type = ReminderType.oneTime
+          ..notificationId = 101
+          ..nextReminderDate = DateTime.now().add(const Duration(days: 1))
+          ..createdAt = DateTime.now();
+
+        final reminder2 = Reminder()
+          ..id = 2
+          ..transactionId = transaction.id
+          ..type = ReminderType.oneTime
+          ..notificationId = 102
+          ..nextReminderDate = DateTime.now().add(const Duration(days: 2))
+          ..createdAt = DateTime.now();
+
+        await isar.writeTxn(() async {
+          await isar.reminders.put(reminder1);
+          await isar.reminders.put(reminder2);
+        });
+
+        mockNotificationScheduler.reset();
+
+        await repository.markAsCompleted(transaction.id);
+
+        expect(mockNotificationScheduler.cancelledNotificationIds, hasLength(2));
+        expect(mockNotificationScheduler.cancelledNotificationIds, contains(101));
+        expect(mockNotificationScheduler.cancelledNotificationIds, contains(102));
+      });
+
+      test('does not cancel notifications for reminders without notification IDs', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        final reminder1 = Reminder()
+          ..id = 1
+          ..transactionId = transaction.id
+          ..type = ReminderType.oneTime
+          ..notificationId = 101
+          ..nextReminderDate = DateTime.now().add(const Duration(days: 1))
+          ..createdAt = DateTime.now();
+
+        final reminder2 = Reminder()
+          ..id = 2
+          ..transactionId = transaction.id
+          ..type = ReminderType.oneTime
+          ..notificationId = null
+          ..nextReminderDate = DateTime.now().add(const Duration(days: 2))
+          ..createdAt = DateTime.now();
+
+        await isar.writeTxn(() async {
+          await isar.reminders.put(reminder1);
+          await isar.reminders.put(reminder2);
+        });
+
+        mockNotificationScheduler.reset();
+
+        await repository.markAsCompleted(transaction.id);
+
+        expect(mockNotificationScheduler.cancelledNotificationIds, hasLength(1));
+        expect(mockNotificationScheduler.cancelledNotificationIds, contains(101));
+      });
+
+      test('continues to mark transaction as completed even if notification cancellation fails', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        final reminder = Reminder()
+          ..id = 1
+          ..transactionId = transaction.id
+          ..type = ReminderType.oneTime
+          ..notificationId = 101
+          ..nextReminderDate = DateTime.now().add(const Duration(days: 1))
+          ..createdAt = DateTime.now();
+
+        await isar.writeTxn(() async {
+          await isar.reminders.put(reminder);
+        });
+
+        mockNotificationScheduler.shouldThrowOnCancel = true;
+
+        await repository.markAsCompleted(transaction.id);
+
+        final completedTransaction = await isar.transactions.get(transaction.id);
+        expect(completedTransaction, isNotNull);
+        expect(completedTransaction!.isCompleted, isTrue);
+      });
+
+      test('does not cancel notifications when there are no reminders', () async {
+        final transaction = TransactionFixture.createTransaction();
+        await repository.create(transaction);
+
+        mockNotificationScheduler.reset();
+
+        await repository.markAsCompleted(transaction.id);
+
+        expect(mockNotificationScheduler.cancelledNotificationIds, isEmpty);
 
         final completedTransaction = await isar.transactions.get(transaction.id);
         expect(completedTransaction, isNotNull);

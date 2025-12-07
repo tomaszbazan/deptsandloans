@@ -20,7 +20,15 @@ class TransactionFormScreen extends StatefulWidget {
   final TransactionType type;
   final int? transactionId;
 
-  const TransactionFormScreen({required this.transactionRepository, required this.reminderRepository, required this.repaymentRepository, required this.notificationScheduler, required this.type, this.transactionId, super.key});
+  const TransactionFormScreen({
+    required this.transactionRepository,
+    required this.reminderRepository,
+    required this.repaymentRepository,
+    required this.notificationScheduler,
+    required this.type,
+    this.transactionId,
+    super.key,
+  });
 
   @override
   State<TransactionFormScreen> createState() => _TransactionFormScreenState();
@@ -55,7 +63,13 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
       _amountController.text = _viewModel.amount?.toString() ?? '';
       _descriptionController.text = _viewModel.description ?? '';
     } else {
-      _viewModel = TransactionFormViewModel(repository: widget.transactionRepository, reminderRepository: widget.reminderRepository, repaymentRepository: widget.repaymentRepository, notificationScheduler: widget.notificationScheduler, type: widget.type);
+      _viewModel = TransactionFormViewModel(
+        repository: widget.transactionRepository,
+        reminderRepository: widget.reminderRepository,
+        repaymentRepository: widget.repaymentRepository,
+        notificationScheduler: widget.notificationScheduler,
+        type: widget.type,
+      );
       _nameFocusNode.requestFocus();
     }
     if (mounted) {

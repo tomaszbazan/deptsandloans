@@ -37,7 +37,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -57,7 +63,14 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt, transactionId: 456),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+            transactionId: 456,
+          ),
         ),
       );
 
@@ -76,7 +89,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.loan),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.loan,
+          ),
         ),
       );
 
@@ -95,7 +114,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -118,7 +143,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -142,7 +173,13 @@ void main() {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: const [Locale('en'), Locale('pl')],
-            home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+            home: TransactionFormScreen(
+              transactionRepository: repository,
+              reminderRepository: reminderRepository,
+              repaymentRepository: repaymentRepository,
+              notificationScheduler: notificationScheduler,
+              type: TransactionType.debt,
+            ),
           ),
         );
 
@@ -170,7 +207,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -192,7 +235,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -217,7 +266,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -245,7 +300,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -272,7 +333,13 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+          ),
         ),
       );
 
@@ -310,7 +377,14 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+            transactionId: 1,
+          ),
         ),
       );
 
@@ -332,7 +406,14 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+            transactionId: 1,
+          ),
         ),
       );
 
@@ -353,7 +434,14 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+            transactionId: 1,
+          ),
         ),
       );
 
@@ -378,7 +466,14 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+            transactionId: 1,
+          ),
         ),
       );
 
@@ -402,7 +497,14 @@ void main() {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(transactionRepository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt, transactionId: 1),
+          home: TransactionFormScreen(
+            transactionRepository: repository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: TransactionType.debt,
+            transactionId: 1,
+          ),
         ),
       );
 

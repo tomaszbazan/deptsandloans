@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:isar_community/isar.dart';
 
 import '../fixtures/transaction_fixture.dart';
+import '../mocks/mock_notification_scheduler.dart';
 
 void main() {
   late Isar isar;
@@ -24,7 +25,7 @@ void main() {
 
   setUp(() async {
     isar = await Isar.open([TransactionSchema, RepaymentSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
-    transactionRepository = IsarTransactionRepository(isar);
+    transactionRepository = IsarTransactionRepository(isar, MockNotificationScheduler());
     repaymentRepository = IsarRepaymentRepository(isar);
   });
 

@@ -46,7 +46,14 @@ Widget _buildScenario(TransactionType type, int? transactionId, ThemeData theme)
     SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(transactionRepository: MockTransactionRepository(), reminderRepository: MockReminderRepository(), repaymentRepository: MockRepaymentRepository(), notificationScheduler: MockNotificationScheduler(), type: type, transactionId: transactionId),
+      child: TransactionFormScreen(
+        transactionRepository: MockTransactionRepository(),
+        reminderRepository: MockReminderRepository(),
+        repaymentRepository: MockRepaymentRepository(),
+        notificationScheduler: MockNotificationScheduler(),
+        type: type,
+        transactionId: transactionId,
+      ),
     ),
     theme: theme,
   );
@@ -72,7 +79,14 @@ Widget _buildEditScenario(ThemeData theme) {
     SizedBox(
       width: 400,
       height: 800,
-      child: TransactionFormScreen(transactionRepository: repository, reminderRepository: MockReminderRepository(), repaymentRepository: MockRepaymentRepository(), notificationScheduler: MockNotificationScheduler(), type: TransactionType.debt, transactionId: 123),
+      child: TransactionFormScreen(
+        transactionRepository: repository,
+        reminderRepository: MockReminderRepository(),
+        repaymentRepository: MockRepaymentRepository(),
+        notificationScheduler: MockNotificationScheduler(),
+        type: TransactionType.debt,
+        transactionId: 123,
+      ),
     ),
     theme: theme,
   );

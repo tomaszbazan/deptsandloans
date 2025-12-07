@@ -1,5 +1,9 @@
 import 'dart:developer' as developer;
+
+import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
 import 'package:isar_community/isar.dart';
+
+import '../models/reminder.dart';
 import '../models/repayment.dart';
 import '../models/transaction.dart';
 import '../models/transaction_status.dart';
@@ -9,8 +13,9 @@ import 'transaction_repository.dart';
 
 class IsarTransactionRepository implements TransactionRepository {
   final Isar _isar;
+  final NotificationScheduler _notificationScheduler;
 
-  const IsarTransactionRepository(this._isar);
+  const IsarTransactionRepository(this._isar, this._notificationScheduler);
 
   @override
   Future<void> create(Transaction transaction) async {
@@ -129,6 +134,19 @@ class IsarTransactionRepository implements TransactionRepository {
       await _isar.writeTxn(() async {
         await _isar.transactions.put(transaction);
       });
+
+      final reminders = await _isar.reminders.filter().transactionIdEqualTo(id).findAll();
+      for (final reminder in reminders) {
+        final notificationId = reminder.notificationId;
+        if (notificationId != null) {
+          try {
+            await _notificationScheduler.cancelReminder(notificationId);
+            developer.log('Cancelled notification $notificationId for transaction $id', name: 'TransactionRepository');
+          } catch (e) {
+            developer.log('Failed to cancel notification $notificationId for reminder ${reminder.id} in transaction $id', name: 'TransactionRepository', level: 900, error: e);
+          }
+        }
+      }
 
       developer.log('Transaction marked as completed: id=$id, name=${transaction.name}', name: 'TransactionRepository');
     } on TransactionNotFoundException {

@@ -53,14 +53,19 @@ class DeptsAndLoansApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final transactionRepository = IsarTransactionRepository(databaseService.instance);
+    final notificationScheduler = NotificationScheduler(notificationService);
+    final transactionRepository = IsarTransactionRepository(databaseService.instance, notificationScheduler);
     final repaymentRepository = IsarRepaymentRepository(databaseService.instance);
     final reminderRepository = IsarReminderRepository(databaseService.instance);
-    final notificationScheduler = NotificationScheduler(notificationService);
 
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      routerConfig: createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository, notificationScheduler: notificationScheduler),
+      routerConfig: createAppRouter(
+        transactionRepository: transactionRepository,
+        repaymentRepository: repaymentRepository,
+        reminderRepository: reminderRepository,
+        notificationScheduler: notificationScheduler,
+      ),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: const [Locale('en'), Locale('pl')],
       localeResolutionCallback: (locale, supportedLocales) {

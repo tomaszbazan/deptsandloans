@@ -23,7 +23,13 @@ void main() {
       reminderRepository = MockReminderRepository();
       repaymentRepository = MockRepaymentRepository();
       notificationScheduler = MockNotificationScheduler();
-      viewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.debt);
+      viewModel = TransactionFormViewModel(
+        repository: repository,
+        reminderRepository: reminderRepository,
+        repaymentRepository: repaymentRepository,
+        notificationScheduler: notificationScheduler,
+        type: TransactionType.debt,
+      );
     });
 
     group('initial state', () {
@@ -301,7 +307,13 @@ void main() {
       });
 
       test('creates loan type transaction correctly', () async {
-        final loanViewModel = TransactionFormViewModel(repository: repository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: TransactionType.loan);
+        final loanViewModel = TransactionFormViewModel(
+          repository: repository,
+          reminderRepository: reminderRepository,
+          repaymentRepository: repaymentRepository,
+          notificationScheduler: notificationScheduler,
+          type: TransactionType.loan,
+        );
 
         loanViewModel.setName('Test Loan');
         loanViewModel.setAmount(200);

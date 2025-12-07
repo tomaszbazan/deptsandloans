@@ -1,3 +1,4 @@
+import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/reminder_repository.dart';
 import 'package:deptsandloans/data/repositories/repayment_repository.dart';
@@ -5,10 +6,14 @@ import 'package:deptsandloans/data/repositories/transaction_repository.dart';
 import 'package:deptsandloans/presentation/screens/main_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_details_screen.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
-import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
 import 'package:go_router/go_router.dart';
 
-GoRouter createAppRouter({required TransactionRepository transactionRepository, required RepaymentRepository repaymentRepository, required ReminderRepository reminderRepository, required NotificationScheduler notificationScheduler}) {
+GoRouter createAppRouter({
+  required TransactionRepository transactionRepository,
+  required RepaymentRepository repaymentRepository,
+  required ReminderRepository reminderRepository,
+  required NotificationScheduler notificationScheduler,
+}) {
   return GoRouter(
     initialLocation: '/',
     routes: [
@@ -26,7 +31,13 @@ GoRouter createAppRouter({required TransactionRepository transactionRepository, 
           final typeParam = state.uri.queryParameters['type'];
           final type = typeParam == 'loan' ? TransactionType.loan : TransactionType.debt;
 
-          return TransactionFormScreen(transactionRepository: transactionRepository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: type);
+          return TransactionFormScreen(
+            transactionRepository: transactionRepository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: type,
+          );
         },
       ),
       GoRoute(
@@ -44,7 +55,14 @@ GoRouter createAppRouter({required TransactionRepository transactionRepository, 
           final id = int.parse(state.pathParameters['id']!);
           final typeParam = state.uri.queryParameters['type'];
           final type = typeParam == 'loan' ? TransactionType.loan : TransactionType.debt;
-          return TransactionFormScreen(transactionRepository: transactionRepository, reminderRepository: reminderRepository, repaymentRepository: repaymentRepository, notificationScheduler: notificationScheduler, type: type, transactionId: id);
+          return TransactionFormScreen(
+            transactionRepository: transactionRepository,
+            reminderRepository: reminderRepository,
+            repaymentRepository: repaymentRepository,
+            notificationScheduler: notificationScheduler,
+            type: type,
+            transactionId: id,
+          );
         },
       ),
     ],

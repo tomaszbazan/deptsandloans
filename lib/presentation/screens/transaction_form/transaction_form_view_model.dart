@@ -353,12 +353,7 @@ class TransactionFormViewModel extends ChangeNotifier {
       final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
       final remainingBalance = (transaction.amount - totalRepaid) / 100.0;
       final locale = _getLocale();
-      final notificationId = await _notificationScheduler.scheduleOneTimeReminder(
-        reminder: reminder,
-        transaction: transaction,
-        locale: locale,
-        remainingBalance: remainingBalance,
-      );
+      final notificationId = await _notificationScheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: locale, remainingBalance: remainingBalance);
       reminder.notificationId = notificationId;
       await _reminderRepository.updateReminder(reminder);
     }

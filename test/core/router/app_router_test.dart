@@ -19,7 +19,12 @@ void main() {
     repaymentRepository = MockRepaymentRepository();
     reminderRepository = MockReminderRepository();
     notificationScheduler = MockNotificationScheduler();
-    router = createAppRouter(transactionRepository: transactionRepository, repaymentRepository: repaymentRepository, reminderRepository: reminderRepository, notificationScheduler: notificationScheduler);
+    router = createAppRouter(
+      transactionRepository: transactionRepository,
+      repaymentRepository: repaymentRepository,
+      reminderRepository: reminderRepository,
+      notificationScheduler: notificationScheduler,
+    );
   });
 
   group('AppRouter', () {

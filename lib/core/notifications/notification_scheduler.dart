@@ -10,12 +10,7 @@ class NotificationScheduler {
 
   const NotificationScheduler(this._notificationService);
 
-  Future<int> scheduleOneTimeReminder({
-    required Reminder reminder,
-    required Transaction transaction,
-    required String locale,
-    required double remainingBalance,
-  }) async {
+  Future<int> scheduleOneTimeReminder({required Reminder reminder, required Transaction transaction, required String locale, required double remainingBalance}) async {
     try {
       final scheduledDateTime = _calculateScheduledDateTime(reminder.nextReminderDate);
 
@@ -25,18 +20,9 @@ class NotificationScheduler {
 
       final notificationId = _generateNotificationId(reminder, transaction);
 
-      final title = NotificationContentFormatter.formatTitle(
-        locale,
-        transaction.type.name,
-      );
+      final title = NotificationContentFormatter.formatTitle(locale, transaction.type.name);
 
-      final body = NotificationContentFormatter.formatBody(
-        locale,
-        transaction.name,
-        remainingBalance,
-        transaction.currency.name,
-        transaction.type.name,
-      );
+      final body = NotificationContentFormatter.formatBody(locale, transaction.name, remainingBalance, transaction.currency.name, transaction.type.name);
 
       final payload = NotificationPayload(
         transactionId: transaction.id.toString(),
@@ -46,28 +32,13 @@ class NotificationScheduler {
         currency: transaction.currency.name,
       );
 
-      await _notificationService.scheduleNotification(
-        id: notificationId,
-        title: title,
-        body: body,
-        scheduledDate: scheduledDateTime,
-        payload: payload,
-      );
+      await _notificationService.scheduleNotification(id: notificationId, title: title, body: body, scheduledDate: scheduledDateTime, payload: payload);
 
-      developer.log(
-        'One-time reminder scheduled: id=$notificationId, date=$scheduledDateTime',
-        name: 'NotificationScheduler',
-      );
+      developer.log('One-time reminder scheduled: id=$notificationId, date=$scheduledDateTime', name: 'NotificationScheduler');
 
       return notificationId;
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to schedule one-time reminder',
-        name: 'NotificationScheduler',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to schedule one-time reminder', name: 'NotificationScheduler', level: 1000, error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -75,31 +46,15 @@ class NotificationScheduler {
   Future<void> cancelReminder(int notificationId) async {
     try {
       await _notificationService.cancelNotification(notificationId);
-      developer.log(
-        'Reminder cancelled: id=$notificationId',
-        name: 'NotificationScheduler',
-      );
+      developer.log('Reminder cancelled: id=$notificationId', name: 'NotificationScheduler');
     } catch (e, stackTrace) {
-      developer.log(
-        'Failed to cancel reminder',
-        name: 'NotificationScheduler',
-        level: 1000,
-        error: e,
-        stackTrace: stackTrace,
-      );
+      developer.log('Failed to cancel reminder', name: 'NotificationScheduler', level: 1000, error: e, stackTrace: stackTrace);
       rethrow;
     }
   }
 
   DateTime _calculateScheduledDateTime(DateTime targetDate) {
-    final scheduledTime = DateTime(
-      targetDate.year,
-      targetDate.month,
-      targetDate.day,
-      19,
-      0,
-      0,
-    );
+    final scheduledTime = DateTime(targetDate.year, targetDate.month, targetDate.day, 19, 0, 0);
 
     return scheduledTime;
   }

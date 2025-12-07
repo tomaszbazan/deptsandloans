@@ -45,30 +45,29 @@ void main() {
           ..createdAt = DateTime.now()
           ..updatedAt = DateTime.now();
 
-        when(() => mockNotificationService.scheduleNotification(
-              id: any(named: 'id'),
-              title: any(named: 'title'),
-              body: any(named: 'body'),
-              scheduledDate: any(named: 'scheduledDate'),
-              payload: any(named: 'payload'),
-            )).thenAnswer((_) async => {});
+        when(
+          () => mockNotificationService.scheduleNotification(
+            id: any(named: 'id'),
+            title: any(named: 'title'),
+            body: any(named: 'body'),
+            scheduledDate: any(named: 'scheduledDate'),
+            payload: any(named: 'payload'),
+          ),
+        ).thenAnswer((_) async => {});
 
-        final notificationId = await scheduler.scheduleOneTimeReminder(
-          reminder: reminder,
-          transaction: transaction,
-          locale: 'en',
-          remainingBalance: 100.00,
-        );
+        final notificationId = await scheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: 'en', remainingBalance: 100.00);
 
         expect(notificationId, equals(1042));
 
-        final captured = verify(() => mockNotificationService.scheduleNotification(
-              id: captureAny(named: 'id'),
-              title: captureAny(named: 'title'),
-              body: captureAny(named: 'body'),
-              scheduledDate: captureAny(named: 'scheduledDate'),
-              payload: captureAny(named: 'payload'),
-            )).captured;
+        final captured = verify(
+          () => mockNotificationService.scheduleNotification(
+            id: captureAny(named: 'id'),
+            title: captureAny(named: 'title'),
+            body: captureAny(named: 'body'),
+            scheduledDate: captureAny(named: 'scheduledDate'),
+            payload: captureAny(named: 'payload'),
+          ),
+        ).captured;
 
         expect(captured[0], equals(1042));
         expect(captured[1], contains('Reminder'));
@@ -95,15 +94,7 @@ void main() {
           ..createdAt = DateTime.now()
           ..updatedAt = DateTime.now();
 
-        expect(
-          () => scheduler.scheduleOneTimeReminder(
-            reminder: reminder,
-            transaction: transaction,
-            locale: 'en',
-            remainingBalance: 100.00,
-          ),
-          throwsA(isA<ArgumentError>()),
-        );
+        expect(() => scheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: 'en', remainingBalance: 100.00), throwsA(isA<ArgumentError>()));
       });
 
       test('should format notification for Polish locale', () async {
@@ -125,28 +116,27 @@ void main() {
           ..createdAt = DateTime.now()
           ..updatedAt = DateTime.now();
 
-        when(() => mockNotificationService.scheduleNotification(
-              id: any(named: 'id'),
-              title: any(named: 'title'),
-              body: any(named: 'body'),
-              scheduledDate: any(named: 'scheduledDate'),
-              payload: any(named: 'payload'),
-            )).thenAnswer((_) async => {});
+        when(
+          () => mockNotificationService.scheduleNotification(
+            id: any(named: 'id'),
+            title: any(named: 'title'),
+            body: any(named: 'body'),
+            scheduledDate: any(named: 'scheduledDate'),
+            payload: any(named: 'payload'),
+          ),
+        ).thenAnswer((_) async => {});
 
-        await scheduler.scheduleOneTimeReminder(
-          reminder: reminder,
-          transaction: transaction,
-          locale: 'pl',
-          remainingBalance: 100.00,
-        );
+        await scheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: 'pl', remainingBalance: 100.00);
 
-        final captured = verify(() => mockNotificationService.scheduleNotification(
-              id: captureAny(named: 'id'),
-              title: captureAny(named: 'title'),
-              body: captureAny(named: 'body'),
-              scheduledDate: captureAny(named: 'scheduledDate'),
-              payload: captureAny(named: 'payload'),
-            )).captured;
+        final captured = verify(
+          () => mockNotificationService.scheduleNotification(
+            id: captureAny(named: 'id'),
+            title: captureAny(named: 'title'),
+            body: captureAny(named: 'body'),
+            scheduledDate: captureAny(named: 'scheduledDate'),
+            payload: captureAny(named: 'payload'),
+          ),
+        ).captured;
 
         expect(captured[1], contains('Przypomnienie'));
         expect(captured[2], contains('Zwróć'));
@@ -155,8 +145,7 @@ void main() {
 
     group('cancelReminder', () {
       test('should cancel notification', () async {
-        when(() => mockNotificationService.cancelNotification(any()))
-            .thenAnswer((_) async => {});
+        when(() => mockNotificationService.cancelNotification(any())).thenAnswer((_) async => {});
 
         await scheduler.cancelReminder(123);
 
