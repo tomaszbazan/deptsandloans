@@ -131,11 +131,8 @@ class IsarTransactionRepository implements TransactionRepository {
       transaction.status = TransactionStatus.completed;
       transaction.updatedAt = DateTime.now();
 
-      await _isar.writeTxn(() async {
-        await _isar.transactions.put(transaction);
-      });
-
       final reminders = await _isar.reminders.filter().transactionIdEqualTo(id).findAll();
+
       for (final reminder in reminders) {
         final notificationId = reminder.notificationId;
         if (notificationId != null) {
@@ -147,6 +144,12 @@ class IsarTransactionRepository implements TransactionRepository {
           }
         }
       }
+
+      await _isar.writeTxn(() async {
+        await _isar.transactions.put(transaction);
+        final deletedCount = await _isar.reminders.filter().transactionIdEqualTo(id).deleteAll();
+        developer.log('Deleted $deletedCount reminder(s) for transaction $id', name: 'TransactionRepository');
+      });
 
       developer.log('Transaction marked as completed: id=$id, name=${transaction.name}', name: 'TransactionRepository');
     } on TransactionNotFoundException {

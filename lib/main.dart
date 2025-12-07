@@ -31,7 +31,7 @@ void main() async {
 
     final notificationScheduler = NotificationScheduler(notificationService);
     final transactionRepository = IsarTransactionRepository(databaseService.instance, notificationScheduler);
-    final repaymentRepository = IsarRepaymentRepository(databaseService.instance);
+    final repaymentRepository = IsarRepaymentRepository(databaseService.instance, notificationScheduler);
     final reminderRepository = IsarReminderRepository(databaseService.instance);
 
     final backgroundReminderService = BackgroundReminderService(
@@ -73,7 +73,7 @@ class DeptsAndLoansApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final notificationScheduler = NotificationScheduler(notificationService);
     final transactionRepository = IsarTransactionRepository(databaseService.instance, notificationScheduler);
-    final repaymentRepository = IsarRepaymentRepository(databaseService.instance);
+    final repaymentRepository = IsarRepaymentRepository(databaseService.instance, notificationScheduler);
     final reminderRepository = IsarReminderRepository(databaseService.instance);
 
     return MaterialApp.router(

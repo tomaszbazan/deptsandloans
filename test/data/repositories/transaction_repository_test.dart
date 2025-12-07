@@ -32,7 +32,7 @@ void main() {
     isar = await Isar.open([TransactionSchema, RepaymentSchema, ReminderSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
     mockNotificationScheduler = MockNotificationScheduler();
     repository = IsarTransactionRepository(isar, mockNotificationScheduler);
-    repaymentRepository = IsarRepaymentRepository(isar);
+    repaymentRepository = IsarRepaymentRepository(isar, mockNotificationScheduler);
   });
 
   tearDown(() async {
@@ -373,6 +373,9 @@ void main() {
         expect(mockNotificationScheduler.cancelledNotificationIds, hasLength(2));
         expect(mockNotificationScheduler.cancelledNotificationIds, contains(101));
         expect(mockNotificationScheduler.cancelledNotificationIds, contains(102));
+
+        final remainingReminders = await isar.reminders.filter().transactionIdEqualTo(transaction.id).findAll();
+        expect(remainingReminders, isEmpty);
       });
 
       test('does not cancel notifications for reminders without notification IDs', () async {
@@ -431,6 +434,9 @@ void main() {
         final completedTransaction = await isar.transactions.get(transaction.id);
         expect(completedTransaction, isNotNull);
         expect(completedTransaction!.isCompleted, isTrue);
+
+        final remainingReminders = await isar.reminders.filter().transactionIdEqualTo(transaction.id).findAll();
+        expect(remainingReminders, isEmpty);
       });
 
       test('does not cancel notifications when there are no reminders', () async {

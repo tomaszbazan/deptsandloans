@@ -73,7 +73,7 @@
 | TASK-0037 | Implement Reminder Configuration UI | Add UI controls in transaction form for setting one-time or recurring reminders    | [X]  |
 | TASK-0038 | Implement One-Time Reminder         | Schedule single push notification at 19:00 on specified date                       | [X]  |
 | TASK-0039 | Implement Recurring Reminder        | Schedule repeating notifications every X days at 19:00                             | [X]  |
-| TASK-0040 | Implement Reminder Cancellation     | Automatically cancel all notifications when transaction reaches 100% repaid status | [ ]  |
+| TASK-0040 | Implement Reminder Cancellation     | Automatically cancel all notifications when transaction reaches 100% repaid status | [X]  |
 | TASK-0041 | Create Notification Content         | Format notification with transaction name, amount, and remaining balance           | [ ]  |
 
 ## Localization & Currency Formatting

@@ -1,5 +1,7 @@
 import 'dart:developer' as developer;
+import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
 import 'package:isar_community/isar.dart';
+import '../models/reminder.dart';
 import '../models/repayment.dart';
 import '../models/transaction.dart';
 import '../models/transaction_status.dart';
@@ -8,8 +10,9 @@ import 'repayment_repository.dart';
 
 class IsarRepaymentRepository implements RepaymentRepository {
   final Isar _isar;
+  final NotificationScheduler _notificationScheduler;
 
-  const IsarRepaymentRepository(this._isar);
+  const IsarRepaymentRepository(this._isar, this._notificationScheduler);
 
   @override
   Future<void> addRepayment(Repayment repayment) async {
@@ -31,6 +34,27 @@ class IsarRepaymentRepository implements RepaymentRepository {
           transaction.status = TransactionStatus.completed;
           transaction.updatedAt = DateTime.now();
           await _isar.transactions.put(transaction);
+
+          final reminders = await _isar.reminders.filter().transactionIdEqualTo(transaction.id).findAll();
+          for (final reminder in reminders) {
+            final notificationId = reminder.notificationId;
+            if (notificationId != null) {
+              try {
+                await _notificationScheduler.cancelReminder(notificationId);
+                developer.log('Cancelled notification $notificationId for auto-completed transaction ${transaction.id}', name: 'RepaymentRepository');
+              } catch (e) {
+                developer.log(
+                  'Failed to cancel notification $notificationId for reminder ${reminder.id} in transaction ${transaction.id}',
+                  name: 'RepaymentRepository',
+                  level: 900,
+                  error: e,
+                );
+              }
+            }
+          }
+
+          final deletedCount = await _isar.reminders.filter().transactionIdEqualTo(transaction.id).deleteAll();
+          developer.log('Deleted $deletedCount reminder(s) for auto-completed transaction ${transaction.id}', name: 'RepaymentRepository');
 
           developer.log('Transaction auto-completed: id=${transaction.id}', name: 'RepaymentRepository');
         }

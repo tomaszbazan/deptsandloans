@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:deptsandloans/data/models/reminder.dart';
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
@@ -14,6 +15,7 @@ void main() {
   late Isar isar;
   late IsarTransactionRepository transactionRepository;
   late IsarRepaymentRepository repaymentRepository;
+  late MockNotificationScheduler mockNotificationScheduler;
   final testDbDir = Directory('build/test_db');
 
   setUpAll(() async {
@@ -24,9 +26,10 @@ void main() {
   });
 
   setUp(() async {
-    isar = await Isar.open([TransactionSchema, RepaymentSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
-    transactionRepository = IsarTransactionRepository(isar, MockNotificationScheduler());
-    repaymentRepository = IsarRepaymentRepository(isar);
+    isar = await Isar.open([TransactionSchema, RepaymentSchema, ReminderSchema], directory: testDbDir.path, name: 'test_${DateTime.now().millisecondsSinceEpoch}');
+    mockNotificationScheduler = MockNotificationScheduler();
+    transactionRepository = IsarTransactionRepository(isar, mockNotificationScheduler);
+    repaymentRepository = IsarRepaymentRepository(isar, mockNotificationScheduler);
   });
 
   tearDown(() async {
