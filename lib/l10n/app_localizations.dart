@@ -535,6 +535,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'days'**
   String get days;
+
+  /// Message shown when all debts are completed
+  ///
+  /// In en, this message translates to:
+  /// **'All debts completed!'**
+  String get allDebtsCompleted;
+
+  /// Message shown when all loans are completed
+  ///
+  /// In en, this message translates to:
+  /// **'All loans completed!'**
+  String get allLoansCompleted;
+
+  /// Hint to check the archive section below
+  ///
+  /// In en, this message translates to:
+  /// **'Check archive below'**
+  String get checkArchiveBelow;
+
+  /// Title for delete transaction confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Transaction?'**
+  String get deleteTransactionTitle;
+
+  /// Warning message in delete confirmation dialog
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone. The transaction and all associated repayments will be permanently deleted.'**
+  String get deleteTransactionMessage;
+
+  /// Success message after deleting a transaction
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction deleted successfully'**
+  String get transactionDeletedSuccessfully;
+
+  /// Error message when transaction deletion fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete transaction: {error}'**
+  String failedToDeleteTransaction(String error);
+
+  /// Title for transaction details screen
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Details'**
+  String get transactionDetails;
+
+  /// Error message when transaction cannot be found
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction not found'**
+  String get transactionNotFound;
+
+  /// Detailed error message for missing transaction
+  ///
+  /// In en, this message translates to:
+  /// **'The requested transaction could not be loaded.'**
+  String get transactionNotFoundMessage;
+
+  /// Button label to navigate back
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get goBack;
+
+  /// Label for debt transaction type
+  ///
+  /// In en, this message translates to:
+  /// **'Debt'**
+  String get debt;
+
+  /// Label for loan transaction type
+  ///
+  /// In en, this message translates to:
+  /// **'Loan'**
+  String get loan;
+
+  /// Label for the original transaction amount
+  ///
+  /// In en, this message translates to:
+  /// **'Original Amount'**
+  String get originalAmount;
+
+  /// Label for the remaining balance to be paid
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining Balance'**
+  String get remainingBalance;
+
+  /// Label for transaction status
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get status;
+
+  /// Status label for active transactions
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// Title for repayment progress section
+  ///
+  /// In en, this message translates to:
+  /// **'Repayment Progress'**
+  String get repaymentProgress;
+
+  /// Label for amount already paid
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paid;
+
+  /// Label for amount remaining to be paid
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining'**
+  String get remaining;
+
+  /// Error message when repayment cannot be added
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add repayment'**
+  String get failedToAddRepayment;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -316,5 +316,95 @@
   "days": "days",
   "@days": {
     "description": "Label for days unit"
+  },
+  "allDebtsCompleted": "All debts completed!",
+  "@allDebtsCompleted": {
+    "description": "Message shown when all debts are completed"
+  },
+  "allLoansCompleted": "All loans completed!",
+  "@allLoansCompleted": {
+    "description": "Message shown when all loans are completed"
+  },
+  "checkArchiveBelow": "Check archive below",
+  "@checkArchiveBelow": {
+    "description": "Hint to check the archive section below"
+  },
+  "deleteTransactionTitle": "Delete Transaction?",
+  "@deleteTransactionTitle": {
+    "description": "Title for delete transaction confirmation dialog"
+  },
+  "deleteTransactionMessage": "This action cannot be undone. The transaction and all associated repayments will be permanently deleted.",
+  "@deleteTransactionMessage": {
+    "description": "Warning message in delete confirmation dialog"
+  },
+  "transactionDeletedSuccessfully": "Transaction deleted successfully",
+  "@transactionDeletedSuccessfully": {
+    "description": "Success message after deleting a transaction"
+  },
+  "failedToDeleteTransaction": "Failed to delete transaction: {error}",
+  "@failedToDeleteTransaction": {
+    "description": "Error message when transaction deletion fails",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Network error"
+      }
+    }
+  },
+  "transactionDetails": "Transaction Details",
+  "@transactionDetails": {
+    "description": "Title for transaction details screen"
+  },
+  "transactionNotFound": "Transaction not found",
+  "@transactionNotFound": {
+    "description": "Error message when transaction cannot be found"
+  },
+  "transactionNotFoundMessage": "The requested transaction could not be loaded.",
+  "@transactionNotFoundMessage": {
+    "description": "Detailed error message for missing transaction"
+  },
+  "goBack": "Go Back",
+  "@goBack": {
+    "description": "Button label to navigate back"
+  },
+  "debt": "Debt",
+  "@debt": {
+    "description": "Label for debt transaction type"
+  },
+  "loan": "Loan",
+  "@loan": {
+    "description": "Label for loan transaction type"
+  },
+  "originalAmount": "Original Amount",
+  "@originalAmount": {
+    "description": "Label for the original transaction amount"
+  },
+  "remainingBalance": "Remaining Balance",
+  "@remainingBalance": {
+    "description": "Label for the remaining balance to be paid"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "Label for transaction status"
+  },
+  "active": "Active",
+  "@active": {
+    "description": "Status label for active transactions"
+  },
+  "repaymentProgress": "Repayment Progress",
+  "@repaymentProgress": {
+    "description": "Title for repayment progress section"
+  },
+  "paid": "Paid",
+  "@paid": {
+    "description": "Label for amount already paid"
+  },
+  "remaining": "Remaining",
+  "@remaining": {
+    "description": "Label for amount remaining to be paid"
+  },
+  "failedToAddRepayment": "Failed to add repayment",
+  "@failedToAddRepayment": {
+    "description": "Error message when repayment cannot be added"
   }
 }

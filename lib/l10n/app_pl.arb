@@ -73,5 +73,95 @@
   "intervalRequired": "Interwał jest wymagany",
   "intervalOutOfRange": "Interwał musi wynosić od 1 do 365 dni",
   "reminderTypeRequired": "Proszę wybrać typ przypomnienia",
-  "days": "dni"
+  "days": "dni",
+  "allDebtsCompleted": "Wszystkie długi spłacone!",
+  "@allDebtsCompleted": {
+    "description": "Komunikat wyświetlany gdy wszystkie długi są spłacone"
+  },
+  "allLoansCompleted": "Wszystkie pożyczki spłacone!",
+  "@allLoansCompleted": {
+    "description": "Komunikat wyświetlany gdy wszystkie pożyczki są spłacone"
+  },
+  "checkArchiveBelow": "Sprawdź archiwum poniżej",
+  "@checkArchiveBelow": {
+    "description": "Wskazówka do sprawdzenia sekcji archiwum poniżej"
+  },
+  "deleteTransactionTitle": "Usunąć transakcję?",
+  "@deleteTransactionTitle": {
+    "description": "Tytuł okna potwierdzenia usunięcia transakcji"
+  },
+  "deleteTransactionMessage": "Ta operacja jest nieodwracalna. Transakcja i wszystkie powiązane spłaty zostaną trwale usunięte.",
+  "@deleteTransactionMessage": {
+    "description": "Komunikat ostrzegawczy w oknie potwierdzenia usunięcia"
+  },
+  "transactionDeletedSuccessfully": "Transakcja usunięta pomyślnie",
+  "@transactionDeletedSuccessfully": {
+    "description": "Komunikat sukcesu po usunięciu transakcji"
+  },
+  "failedToDeleteTransaction": "Nie udało się usunąć transakcji: {error}",
+  "@failedToDeleteTransaction": {
+    "description": "Komunikat błędu gdy usunięcie transakcji nie powiodło się",
+    "placeholders": {
+      "error": {
+        "type": "String",
+        "example": "Błąd sieci"
+      }
+    }
+  },
+  "transactionDetails": "Szczegóły transakcji",
+  "@transactionDetails": {
+    "description": "Tytuł ekranu szczegółów transakcji"
+  },
+  "transactionNotFound": "Nie znaleziono transakcji",
+  "@transactionNotFound": {
+    "description": "Komunikat błędu gdy nie można znaleźć transakcji"
+  },
+  "transactionNotFoundMessage": "Żądana transakcja nie mogła zostać wczytana.",
+  "@transactionNotFoundMessage": {
+    "description": "Szczegółowy komunikat błędu dla brakującej transakcji"
+  },
+  "goBack": "Wróć",
+  "@goBack": {
+    "description": "Etykieta przycisku powrotu"
+  },
+  "debt": "Dług",
+  "@debt": {
+    "description": "Etykieta dla typu transakcji dług"
+  },
+  "loan": "Pożyczka",
+  "@loan": {
+    "description": "Etykieta dla typu transakcji pożyczka"
+  },
+  "originalAmount": "Kwota początkowa",
+  "@originalAmount": {
+    "description": "Etykieta dla początkowej kwoty transakcji"
+  },
+  "remainingBalance": "Pozostała kwota",
+  "@remainingBalance": {
+    "description": "Etykieta dla pozostałej kwoty do spłaty"
+  },
+  "status": "Status",
+  "@status": {
+    "description": "Etykieta dla statusu transakcji"
+  },
+  "active": "Aktywna",
+  "@active": {
+    "description": "Etykieta statusu dla aktywnych transakcji"
+  },
+  "repaymentProgress": "Postęp spłaty",
+  "@repaymentProgress": {
+    "description": "Tytuł sekcji postępu spłaty"
+  },
+  "paid": "Spłacono",
+  "@paid": {
+    "description": "Etykieta dla już spłaconej kwoty"
+  },
+  "remaining": "Pozostało",
+  "@remaining": {
+    "description": "Etykieta dla kwoty pozostałej do spłaty"
+  },
+  "failedToAddRepayment": "Nie udało się dodać spłaty",
+  "@failedToAddRepayment": {
+    "description": "Komunikat błędu gdy nie można dodać spłaty"
+  }
 }

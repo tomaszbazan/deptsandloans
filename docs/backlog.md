@@ -80,7 +80,7 @@
 
 | ID        | Task Name                     | Description                                                                              | Done |
 |:----------|:------------------------------|:-----------------------------------------------------------------------------------------|:----:|
-| TASK-0042 | Create Translation Files      | Create ARB files for Polish and English translations of all UI strings                   | [ ]  |
+| TASK-0042 | Create Translation Files      | Create ARB files for Polish and English translations of all UI strings                   | [X]  |
 | TASK-0043 | Implement Locale Detection    | Automatically set app language based on device locale (default to English)               | [ ]  |
 | TASK-0044 | Implement Currency Formatting | Format amounts according to device locale (separators, decimal places, currency symbols) | [ ]  |
 | TASK-0045 | Test Multi-Currency Display   | Verify correct display of PLN, EUR, USD, GBP in both locales                             | [ ]  |

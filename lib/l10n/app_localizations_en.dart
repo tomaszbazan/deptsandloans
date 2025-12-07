@@ -235,4 +235,69 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get days => 'days';
+
+  @override
+  String get allDebtsCompleted => 'All debts completed!';
+
+  @override
+  String get allLoansCompleted => 'All loans completed!';
+
+  @override
+  String get checkArchiveBelow => 'Check archive below';
+
+  @override
+  String get deleteTransactionTitle => 'Delete Transaction?';
+
+  @override
+  String get deleteTransactionMessage => 'This action cannot be undone. The transaction and all associated repayments will be permanently deleted.';
+
+  @override
+  String get transactionDeletedSuccessfully => 'Transaction deleted successfully';
+
+  @override
+  String failedToDeleteTransaction(String error) {
+    return 'Failed to delete transaction: $error';
+  }
+
+  @override
+  String get transactionDetails => 'Transaction Details';
+
+  @override
+  String get transactionNotFound => 'Transaction not found';
+
+  @override
+  String get transactionNotFoundMessage => 'The requested transaction could not be loaded.';
+
+  @override
+  String get goBack => 'Go Back';
+
+  @override
+  String get debt => 'Debt';
+
+  @override
+  String get loan => 'Loan';
+
+  @override
+  String get originalAmount => 'Original Amount';
+
+  @override
+  String get remainingBalance => 'Remaining Balance';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get repaymentProgress => 'Repayment Progress';
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get remaining => 'Remaining';
+
+  @override
+  String get failedToAddRepayment => 'Failed to add repayment';
 }

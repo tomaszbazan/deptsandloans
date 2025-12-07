@@ -235,4 +235,69 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get days => 'dni';
+
+  @override
+  String get allDebtsCompleted => 'Wszystkie długi spłacone!';
+
+  @override
+  String get allLoansCompleted => 'Wszystkie pożyczki spłacone!';
+
+  @override
+  String get checkArchiveBelow => 'Sprawdź archiwum poniżej';
+
+  @override
+  String get deleteTransactionTitle => 'Usunąć transakcję?';
+
+  @override
+  String get deleteTransactionMessage => 'Ta operacja jest nieodwracalna. Transakcja i wszystkie powiązane spłaty zostaną trwale usunięte.';
+
+  @override
+  String get transactionDeletedSuccessfully => 'Transakcja usunięta pomyślnie';
+
+  @override
+  String failedToDeleteTransaction(String error) {
+    return 'Nie udało się usunąć transakcji: $error';
+  }
+
+  @override
+  String get transactionDetails => 'Szczegóły transakcji';
+
+  @override
+  String get transactionNotFound => 'Nie znaleziono transakcji';
+
+  @override
+  String get transactionNotFoundMessage => 'Żądana transakcja nie mogła zostać wczytana.';
+
+  @override
+  String get goBack => 'Wróć';
+
+  @override
+  String get debt => 'Dług';
+
+  @override
+  String get loan => 'Pożyczka';
+
+  @override
+  String get originalAmount => 'Kwota początkowa';
+
+  @override
+  String get remainingBalance => 'Pozostała kwota';
+
+  @override
+  String get status => 'Status';
+
+  @override
+  String get active => 'Aktywna';
+
+  @override
+  String get repaymentProgress => 'Postęp spłaty';
+
+  @override
+  String get paid => 'Spłacono';
+
+  @override
+  String get remaining => 'Pozostało';
+
+  @override
+  String get failedToAddRepayment => 'Nie udało się dodać spłaty';
 }
