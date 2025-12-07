@@ -10,6 +10,8 @@ import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/core/notifications/local_notifications_service.dart';
 import 'package:deptsandloans/core/notifications/notification_service.dart';
 import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
+import 'package:deptsandloans/core/notifications/recurring_reminder_processor.dart';
+import 'package:deptsandloans/services/background_reminder_service.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'dart:developer' as developer;
@@ -26,6 +28,22 @@ void main() async {
 
     final notificationService = LocalNotificationsService();
     await notificationService.initialize();
+
+    final notificationScheduler = NotificationScheduler(notificationService);
+    final transactionRepository = IsarTransactionRepository(databaseService.instance, notificationScheduler);
+    final repaymentRepository = IsarRepaymentRepository(databaseService.instance);
+    final reminderRepository = IsarReminderRepository(databaseService.instance);
+
+    final backgroundReminderService = BackgroundReminderService(
+      processor: RecurringReminderProcessor(
+        reminderRepository: reminderRepository,
+        repaymentRepository: repaymentRepository,
+        transactionRepository: transactionRepository,
+        notificationScheduler: notificationScheduler,
+      ),
+    );
+
+    await backgroundReminderService.initialize();
 
     developer.log('Application starting with database and notifications initialized', name: 'main');
 

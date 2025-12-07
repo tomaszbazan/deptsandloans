@@ -143,6 +143,116 @@ void main() {
       });
     });
 
+    group('scheduleRecurringReminder', () {
+      test('should schedule notification at 19:00 on nextReminderDate', () async {
+        final reminderDate = DateTime(2025, 12, 15);
+        final reminder = Reminder()
+          ..id = 2
+          ..transactionId = 43
+          ..type = ReminderType.recurring
+          ..intervalDays = 7
+          ..nextReminderDate = reminderDate
+          ..createdAt = DateTime.now();
+
+        final transaction = Transaction()
+          ..id = 43
+          ..type = TransactionType.loan
+          ..name = 'Test Loan'
+          ..amount = 20000
+          ..currency = Currency.usd
+          ..status = TransactionStatus.active
+          ..createdAt = DateTime.now()
+          ..updatedAt = DateTime.now();
+
+        when(
+          () => mockNotificationService.scheduleNotification(
+            id: any(named: 'id'),
+            title: any(named: 'title'),
+            body: any(named: 'body'),
+            scheduledDate: any(named: 'scheduledDate'),
+            payload: any(named: 'payload'),
+          ),
+        ).thenAnswer((_) async => {});
+
+        final notificationId = await scheduler.scheduleRecurringReminder(reminder: reminder, transaction: transaction, locale: 'en', remainingBalance: 200.00);
+
+        expect(notificationId, equals(2043));
+
+        final captured = verify(
+          () => mockNotificationService.scheduleNotification(
+            id: captureAny(named: 'id'),
+            title: captureAny(named: 'title'),
+            body: captureAny(named: 'body'),
+            scheduledDate: captureAny(named: 'scheduledDate'),
+            payload: captureAny(named: 'payload'),
+          ),
+        ).captured;
+
+        expect(captured[0], equals(2043));
+        expect(captured[1], contains('Reminder'));
+        expect(captured[2], contains('Test Loan'));
+        expect(captured[3], equals(DateTime(2025, 12, 15, 19, 0, 0)));
+      });
+
+      test('should throw error when scheduling recurring reminder in the past', () async {
+        final reminderDate = DateTime.now().subtract(const Duration(days: 1));
+        final reminder = Reminder()
+          ..id = 2
+          ..transactionId = 43
+          ..type = ReminderType.recurring
+          ..intervalDays = 7
+          ..nextReminderDate = reminderDate
+          ..createdAt = DateTime.now();
+
+        final transaction = Transaction()
+          ..id = 43
+          ..type = TransactionType.loan
+          ..name = 'Test Loan'
+          ..amount = 20000
+          ..currency = Currency.usd
+          ..status = TransactionStatus.active
+          ..createdAt = DateTime.now()
+          ..updatedAt = DateTime.now();
+
+        expect(() => scheduler.scheduleRecurringReminder(reminder: reminder, transaction: transaction, locale: 'en', remainingBalance: 200.00), throwsA(isA<ArgumentError>()));
+      });
+
+      test('should generate unique notification ID for recurring reminder', () async {
+        final reminderDate = DateTime(2025, 12, 20);
+        final reminder = Reminder()
+          ..id = 5
+          ..transactionId = 10
+          ..type = ReminderType.recurring
+          ..intervalDays = 14
+          ..nextReminderDate = reminderDate
+          ..createdAt = DateTime.now();
+
+        final transaction = Transaction()
+          ..id = 10
+          ..type = TransactionType.debt
+          ..name = 'Test Debt'
+          ..amount = 15000
+          ..currency = Currency.eur
+          ..status = TransactionStatus.active
+          ..createdAt = DateTime.now()
+          ..updatedAt = DateTime.now();
+
+        when(
+          () => mockNotificationService.scheduleNotification(
+            id: any(named: 'id'),
+            title: any(named: 'title'),
+            body: any(named: 'body'),
+            scheduledDate: any(named: 'scheduledDate'),
+            payload: any(named: 'payload'),
+          ),
+        ).thenAnswer((_) async => {});
+
+        final notificationId = await scheduler.scheduleRecurringReminder(reminder: reminder, transaction: transaction, locale: 'en', remainingBalance: 150.00);
+
+        expect(notificationId, equals(5010));
+      });
+    });
+
     group('cancelReminder', () {
       test('should cancel notification', () async {
         when(() => mockNotificationService.cancelNotification(any())).thenAnswer((_) async => {});

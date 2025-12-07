@@ -43,6 +43,39 @@ class NotificationScheduler {
     }
   }
 
+  Future<int> scheduleRecurringReminder({required Reminder reminder, required Transaction transaction, required String locale, required double remainingBalance}) async {
+    try {
+      final scheduledDateTime = _calculateScheduledDateTime(reminder.nextReminderDate);
+
+      if (scheduledDateTime.isBefore(DateTime.now())) {
+        throw ArgumentError('Cannot schedule reminder in the past');
+      }
+
+      final notificationId = _generateNotificationId(reminder, transaction);
+
+      final title = NotificationContentFormatter.formatTitle(locale, transaction.type.name);
+
+      final body = NotificationContentFormatter.formatBody(locale, transaction.name, remainingBalance, transaction.currency.name, transaction.type.name);
+
+      final payload = NotificationPayload(
+        transactionId: transaction.id.toString(),
+        transactionType: transaction.type.name,
+        transactionName: transaction.name,
+        remainingAmount: remainingBalance,
+        currency: transaction.currency.name,
+      );
+
+      await _notificationService.scheduleNotification(id: notificationId, title: title, body: body, scheduledDate: scheduledDateTime, payload: payload);
+
+      developer.log('Recurring reminder scheduled: id=$notificationId, date=$scheduledDateTime', name: 'NotificationScheduler');
+
+      return notificationId;
+    } catch (e, stackTrace) {
+      developer.log('Failed to schedule recurring reminder', name: 'NotificationScheduler', level: 1000, error: e, stackTrace: stackTrace);
+      rethrow;
+    }
+  }
+
   Future<void> cancelReminder(int notificationId) async {
     try {
       await _notificationService.cancelNotification(notificationId);

@@ -344,19 +344,21 @@ class TransactionFormViewModel extends ChangeNotifier {
     reminder.validate();
     await _reminderRepository.createReminder(reminder);
 
-    if (_reminderType == ReminderType.oneTime) {
-      final transaction = await _repository.getById(transactionId);
-      if (transaction == null) {
-        throw Exception('Transaction not found');
-      }
-      final repayments = await _repaymentRepository.getRepaymentsByTransactionId(transactionId);
-      final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
-      final remainingBalance = (transaction.amount - totalRepaid) / 100.0;
-      final locale = _getLocale();
-      final notificationId = await _notificationScheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: locale, remainingBalance: remainingBalance);
-      reminder.notificationId = notificationId;
-      await _reminderRepository.updateReminder(reminder);
+    final transaction = await _repository.getById(transactionId);
+    if (transaction == null) {
+      throw Exception('Transaction not found');
     }
+    final repayments = await _repaymentRepository.getRepaymentsByTransactionId(transactionId);
+    final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
+    final remainingBalance = (transaction.amount - totalRepaid) / 100.0;
+    final locale = _getLocale();
+
+    final notificationId = _reminderType == ReminderType.oneTime
+        ? await _notificationScheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: locale, remainingBalance: remainingBalance)
+        : await _notificationScheduler.scheduleRecurringReminder(reminder: reminder, transaction: transaction, locale: locale, remainingBalance: remainingBalance);
+
+    reminder.notificationId = notificationId;
+    await _reminderRepository.updateReminder(reminder);
   }
 
   String _getLocale() {
