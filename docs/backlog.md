@@ -89,7 +89,7 @@
 
 | ID        | Task Name                    | Description                                                                        | Done |
 |:----------|:-----------------------------|:-----------------------------------------------------------------------------------|:----:|
-| TASK-0046 | Implement Dark Mode Support  | Apply dark theme based on device system settings using ThemeMode.system            | [ ]  |
+| TASK-0046 | Implement Dark Mode Support  | Apply dark theme based on device system settings using ThemeMode.system            | [X]  |
 | TASK-0047 | Add App Icon                 | Design and add application icon for Android                                        | [ ]  |
 | TASK-0048 | Add Empty States             | Create empty state UI for lists with no transactions                               | [ ]  |
 | TASK-0049 | Add Loading States           | Implement loading indicators for async operations                                  | [ ]  |
