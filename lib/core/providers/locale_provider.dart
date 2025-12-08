@@ -1,4 +1,4 @@
-import 'package:deptsandloans/core/utils/SupportedLocale.dart';
+import 'package:deptsandloans/core/utils/supported_locale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 

@@ -1,4 +1,4 @@
-import 'package:deptsandloans/core/utils/SupportedLocale.dart';
+import 'package:deptsandloans/core/utils/supported_locale.dart';
 import 'package:flutter/foundation.dart';
 import '../../../data/models/currency.dart';
 import '../../../data/models/reminder.dart';

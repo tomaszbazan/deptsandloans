@@ -1,6 +1,6 @@
 import 'dart:developer' as developer;
 import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
-import 'package:deptsandloans/core/utils/SupportedLocale.dart';
+import 'package:deptsandloans/core/utils/supported_locale.dart';
 import 'package:deptsandloans/data/models/reminder.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/repositories/reminder_repository.dart';

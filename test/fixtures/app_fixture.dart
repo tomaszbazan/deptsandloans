@@ -1,14 +1,14 @@
 import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:deptsandloans/core/theme/app_theme.dart';
-import 'package:deptsandloans/core/utils/SupportedLocale.dart';
+import 'package:deptsandloans/core/utils/supported_locale.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import '../mocks/mock_notification_scheduler.dart';
+import '../mocks/mock_reminder_repository.dart';
 import '../mocks/mock_repayment_repository.dart';
 import '../mocks/mock_transaction_repository.dart';
-import '../mocks/mock_reminder_repository.dart';
-import '../mocks/mock_notification_scheduler.dart';
 
 class AppFixture {
   static Widget createDefaultApp(Widget child, {String locale = 'en', ThemeData? theme}) {
