@@ -1,4 +1,4 @@
-import 'package:deptsandloans/data/models/currency.dart';
+import 'package:deptsandloans/core/utils/currency_formatter.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class TransactionListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final currencyFormat = NumberFormat.currency(locale: Localizations.localeOf(context).toString(), symbol: transaction.currency.symbol, decimalDigits: 2);
+    final locale = Localizations.localeOf(context);
 
     final isOverdue = transaction.dueDate != null && DateTime.now().isAfter(transaction.dueDate!) && balance > 0 && transaction.isActive;
     final balanceDiffersFromAmount = balance != transaction.amountInMainUnit;
@@ -54,7 +54,14 @@ class TransactionListItem extends StatelessWidget {
                     children: [
                       Text(l10n.amount, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline)),
                       const SizedBox(height: 4),
-                      Text(currencyFormat.format(transaction.amountInMainUnit), style: theme.textTheme.bodyLarge),
+                      Text(
+                        CurrencyFormatter.format(
+                          amount: transaction.amountInMainUnit,
+                          currency: transaction.currency,
+                          locale: locale,
+                        ),
+                        style: theme.textTheme.bodyLarge,
+                      ),
                     ],
                   ),
                   Column(
@@ -63,7 +70,11 @@ class TransactionListItem extends StatelessWidget {
                       Text(l10n.balance, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline)),
                       const SizedBox(height: 4),
                       Text(
-                        currencyFormat.format(balance),
+                        CurrencyFormatter.format(
+                          amount: balance,
+                          currency: transaction.currency,
+                          locale: locale,
+                        ),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: balanceDiffersFromAmount ? theme.colorScheme.primary : null,
                           fontWeight: balanceDiffersFromAmount ? FontWeight.bold : null,

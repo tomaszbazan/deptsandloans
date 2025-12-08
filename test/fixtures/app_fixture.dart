@@ -10,7 +10,7 @@ import '../mocks/mock_reminder_repository.dart';
 import '../mocks/mock_repayment_repository.dart';
 import '../mocks/mock_transaction_repository.dart';
 
-class AppFixture {
+abstract class AppFixture {
   static Widget createDefaultApp(Widget child, {String locale = 'en', ThemeData? theme}) {
     return MaterialApp(
       locale: Locale(locale),

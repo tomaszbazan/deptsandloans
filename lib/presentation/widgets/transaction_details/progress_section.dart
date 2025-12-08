@@ -1,3 +1,4 @@
+import 'package:deptsandloans/core/utils/currency_formatter.dart';
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:flutter/material.dart';
 
@@ -83,7 +84,11 @@ class _AmountInfo extends StatelessWidget {
         Text(label, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const SizedBox(height: 4),
         Text(
-          '${amount.toStringAsFixed(2)} ${currency.symbol}',
+          CurrencyFormatter.format(
+            amount: amount,
+            currency: currency,
+            locale: Localizations.localeOf(context),
+          ),
           style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: color),
         ),
       ],

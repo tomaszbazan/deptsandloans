@@ -1,3 +1,4 @@
+import 'package:deptsandloans/core/utils/currency_formatter.dart';
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,14 @@ class RepaymentListItem extends StatelessWidget {
           backgroundColor: theme.colorScheme.primaryContainer,
           child: Icon(Icons.payment, color: theme.colorScheme.onPrimaryContainer),
         ),
-        title: Text('${repayment.amountInMainUnit.toStringAsFixed(2)} ${currency.symbol}', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
+        title: Text(
+          CurrencyFormatter.format(
+            amount: repayment.amountInMainUnit,
+            currency: currency,
+            locale: Localizations.localeOf(context),
+          ),
+          style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
         subtitle: Text(DateFormat.yMd().add_jm().format(repayment.when), style: theme.textTheme.bodySmall),
       ),
     );

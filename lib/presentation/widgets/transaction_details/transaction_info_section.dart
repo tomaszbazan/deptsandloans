@@ -1,4 +1,4 @@
-import 'package:deptsandloans/data/models/currency.dart';
+import 'package:deptsandloans/core/utils/currency_formatter.dart';
 import 'package:deptsandloans/data/models/transaction.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:flutter/material.dart';
@@ -40,12 +40,24 @@ class TransactionInfoSection extends StatelessWidget {
             const SizedBox(height: 16),
             Text(transaction.name, style: theme.textTheme.headlineSmall),
             const SizedBox(height: 16),
-            _InfoRow(icon: Icons.account_balance_wallet, label: 'Original Amount', value: '${transaction.amountInMainUnit.toStringAsFixed(2)} ${transaction.currency.symbol}'),
+            _InfoRow(
+              icon: Icons.account_balance_wallet,
+              label: 'Original Amount',
+              value: CurrencyFormatter.format(
+                amount: transaction.amountInMainUnit,
+                currency: transaction.currency,
+                locale: Localizations.localeOf(context),
+              ),
+            ),
             const SizedBox(height: 8),
             _InfoRow(
               icon: Icons.money,
               label: 'Remaining Balance',
-              value: '${remainingBalance.toStringAsFixed(2)} ${transaction.currency.symbol}',
+              value: CurrencyFormatter.format(
+                amount: remainingBalance,
+                currency: transaction.currency,
+                locale: Localizations.localeOf(context),
+              ),
               valueColor: isOverdue ? theme.colorScheme.error : null,
             ),
             if (transaction.description != null && transaction.description!.isNotEmpty) ...[

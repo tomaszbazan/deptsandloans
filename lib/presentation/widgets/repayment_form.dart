@@ -1,3 +1,4 @@
+import 'package:deptsandloans/core/utils/currency_formatter.dart';
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/presentation/providers/repayment_provider.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,11 @@ class _RepaymentFormState extends State<RepaymentForm> {
                   Text(widget.transactionName, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 4),
                   Text(
-                    '${l10n.balance}: ${NumberFormat.currency(locale: Localizations.localeOf(context).toString(), symbol: currencySymbol, decimalDigits: 2).format(widget.remainingBalance)}',
+                    '${l10n.balance}: ${CurrencyFormatter.format(
+                      amount: widget.remainingBalance,
+                      currency: widget.currency,
+                      locale: Localizations.localeOf(context),
+                    )}',
                     style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
                 ],

@@ -4,7 +4,7 @@ import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:isar_community/isar.dart';
 
-class TransactionFixture {
+abstract class TransactionFixture {
   static Transaction createTransaction({
     int id = Isar.autoIncrement,
     TransactionType type = TransactionType.debt,

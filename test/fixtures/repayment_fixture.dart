@@ -1,7 +1,7 @@
 import 'package:deptsandloans/data/models/repayment.dart';
 import 'package:isar_community/isar.dart';
 
-class RepaymentFixture {
+abstract class RepaymentFixture {
   static Repayment createRepayment({int id = Isar.autoIncrement, int transactionId = 1, int amount = 5000, DateTime? when}) {
     final now = DateTime.now();
     return Repayment()
