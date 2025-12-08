@@ -43,21 +43,13 @@ class TransactionInfoSection extends StatelessWidget {
             _InfoRow(
               icon: Icons.account_balance_wallet,
               label: 'Original Amount',
-              value: CurrencyFormatter.format(
-                amount: transaction.amountInMainUnit,
-                currency: transaction.currency,
-                locale: Localizations.localeOf(context),
-              ),
+              value: CurrencyFormatter.format(amount: transaction.amountInMainUnit, currency: transaction.currency, locale: Localizations.localeOf(context)),
             ),
             const SizedBox(height: 8),
             _InfoRow(
               icon: Icons.money,
               label: 'Remaining Balance',
-              value: CurrencyFormatter.format(
-                amount: remainingBalance,
-                currency: transaction.currency,
-                locale: Localizations.localeOf(context),
-              ),
+              value: CurrencyFormatter.format(amount: remainingBalance, currency: transaction.currency, locale: Localizations.localeOf(context)),
               valueColor: isOverdue ? theme.colorScheme.error : null,
             ),
             if (transaction.description != null && transaction.description!.isNotEmpty) ...[

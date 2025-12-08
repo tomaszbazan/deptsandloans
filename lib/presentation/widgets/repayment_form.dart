@@ -124,11 +124,7 @@ class _RepaymentFormState extends State<RepaymentForm> {
                   Text(widget.transactionName, style: theme.textTheme.titleMedium),
                   const SizedBox(height: 4),
                   Text(
-                    '${l10n.balance}: ${CurrencyFormatter.format(
-                      amount: widget.remainingBalance,
-                      currency: widget.currency,
-                      locale: Localizations.localeOf(context),
-                    )}',
+                    '${l10n.balance}: ${CurrencyFormatter.format(amount: widget.remainingBalance, currency: widget.currency, locale: Localizations.localeOf(context))}',
                     style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                   ),
                 ],

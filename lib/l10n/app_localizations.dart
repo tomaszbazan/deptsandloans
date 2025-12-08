@@ -673,8 +673,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      SupportedLocale.supportedLocales.any((l) => l.languageCode == locale.languageCode);
+  bool isSupported(Locale locale) => SupportedLocale.supportedLocales.any((l) => l.languageCode == locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

@@ -97,6 +97,72 @@ void main() {
   );
 
   goldenTest(
+    'TransactionListItem displays correctly in Polish locale',
+    fileName: 'transaction_list_item_pl',
+    tags: ['golden'],
+    builder: () => GoldenTestGroup(
+      children: [
+        GoldenTestScenario(
+          name: 'pln_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Jan Kowalski', amount: 123456, currency: Currency.pln),
+                balance: 1234.56,
+              ),
+            ),
+            locale: 'pl',
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'eur_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Anna Nowak', amount: 50000, currency: Currency.eur),
+                balance: 500.0,
+              ),
+            ),
+            locale: 'pl',
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'usd_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Piotr Wiśniewski', amount: 75000, currency: Currency.usd),
+                balance: 750.0,
+              ),
+            ),
+            locale: 'pl',
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'gbp_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Maria Wójcik', amount: 30000, currency: Currency.gbp),
+                balance: 300.0,
+              ),
+            ),
+            locale: 'pl',
+          ),
+        ),
+      ],
+    ),
+  );
+
+  goldenTest(
     'TransactionListItem displays correctly in dark mode',
     fileName: 'transaction_list_item_dark',
     tags: ['golden'],
@@ -181,6 +247,76 @@ void main() {
                 balance: 0.0,
               ),
             ),
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+      ],
+    ),
+  );
+
+  goldenTest(
+    'TransactionListItem displays correctly in dark mode Polish locale',
+    fileName: 'transaction_list_item_dark_pl',
+    tags: ['golden'],
+    builder: () => GoldenTestGroup(
+      children: [
+        GoldenTestScenario(
+          name: 'pln_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Jan Kowalski', amount: 123456, currency: Currency.pln),
+                balance: 1234.56,
+              ),
+            ),
+            locale: 'pl',
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'eur_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Anna Nowak', amount: 50000, currency: Currency.eur),
+                balance: 500.0,
+              ),
+            ),
+            locale: 'pl',
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'usd_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Piotr Wiśniewski', amount: 75000, currency: Currency.usd),
+                balance: 750.0,
+              ),
+            ),
+            locale: 'pl',
+            theme: AppTheme.darkTheme(),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'gbp_currency',
+          child: AppFixture.createDefaultApp(
+            SizedBox(
+              width: 400,
+              height: 200,
+              child: TransactionListItem(
+                transaction: TransactionFixture.createTransaction(name: 'Maria Wójcik', amount: 30000, currency: Currency.gbp),
+                balance: 300.0,
+              ),
+            ),
+            locale: 'pl',
             theme: AppTheme.darkTheme(),
           ),
         ),

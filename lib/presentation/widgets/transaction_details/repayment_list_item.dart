@@ -22,11 +22,7 @@ class RepaymentListItem extends StatelessWidget {
           child: Icon(Icons.payment, color: theme.colorScheme.onPrimaryContainer),
         ),
         title: Text(
-          CurrencyFormatter.format(
-            amount: repayment.amountInMainUnit,
-            currency: currency,
-            locale: Localizations.localeOf(context),
-          ),
+          CurrencyFormatter.format(amount: repayment.amountInMainUnit, currency: currency, locale: Localizations.localeOf(context)),
           style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
         subtitle: Text(DateFormat.yMd().add_jm().format(repayment.when), style: theme.textTheme.bodySmall),

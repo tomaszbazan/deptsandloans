@@ -84,11 +84,7 @@ class _AmountInfo extends StatelessWidget {
         Text(label, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const SizedBox(height: 4),
         Text(
-          CurrencyFormatter.format(
-            amount: amount,
-            currency: currency,
-            locale: Localizations.localeOf(context),
-          ),
+          CurrencyFormatter.format(amount: amount, currency: currency, locale: Localizations.localeOf(context)),
           style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color: color),
         ),
       ],

@@ -55,11 +55,7 @@ class TransactionListItem extends StatelessWidget {
                       Text(l10n.amount, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline)),
                       const SizedBox(height: 4),
                       Text(
-                        CurrencyFormatter.format(
-                          amount: transaction.amountInMainUnit,
-                          currency: transaction.currency,
-                          locale: locale,
-                        ),
+                        CurrencyFormatter.format(amount: transaction.amountInMainUnit, currency: transaction.currency, locale: locale),
                         style: theme.textTheme.bodyLarge,
                       ),
                     ],
@@ -70,11 +66,7 @@ class TransactionListItem extends StatelessWidget {
                       Text(l10n.balance, style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.outline)),
                       const SizedBox(height: 4),
                       Text(
-                        CurrencyFormatter.format(
-                          amount: balance,
-                          currency: transaction.currency,
-                          locale: locale,
-                        ),
+                        CurrencyFormatter.format(amount: balance, currency: transaction.currency, locale: locale),
                         style: theme.textTheme.bodyLarge?.copyWith(
                           color: balanceDiffersFromAmount ? theme.colorScheme.primary : null,
                           fontWeight: balanceDiffersFromAmount ? FontWeight.bold : null,
