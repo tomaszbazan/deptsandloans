@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:deptsandloans/core/utils/SupportedLocale.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -90,7 +91,7 @@ abstract class AppLocalizations {
   ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en'), Locale('pl')];
+  static final List<Locale> supportedLocales = SupportedLocale.supportedLocales;
 
   /// The title of the application
   ///
@@ -672,7 +673,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en', 'pl'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => SupportedLocale.supportedLocales.contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;

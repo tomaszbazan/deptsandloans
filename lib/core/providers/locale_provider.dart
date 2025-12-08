@@ -1,3 +1,4 @@
+import 'package:deptsandloans/core/utils/SupportedLocale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
@@ -18,7 +19,7 @@ class LocaleProvider extends ChangeNotifier {
       }
     }
 
-    return const Locale('en');
+    return Locale(SupportedLocale.defaultLocale);
   }
 
   Locale detectDeviceLocale(List<Locale> supportedLocales) {

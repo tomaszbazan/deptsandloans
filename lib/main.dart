@@ -82,7 +82,7 @@ class _DeptsAndLoansAppState extends State<DeptsAndLoansApp> {
   void initState() {
     super.initState();
     _localeProvider = LocaleProvider();
-    _localeProvider.initializeLocale(const SupportedLocale.supportedLocales());
+    _localeProvider.initializeLocale(SupportedLocale.supportedLocales);
   }
 
   @override
@@ -116,7 +116,7 @@ class _DeptsAndLoansAppState extends State<DeptsAndLoansApp> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
+          supportedLocales: SupportedLocale.supportedLocales,
           localeResolutionCallback: (locale, supportedLocales) {
             if (locale == null) {
               return supportedLocales.first;

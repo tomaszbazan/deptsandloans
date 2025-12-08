@@ -1,5 +1,6 @@
 import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:deptsandloans/core/theme/app_theme.dart';
+import 'package:deptsandloans/core/utils/SupportedLocale.dart';
 import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +16,7 @@ class AppFixture {
       locale: Locale(locale),
       theme: theme ?? AppTheme.lightTheme(),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-      supportedLocales: const [Locale('en'), Locale('pl')],
+      supportedLocales: SupportedLocale.supportedLocales,
       home: child,
     );
   }
@@ -30,7 +31,7 @@ class AppFixture {
         notificationScheduler: MockNotificationScheduler(),
       ),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-      supportedLocales: const [Locale('en'), Locale('pl')],
+      supportedLocales: SupportedLocale.supportedLocales,
     );
   }
 }

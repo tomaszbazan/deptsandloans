@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
+import 'package:deptsandloans/core/utils/SupportedLocale.dart';
 import 'package:deptsandloans/data/models/reminder.dart';
 import 'package:deptsandloans/data/models/transaction_status.dart';
 import 'package:deptsandloans/data/repositories/reminder_repository.dart';
@@ -79,6 +80,6 @@ class RecurringReminderProcessor {
   String _getLocale() {
     // TODO: Implement proper device locale detection
     // Consider extracting to a shared locale service or accepting as parameter
-    return 'en';
+    return SupportedLocale.defaultLocale;
   }
 }

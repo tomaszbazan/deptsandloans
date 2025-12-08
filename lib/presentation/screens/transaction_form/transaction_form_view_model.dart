@@ -1,3 +1,4 @@
+import 'package:deptsandloans/core/utils/SupportedLocale.dart';
 import 'package:flutter/foundation.dart';
 import '../../../data/models/currency.dart';
 import '../../../data/models/reminder.dart';
@@ -362,7 +363,7 @@ class TransactionFormViewModel extends ChangeNotifier {
   }
 
   String _getLocale() {
-    return 'en';
+    return SupportedLocale.defaultLocale;
   }
 
   Transaction _buildTransaction() {

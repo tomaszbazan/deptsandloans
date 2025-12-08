@@ -1,17 +1,16 @@
 import 'package:deptsandloans/data/models/currency.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/transaction_repository.dart';
-import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:deptsandloans/presentation/screens/transaction_form/transaction_form_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../fixtures/app_fixture.dart';
 import '../../fixtures/transaction_fixture.dart';
-import '../../mocks/mock_reminder_repository.dart';
-import '../../mocks/mock_transaction_repository.dart';
-import '../../mocks/mock_repayment_repository.dart';
 import '../../mocks/mock_notification_scheduler.dart';
+import '../../mocks/mock_reminder_repository.dart';
+import '../../mocks/mock_repayment_repository.dart';
+import '../../mocks/mock_transaction_repository.dart';
 
 void main() {
   group('TransactionFormScreen', () {
@@ -29,15 +28,8 @@ void main() {
 
     testWidgets('displays new debt transaction mode correctly', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -55,15 +47,8 @@ void main() {
 
     testWidgets('displays edit transaction mode correctly', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -81,15 +66,8 @@ void main() {
 
     testWidgets('displays loan type correctly', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -106,15 +84,8 @@ void main() {
 
     testWidgets('has all form fields', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -135,15 +106,8 @@ void main() {
 
     testWidgets('currency dropdown shows default PLN with symbol', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -165,15 +129,8 @@ void main() {
     ]) {
       testWidgets('can select ${currencyData['name']} currency from dropdown', (tester) async {
         await tester.pumpWidget(
-          MaterialApp(
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [Locale('en'), Locale('pl')],
-            home: TransactionFormScreen(
+          AppFixture.createDefaultApp(
+            TransactionFormScreen(
               transactionRepository: repository,
               reminderRepository: reminderRepository,
               repaymentRepository: repaymentRepository,
@@ -199,15 +156,8 @@ void main() {
 
     testWidgets('date picker opens when tapping due date field', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -227,15 +177,8 @@ void main() {
 
     testWidgets('shows validation error when name is empty and save is pressed', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -258,15 +201,8 @@ void main() {
 
     testWidgets('shows validation error when amount is zero', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -292,15 +228,8 @@ void main() {
 
     testWidgets('clears validation error when valid input is entered', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -325,15 +254,8 @@ void main() {
 
     testWidgets('shows multiple validation errors when fields are invalid', (tester) async {
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -369,15 +291,8 @@ void main() {
       await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Test Debt'));
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -398,15 +313,8 @@ void main() {
       await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Test Debt'));
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -426,15 +334,8 @@ void main() {
       await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Test Debt'));
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -458,15 +359,8 @@ void main() {
       );
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
@@ -489,15 +383,8 @@ void main() {
       await repository.create(TransactionFixture.createTransaction(id: 1, name: 'Original Name'));
 
       await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [Locale('en'), Locale('pl')],
-          home: TransactionFormScreen(
+        AppFixture.createDefaultApp(
+          TransactionFormScreen(
             transactionRepository: repository,
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
