@@ -1,8 +1,10 @@
+import 'package:deptsandloans/core/utils/SupportedLocale.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:deptsandloans/core/database/database_service.dart';
 import 'package:deptsandloans/core/router/app_router.dart';
 import 'package:deptsandloans/core/theme/app_theme.dart';
+import 'package:deptsandloans/core/providers/locale_provider.dart';
 import 'package:deptsandloans/data/repositories/isar_reminder_repository.dart';
 import 'package:deptsandloans/data/repositories/isar_transaction_repository.dart';
 import 'package:deptsandloans/data/repositories/isar_repayment_repository.dart';
@@ -63,43 +65,74 @@ void main() async {
   }
 }
 
-class DeptsAndLoansApp extends StatelessWidget {
+class DeptsAndLoansApp extends StatefulWidget {
   final DatabaseService databaseService;
   final NotificationService notificationService;
 
   const DeptsAndLoansApp({required this.databaseService, required this.notificationService, super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final notificationScheduler = NotificationScheduler(notificationService);
-    final transactionRepository = IsarTransactionRepository(databaseService.instance, notificationScheduler);
-    final repaymentRepository = IsarRepaymentRepository(databaseService.instance, notificationScheduler);
-    final reminderRepository = IsarReminderRepository(databaseService.instance);
+  State<DeptsAndLoansApp> createState() => _DeptsAndLoansAppState();
+}
 
-    return MaterialApp.router(
-      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      routerConfig: createAppRouter(
-        transactionRepository: transactionRepository,
-        repaymentRepository: repaymentRepository,
-        reminderRepository: reminderRepository,
-        notificationScheduler: notificationScheduler,
-      ),
-      localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
-      supportedLocales: const [Locale('en'), Locale('pl')],
-      localeResolutionCallback: (locale, supportedLocales) {
-        if (locale == null) {
-          return supportedLocales.first;
-        }
-        for (final supportedLocale in supportedLocales) {
-          if (supportedLocale.languageCode == locale.languageCode) {
-            return supportedLocale;
-          }
-        }
-        return supportedLocales.first;
+class _DeptsAndLoansAppState extends State<DeptsAndLoansApp> {
+  late final LocaleProvider _localeProvider;
+
+  @override
+  void initState() {
+    super.initState();
+    _localeProvider = LocaleProvider();
+    _localeProvider.initializeLocale(const SupportedLocale.supportedLocales());
+  }
+
+  @override
+  void dispose() {
+    _localeProvider.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final notificationScheduler = NotificationScheduler(widget.notificationService);
+    final transactionRepository = IsarTransactionRepository(widget.databaseService.instance, notificationScheduler);
+    final repaymentRepository = IsarRepaymentRepository(widget.databaseService.instance, notificationScheduler);
+    final reminderRepository = IsarReminderRepository(widget.databaseService.instance);
+
+    return ListenableBuilder(
+      listenable: _localeProvider,
+      builder: (context, child) {
+        return MaterialApp.router(
+          locale: _localeProvider.locale,
+          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+          routerConfig: createAppRouter(
+            transactionRepository: transactionRepository,
+            repaymentRepository: repaymentRepository,
+            reminderRepository: reminderRepository,
+            notificationScheduler: notificationScheduler,
+          ),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [Locale('en'), Locale('pl')],
+          localeResolutionCallback: (locale, supportedLocales) {
+            if (locale == null) {
+              return supportedLocales.first;
+            }
+            for (final supportedLocale in supportedLocales) {
+              if (supportedLocale.languageCode == locale.languageCode) {
+                return supportedLocale;
+              }
+            }
+            return supportedLocales.first;
+          },
+          theme: AppTheme.lightTheme(),
+          darkTheme: AppTheme.darkTheme(),
+          themeMode: ThemeMode.system,
+        );
       },
-      theme: AppTheme.lightTheme(),
-      darkTheme: AppTheme.darkTheme(),
-      themeMode: ThemeMode.system,
     );
   }
 }
