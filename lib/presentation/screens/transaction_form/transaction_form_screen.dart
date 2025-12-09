@@ -125,9 +125,9 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   }
 
   Future<void> _selectDate() async {
-    final now = DateTime.now();
-    final initialDate = _viewModel.dueDate ?? now;
-    final picked = await showDatePicker(context: context, initialDate: initialDate.isAfter(now) ? initialDate : now, firstDate: now, lastDate: DateTime(now.year + 10));
+    final tomorrow = DateTime.now().add(Duration(days: 1));
+    final initialDate = _viewModel.dueDate ?? tomorrow;
+    final picked = await showDatePicker(context: context, initialDate: initialDate.isAfter(tomorrow) ? initialDate : tomorrow, firstDate: tomorrow, lastDate: DateTime(tomorrow.year + 10));
 
     if (picked != null) {
       _viewModel.setDueDate(picked);
@@ -244,27 +244,6 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
             ListenableBuilder(
               listenable: _viewModel,
               builder: (context, _) {
-                final description = _viewModel.description ?? '';
-                final remaining = 200 - description.length;
-                return TextField(
-                  controller: _descriptionController,
-                  decoration: InputDecoration(
-                    labelText: '${l10n.description} (${l10n.optional})',
-                    border: const OutlineInputBorder(),
-                    helperText: l10n.charactersRemaining(remaining),
-                    errorText: _getLocalizedError(_viewModel.descriptionError),
-                  ),
-                  maxLength: 200,
-                  maxLines: 3,
-                  onChanged: _viewModel.setDescription,
-                  textInputAction: TextInputAction.done,
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            ListenableBuilder(
-              listenable: _viewModel,
-              builder: (context, _) {
                 return InkWell(
                   onTap: _selectDate,
                   borderRadius: BorderRadius.circular(4),
@@ -287,6 +266,27 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                       style: TextStyle(color: _viewModel.dueDate != null ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                   ),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            ListenableBuilder(
+              listenable: _viewModel,
+              builder: (context, _) {
+                final description = _viewModel.description ?? '';
+                final remaining = 200 - description.length;
+                return TextField(
+                  controller: _descriptionController,
+                  decoration: InputDecoration(
+                    labelText: '${l10n.description} (${l10n.optional})',
+                    border: const OutlineInputBorder(),
+                    helperText: l10n.charactersRemaining(remaining),
+                    errorText: _getLocalizedError(_viewModel.descriptionError),
+                  ),
+                  maxLength: 200,
+                  maxLines: 3,
+                  onChanged: _viewModel.setDescription,
+                  textInputAction: TextInputAction.done,
                 );
               },
             ),
