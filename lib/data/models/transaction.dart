@@ -14,6 +14,8 @@ class Transaction {
 
   late String name;
 
+  late DateTime transactionDate;
+
   late int amount;
 
   @Enumerated(EnumType.name)

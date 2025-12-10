@@ -33,6 +33,15 @@ class AppLocalizationsPl extends AppLocalizations {
   String get dueDate => 'Termin płatności';
 
   @override
+  String get transactionDate => 'Data transakcji';
+
+  @override
+  String get transactionDateRequired => 'Data transakcji jest wymagana';
+
+  @override
+  String get transactionDateMustBePast => 'Data transakcji musi być dzisiaj lub w przeszłości';
+
+  @override
   String get save => 'Zapisz';
 
   @override

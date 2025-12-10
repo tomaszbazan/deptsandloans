@@ -12,14 +12,17 @@ abstract class TransactionFixture {
     int amount = 10000,
     Currency currency = Currency.pln,
     String? description,
+    DateTime? transactionDate,
     DateTime? dueDate,
     TransactionStatus status = TransactionStatus.active,
   }) {
     final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
     return Transaction()
       ..id = id
       ..type = type
       ..name = name
+      ..transactionDate = transactionDate ?? today
       ..amount = amount
       ..currency = currency
       ..description = description

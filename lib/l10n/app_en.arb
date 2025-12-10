@@ -32,6 +32,18 @@
   "@dueDate": {
     "description": "Label for due date field"
   },
+  "transactionDate": "Transaction Date",
+  "@transactionDate": {
+    "description": "Label for transaction date field"
+  },
+  "transactionDateRequired": "Transaction date is required",
+  "@transactionDateRequired": {
+    "description": "Validation message for required transaction date"
+  },
+  "transactionDateMustBePast": "Transaction date must be today or in the past",
+  "@transactionDateMustBePast": {
+    "description": "Validation message for transaction date in the future"
+  },
   "save": "Save",
   "@save": {
     "description": "Save button label"

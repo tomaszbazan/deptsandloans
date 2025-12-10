@@ -28,8 +28,9 @@ const TransactionSchema = CollectionSchema(
     r'isOverdue': PropertySchema(id: 8, name: r'isOverdue', type: IsarType.bool),
     r'name': PropertySchema(id: 9, name: r'name', type: IsarType.string),
     r'status': PropertySchema(id: 10, name: r'status', type: IsarType.string, enumMap: _TransactionstatusEnumValueMap),
-    r'type': PropertySchema(id: 11, name: r'type', type: IsarType.string, enumMap: _TransactiontypeEnumValueMap),
-    r'updatedAt': PropertySchema(id: 12, name: r'updatedAt', type: IsarType.dateTime),
+    r'transactionDate': PropertySchema(id: 11, name: r'transactionDate', type: IsarType.dateTime),
+    r'type': PropertySchema(id: 12, name: r'type', type: IsarType.string, enumMap: _TransactiontypeEnumValueMap),
+    r'updatedAt': PropertySchema(id: 13, name: r'updatedAt', type: IsarType.dateTime),
   },
 
   estimateSize: _transactionEstimateSize,
@@ -74,8 +75,9 @@ void _transactionSerialize(Transaction object, IsarWriter writer, List<int> offs
   writer.writeBool(offsets[8], object.isOverdue);
   writer.writeString(offsets[9], object.name);
   writer.writeString(offsets[10], object.status.name);
-  writer.writeString(offsets[11], object.type.name);
-  writer.writeDateTime(offsets[12], object.updatedAt);
+  writer.writeDateTime(offsets[11], object.transactionDate);
+  writer.writeString(offsets[12], object.type.name);
+  writer.writeDateTime(offsets[13], object.updatedAt);
 }
 
 Transaction _transactionDeserialize(Id id, IsarReader reader, List<int> offsets, Map<Type, List<int>> allOffsets) {
@@ -88,8 +90,9 @@ Transaction _transactionDeserialize(Id id, IsarReader reader, List<int> offsets,
   object.id = id;
   object.name = reader.readString(offsets[9]);
   object.status = _TransactionstatusValueEnumMap[reader.readStringOrNull(offsets[10])] ?? TransactionStatus.active;
-  object.type = _TransactiontypeValueEnumMap[reader.readStringOrNull(offsets[11])] ?? TransactionType.debt;
-  object.updatedAt = reader.readDateTime(offsets[12]);
+  object.transactionDate = reader.readDateTime(offsets[11]);
+  object.type = _TransactiontypeValueEnumMap[reader.readStringOrNull(offsets[12])] ?? TransactionType.debt;
+  object.updatedAt = reader.readDateTime(offsets[13]);
   return object;
 }
 
@@ -118,8 +121,10 @@ P _transactionDeserializeProp<P>(IsarReader reader, int propertyId, int offset, 
     case 10:
       return (_TransactionstatusValueEnumMap[reader.readStringOrNull(offset)] ?? TransactionStatus.active) as P;
     case 11:
-      return (_TransactiontypeValueEnumMap[reader.readStringOrNull(offset)] ?? TransactionType.debt) as P;
+      return (reader.readDateTime(offset)) as P;
     case 12:
+      return (_TransactiontypeValueEnumMap[reader.readStringOrNull(offset)] ?? TransactionType.debt) as P;
+    case 13:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -632,6 +637,30 @@ extension TransactionQueryFilter on QueryBuilder<Transaction, Transaction, QFilt
     });
   }
 
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> transactionDateEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(property: r'transactionDate', value: value));
+    });
+  }
+
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> transactionDateGreaterThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(include: include, property: r'transactionDate', value: value));
+    });
+  }
+
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> transactionDateLessThan(DateTime value, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(include: include, property: r'transactionDate', value: value));
+    });
+  }
+
+  QueryBuilder<Transaction, Transaction, QAfterFilterCondition> transactionDateBetween(DateTime lower, DateTime upper, {bool includeLower = true, bool includeUpper = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(property: r'transactionDate', lower: lower, includeLower: includeLower, upper: upper, includeUpper: includeUpper));
+    });
+  }
+
   QueryBuilder<Transaction, Transaction, QAfterFilterCondition> typeEqualTo(TransactionType value, {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(property: r'type', value: value, caseSensitive: caseSensitive));
@@ -862,6 +891,18 @@ extension TransactionQuerySortBy on QueryBuilder<Transaction, Transaction, QSort
     });
   }
 
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByTransactionDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transactionDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByTransactionDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transactionDate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Transaction, Transaction, QAfterSortBy> sortByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1032,6 +1073,18 @@ extension TransactionQuerySortThenBy on QueryBuilder<Transaction, Transaction, Q
     });
   }
 
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByTransactionDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transactionDate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByTransactionDateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'transactionDate', Sort.desc);
+    });
+  }
+
   QueryBuilder<Transaction, Transaction, QAfterSortBy> thenByType() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.asc);
@@ -1124,6 +1177,12 @@ extension TransactionQueryWhereDistinct on QueryBuilder<Transaction, Transaction
     });
   }
 
+  QueryBuilder<Transaction, Transaction, QDistinct> distinctByTransactionDate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'transactionDate');
+    });
+  }
+
   QueryBuilder<Transaction, Transaction, QDistinct> distinctByType({bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'type', caseSensitive: caseSensitive);
@@ -1207,6 +1266,12 @@ extension TransactionQueryProperty on QueryBuilder<Transaction, Transaction, QQu
   QueryBuilder<Transaction, TransactionStatus, QQueryOperations> statusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'status');
+    });
+  }
+
+  QueryBuilder<Transaction, DateTime, QQueryOperations> transactionDateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'transactionDate');
     });
   }
 

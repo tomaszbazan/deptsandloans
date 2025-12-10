@@ -66,6 +66,7 @@ Widget _buildEditScenario(ThemeData theme) {
       ..id = 123
       ..type = TransactionType.debt
       ..name = 'Test Debt'
+      ..transactionDate = DateTime(2025, 1, 1)
       ..amount = 50000
       ..currency = Currency.eur
       ..description = 'This is a test description'

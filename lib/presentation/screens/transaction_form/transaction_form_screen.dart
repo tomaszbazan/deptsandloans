@@ -103,6 +103,10 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
     switch (errorKey) {
       case 'nameRequired':
         return l10n.nameRequired;
+      case 'transactionDateRequired':
+        return l10n.transactionDateRequired;
+      case 'transactionDateMustBePast':
+        return l10n.transactionDateMustBePast;
       case 'descriptionTooLong':
         return l10n.descriptionTooLong;
       case 'amountRequired':
@@ -127,10 +131,27 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   Future<void> _selectDate() async {
     final tomorrow = DateTime.now().add(Duration(days: 1));
     final initialDate = _viewModel.dueDate ?? tomorrow;
-    final picked = await showDatePicker(context: context, initialDate: initialDate.isAfter(tomorrow) ? initialDate : tomorrow, firstDate: tomorrow, lastDate: DateTime(tomorrow.year + 10));
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate.isAfter(tomorrow) ? initialDate : tomorrow,
+      firstDate: tomorrow,
+      lastDate: DateTime(tomorrow.year + 10),
+    );
 
     if (picked != null) {
       _viewModel.setDueDate(picked);
+    }
+  }
+
+  Future<void> _selectTransactionDate() async {
+    final today = DateTime.now();
+    final todayStart = DateTime(today.year, today.month, today.day);
+    final initialDate = _viewModel.transactionDate;
+
+    final picked = await showDatePicker(context: context, initialDate: initialDate, firstDate: DateTime(1900, 1, 1), lastDate: todayStart);
+
+    if (picked != null) {
+      _viewModel.setTransactionDate(picked);
     }
   }
 
@@ -185,6 +206,25 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
                   decoration: InputDecoration(labelText: l10n.name, border: const OutlineInputBorder(), errorText: _getLocalizedError(_viewModel.nameError)),
                   onChanged: _viewModel.setName,
                   textInputAction: TextInputAction.next,
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            ListenableBuilder(
+              listenable: _viewModel,
+              builder: (context, _) {
+                return InkWell(
+                  onTap: _selectTransactionDate,
+                  borderRadius: BorderRadius.circular(4),
+                  child: InputDecorator(
+                    decoration: InputDecoration(
+                      labelText: l10n.transactionDate,
+                      border: const OutlineInputBorder(),
+                      errorText: _getLocalizedError(_viewModel.transactionDateError),
+                      suffixIcon: const Icon(Icons.calendar_today),
+                    ),
+                    child: Text(_formatDate(_viewModel.transactionDate), style: TextStyle(color: Theme.of(context).colorScheme.onSurface)),
+                  ),
                 );
               },
             ),

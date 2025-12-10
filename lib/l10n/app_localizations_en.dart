@@ -33,6 +33,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dueDate => 'Due Date';
 
   @override
+  String get transactionDate => 'Transaction Date';
+
+  @override
+  String get transactionDateRequired => 'Transaction date is required';
+
+  @override
+  String get transactionDateMustBePast => 'Transaction date must be today or in the past';
+
+  @override
   String get save => 'Save';
 
   @override

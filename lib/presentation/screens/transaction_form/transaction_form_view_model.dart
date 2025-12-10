@@ -20,6 +20,7 @@ class TransactionFormViewModel extends ChangeNotifier {
   final Transaction? _existingTransaction;
 
   String _name = '';
+  late DateTime _transactionDate;
   double? _amount;
   Currency _currency = Currency.pln;
   String? _description;
@@ -27,6 +28,7 @@ class TransactionFormViewModel extends ChangeNotifier {
   bool _isLoading = false;
   String? _errorMessage;
   String? _nameError;
+  String? _transactionDateError;
   String? _descriptionError;
   String? _amountError;
 
@@ -55,10 +57,15 @@ class TransactionFormViewModel extends ChangeNotifier {
     if (existingTransaction != null) {
       _loadExistingTransaction();
       _loadExistingReminder();
+    } else {
+      final now = DateTime.now();
+      _transactionDate = DateTime(now.year, now.month, now.day);
     }
   }
 
   String get name => _name;
+
+  DateTime get transactionDate => _transactionDate;
 
   double? get amount => _amount;
 
@@ -73,6 +80,8 @@ class TransactionFormViewModel extends ChangeNotifier {
   String? get errorMessage => _errorMessage;
 
   String? get nameError => _nameError;
+
+  String? get transactionDateError => _transactionDateError;
 
   String? get descriptionError => _descriptionError;
 
@@ -100,6 +109,7 @@ class TransactionFormViewModel extends ChangeNotifier {
     if (_existingTransaction == null) return;
 
     _name = _existingTransaction.name;
+    _transactionDate = _existingTransaction.transactionDate;
     _amount = _existingTransaction.amountInMainUnit;
     _currency = _existingTransaction.currency;
     _description = _existingTransaction.description;
@@ -155,6 +165,15 @@ class TransactionFormViewModel extends ChangeNotifier {
 
   void setDueDate(DateTime? value) {
     _dueDate = value;
+    notifyListeners();
+  }
+
+  void setTransactionDate(DateTime? value) {
+    if (value != null) {
+      _transactionDate = value;
+    }
+    _transactionDateError = _validateTransactionDate(value);
+    _clearError();
     notifyListeners();
   }
 
@@ -225,6 +244,19 @@ class TransactionFormViewModel extends ChangeNotifier {
     return null;
   }
 
+  String? _validateTransactionDate(DateTime? value) {
+    if (value == null) {
+      return 'transactionDateRequired';
+    }
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final selectedDate = DateTime(value.year, value.month, value.day);
+    if (selectedDate.isAfter(today)) {
+      return 'transactionDateMustBePast';
+    }
+    return null;
+  }
+
   String? _validateReminderDate(DateTime? value) {
     if (_enableReminder && _reminderType == ReminderType.oneTime) {
       if (value == null) {
@@ -261,6 +293,7 @@ class TransactionFormViewModel extends ChangeNotifier {
 
   bool validateForm() {
     _nameError = _validateName(_name);
+    _transactionDateError = _validateTransactionDate(_transactionDate);
     _descriptionError = _validateDescription(_description);
     if (!isEditMode) {
       _amountError = _validateAmount(_amount);
@@ -272,7 +305,13 @@ class TransactionFormViewModel extends ChangeNotifier {
 
     notifyListeners();
 
-    return _nameError == null && _descriptionError == null && _amountError == null && _reminderTypeError == null && _reminderDateError == null && _intervalError == null;
+    return _nameError == null &&
+        _transactionDateError == null &&
+        _descriptionError == null &&
+        _amountError == null &&
+        _reminderTypeError == null &&
+        _reminderDateError == null &&
+        _intervalError == null;
   }
 
   Future<bool> saveTransaction() async {
@@ -370,6 +409,7 @@ class TransactionFormViewModel extends ChangeNotifier {
     final transaction = Transaction()
       ..type = _type
       ..name = _name
+      ..transactionDate = _transactionDate
       ..amount = ((_amount ?? 0) * 100).round()
       ..currency = _currency
       ..description = _description

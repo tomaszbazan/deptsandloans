@@ -140,6 +140,24 @@ abstract class AppLocalizations {
   /// **'Due Date'**
   String get dueDate;
 
+  /// Label for transaction date field
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Date'**
+  String get transactionDate;
+
+  /// Validation message for required transaction date
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction date is required'**
+  String get transactionDateRequired;
+
+  /// Validation message for transaction date in the future
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction date must be today or in the past'**
+  String get transactionDateMustBePast;
+
   /// Save button label
   ///
   /// In en, this message translates to:
