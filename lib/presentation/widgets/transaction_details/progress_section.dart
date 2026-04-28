@@ -1,5 +1,6 @@
 import 'package:deptsandloans/core/utils/currency_formatter.dart';
 import 'package:deptsandloans/data/models/currency.dart';
+import 'package:deptsandloans/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class ProgressSection extends StatelessWidget {
@@ -13,6 +14,7 @@ class ProgressSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final progress = originalAmount > 0 ? paidAmount / originalAmount : 0.0;
     final percentage = (progress * 100).clamp(0.0, 100.0);
@@ -26,7 +28,7 @@ class ProgressSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Repayment Progress', style: theme.textTheme.titleMedium),
+                Text(l10n.repaymentProgress, style: theme.textTheme.titleMedium),
                 Text(
                   '${percentage.toStringAsFixed(1)}%',
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -50,9 +52,9 @@ class ProgressSection extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _AmountInfo(label: 'Paid', amount: paidAmount, currency: currency, color: theme.colorScheme.primary),
+                _AmountInfo(label: l10n.paid, amount: paidAmount, currency: currency, color: theme.colorScheme.primary),
                 _AmountInfo(
-                  label: 'Remaining',
+                  label: l10n.remaining,
                   amount: remainingAmount,
                   currency: currency,
                   color: isOverdue && remainingAmount > 0 ? theme.colorScheme.error : theme.colorScheme.onSurfaceVariant,

@@ -55,9 +55,16 @@ void main() async {
 
     runApp(
       MaterialApp(
-        home: Scaffold(
-          body: Center(
-            child: Text('Failed to initialize app: $e', style: const TextStyle(color: Colors.red)),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Builder(
+          builder: (context) => Scaffold(
+            body: Center(
+              child: Text(
+                AppLocalizations.of(context).appInitFailed(e),
+                style: const TextStyle(color: Colors.red),
+              ),
+            ),
           ),
         ),
       ),

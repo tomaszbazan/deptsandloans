@@ -287,7 +287,7 @@ abstract class AppLocalizations {
   /// Button label for marking transaction as completed
   ///
   /// In en, this message translates to:
-  /// **'Mark as Completed'**
+  /// **'Mark as completed'**
   String get markAsCompleted;
 
   /// Label for archive section
@@ -431,7 +431,7 @@ abstract class AppLocalizations {
   /// Confirmation dialog title for marking transaction as completed
   ///
   /// In en, this message translates to:
-  /// **'Mark as Completed?'**
+  /// **'Mark as completed?'**
   String get markAsCompletedConfirmTitle;
 
   /// Confirmation dialog message for marking transaction as completed
@@ -679,6 +679,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to add repayment'**
   String get failedToAddRepayment;
+
+  /// Error message when application initialization fails
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to initialize app: {error}'**
+  String appInitFailed(Object error);
+
+  /// Generic error message with content
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {error}'**
+  String errorWithContent(Object error);
+
+  /// Label for transaction with name
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction: {name}'**
+  String transactionLabel(String name);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

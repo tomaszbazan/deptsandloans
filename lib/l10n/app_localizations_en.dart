@@ -105,7 +105,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get completed => 'Completed';
 
   @override
-  String get markAsCompleted => 'Mark as Completed';
+  String get markAsCompleted => 'Mark as completed';
 
   @override
   String get archive => 'Archive';
@@ -179,7 +179,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transactionFullyRepaid => 'This transaction has been fully repaid';
 
   @override
-  String get markAsCompletedConfirmTitle => 'Mark as Completed?';
+  String get markAsCompletedConfirmTitle => 'Mark as completed?';
 
   @override
   String get markAsCompletedConfirmMessage => 'This action will move the transaction to archive. Any remaining balance will be considered forgiven.';
@@ -309,4 +309,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get failedToAddRepayment => 'Failed to add repayment';
+
+  @override
+  String appInitFailed(Object error) {
+    return 'Failed to initialize app: $error';
+  }
+
+  @override
+  String errorWithContent(Object error) {
+    return 'Error: $error';
+  }
+
+  @override
+  String transactionLabel(String name) {
+    return 'Transaction: $name';
+  }
 }

@@ -32,7 +32,7 @@
   "repaymentAmount": "Kwota Spłaty",
   "repaymentExceedsBalance": "Kwota spłaty nie może przekroczyć pozostałego salda",
   "completed": "Zakończone",
-  "markAsCompleted": "Oznacz jako Zakończone",
+  "markAsCompleted": "Oznacz jako zakończone",
   "archive": "Archiwum",
   "overdue": "Przeterminowane",
   "deleteConfirmation": "Czy na pewno chcesz usunąć tę transakcję?",
@@ -56,7 +56,7 @@
   "repaymentHistory": "Historia Spłat",
   "noRepaymentsYet": "Nie zarejestrowano jeszcze żadnych spłat",
   "transactionFullyRepaid": "Ta transakcja została w pełni spłacona",
-  "markAsCompletedConfirmTitle": "Oznaczyć jako Zakończone?",
+  "markAsCompletedConfirmTitle": "Oznaczyć jako zakończone?",
   "markAsCompletedConfirmMessage": "Ta akcja przeniesie transakcję do archiwum. Każde pozostałe saldo zostanie uznane za umorzone.",
   "transactionMarkedCompleted": "Transakcja oznaczona jako zakończona",
   "failedToMarkCompleted": "Nie udało się oznaczyć transakcji jako zakończonej",
@@ -166,5 +166,32 @@
   "failedToAddRepayment": "Nie udało się dodać spłaty",
   "@failedToAddRepayment": {
     "description": "Komunikat błędu gdy nie można dodać spłaty"
+  },
+  "appInitFailed": "Nie udało się zainicjować aplikacji: {error}",
+  "@appInitFailed": {
+    "description": "Komunikat błędu gdy inicjalizacja aplikacji nie powiedzie się",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorWithContent": "Błąd: {error}",
+  "@errorWithContent": {
+    "description": "Ogólny komunikat błędu z treścią",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "transactionLabel": "Transakcja: {name}",
+  "@transactionLabel": {
+    "description": "Etykieta dla transakcji z nazwą",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

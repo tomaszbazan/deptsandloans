@@ -128,7 +128,7 @@
   "@completed": {
     "description": "Label for completed status"
   },
-  "markAsCompleted": "Mark as Completed",
+  "markAsCompleted": "Mark as completed",
   "@markAsCompleted": {
     "description": "Button label for marking transaction as completed"
   },
@@ -229,7 +229,7 @@
   "@transactionFullyRepaid": {
     "description": "Message shown when trying to add repayment to fully repaid transaction"
   },
-  "markAsCompletedConfirmTitle": "Mark as Completed?",
+  "markAsCompletedConfirmTitle": "Mark as completed?",
   "@markAsCompletedConfirmTitle": {
     "description": "Confirmation dialog title for marking transaction as completed"
   },
@@ -418,5 +418,32 @@
   "failedToAddRepayment": "Failed to add repayment",
   "@failedToAddRepayment": {
     "description": "Error message when repayment cannot be added"
+  },
+  "appInitFailed": "Failed to initialize app: {error}",
+  "@appInitFailed": {
+    "description": "Error message when application initialization fails",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "errorWithContent": "Error: {error}",
+  "@errorWithContent": {
+    "description": "Generic error message with content",
+    "placeholders": {
+      "error": {
+        "type": "Object"
+      }
+    }
+  },
+  "transactionLabel": "Transaction: {name}",
+  "@transactionLabel": {
+    "description": "Label for transaction with name",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

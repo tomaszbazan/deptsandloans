@@ -74,26 +74,27 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
   }
 
   Future<void> _showDeleteConfirmationDialog(BuildContext context, Transaction transaction) async {
+    final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Transaction?'),
+        title: Text(l10n.deleteTransactionTitle),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('This action cannot be undone. The transaction and all associated repayments will be permanently deleted.'),
+            Text(l10n.deleteTransactionMessage),
             const SizedBox(height: 16),
-            Text('Transaction: ${transaction.name}', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
+            Text(l10n.transactionLabel(transaction.name), style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
         actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
             style: TextButton.styleFrom(foregroundColor: theme.colorScheme.error),
-            child: const Text('Delete'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -105,16 +106,17 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
   }
 
   Future<void> _deleteTransaction(BuildContext context, Transaction transaction) async {
+    final l10n = AppLocalizations.of(context);
     try {
       await widget.transactionRepository.delete(transaction.id);
 
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Transaction deleted successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.transactionDeletedSuccessfully)));
         context.pop(true);
       }
     } catch (e) {
       if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to delete transaction: $e'), backgroundColor: Theme.of(context).colorScheme.error));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.failedToDeleteTransaction(e.toString())), backgroundColor: Theme.of(context).colorScheme.error));
       }
     }
   }
@@ -164,10 +166,11 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Transaction Details'),
+        title: Text(l10n.transactionDetails),
         leading: IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => context.pop()),
         actions: [
           FutureBuilder<_TransactionDetailsData>(
@@ -220,11 +223,11 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
                   children: [
                     Icon(Icons.error_outline, size: 64, color: theme.colorScheme.error),
                     const SizedBox(height: 16),
-                    Text('Transaction not found', style: theme.textTheme.titleLarge),
+                    Text(l10n.transactionNotFound, style: theme.textTheme.titleLarge),
                     const SizedBox(height: 8),
-                    Text('The requested transaction could not be loaded.', style: theme.textTheme.bodyMedium, textAlign: TextAlign.center),
+                    Text(l10n.transactionNotFoundMessage, style: theme.textTheme.bodyMedium, textAlign: TextAlign.center),
                     const SizedBox(height: 24),
-                    ElevatedButton.icon(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back), label: const Text('Go Back')),
+                    ElevatedButton.icon(onPressed: () => context.pop(), icon: const Icon(Icons.arrow_back), label: Text(l10n.goBack)),
                   ],
                 ),
               ),

@@ -26,7 +26,7 @@ class LoansList extends StatelessWidget {
 
         if (snapshot.hasError) {
           return Center(
-            child: Text('Error: ${snapshot.error}', style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.error)),
+            child: Text(l10n.errorWithContent(snapshot.error!), style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.error)),
           );
         }
 
@@ -59,9 +59,9 @@ class LoansList extends StatelessWidget {
                         children: [
                           Icon(Icons.check_circle_outline, size: 64, color: Theme.of(context).colorScheme.outline),
                           const SizedBox(height: 16),
-                          Text('All loans completed!', style: Theme.of(context).textTheme.titleLarge),
+                          Text(l10n.allLoansCompleted, style: Theme.of(context).textTheme.titleLarge),
                           const SizedBox(height: 8),
-                          Text('Check archive below', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline)),
+                          Text(l10n.checkArchiveBelow, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.outline)),
                         ],
                       ),
                     )

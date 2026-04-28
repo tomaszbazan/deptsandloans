@@ -105,7 +105,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get completed => 'Zakończone';
 
   @override
-  String get markAsCompleted => 'Oznacz jako Zakończone';
+  String get markAsCompleted => 'Oznacz jako zakończone';
 
   @override
   String get archive => 'Archiwum';
@@ -179,7 +179,7 @@ class AppLocalizationsPl extends AppLocalizations {
   String get transactionFullyRepaid => 'Ta transakcja została w pełni spłacona';
 
   @override
-  String get markAsCompletedConfirmTitle => 'Oznaczyć jako Zakończone?';
+  String get markAsCompletedConfirmTitle => 'Oznaczyć jako zakończone?';
 
   @override
   String get markAsCompletedConfirmMessage => 'Ta akcja przeniesie transakcję do archiwum. Każde pozostałe saldo zostanie uznane za umorzone.';
@@ -309,4 +309,19 @@ class AppLocalizationsPl extends AppLocalizations {
 
   @override
   String get failedToAddRepayment => 'Nie udało się dodać spłaty';
+
+  @override
+  String appInitFailed(Object error) {
+    return 'Nie udało się zainicjować aplikacji: $error';
+  }
+
+  @override
+  String errorWithContent(Object error) {
+    return 'Błąd: $error';
+  }
+
+  @override
+  String transactionLabel(String name) {
+    return 'Transakcja: $name';
+  }
 }
