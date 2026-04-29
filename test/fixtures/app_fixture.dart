@@ -29,6 +29,7 @@ abstract class AppFixture {
         repaymentRepository: MockRepaymentRepository(),
         reminderRepository: MockReminderRepository(),
         notificationScheduler: MockNotificationScheduler(),
+        notificationService: MockNotificationService(),
       ),
       localizationsDelegates: const [AppLocalizations.delegate, GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate, GlobalCupertinoLocalizations.delegate],
       supportedLocales: SupportedLocale.supportedLocales,

@@ -80,7 +80,12 @@ class TransactionInfoSection extends StatelessWidget {
               const SizedBox(height: 16),
               const Divider(),
               const SizedBox(height: 8),
-              _InfoRow(icon: Icons.event, label: l10n.dueDate, value: DateFormat.yMd().format(transaction.dueDate!), valueColor: isOverdue ? theme.colorScheme.error : null),
+              _InfoRow(
+                icon: Icons.event,
+                label: l10n.dueDate,
+                value: DateFormat.yMd(Localizations.localeOf(context).toString()).format(transaction.dueDate!),
+                valueColor: isOverdue ? theme.colorScheme.error : null,
+              ),
             ],
             const SizedBox(height: 16),
             const Divider(),

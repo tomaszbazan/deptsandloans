@@ -60,10 +60,7 @@ void main() async {
         home: Builder(
           builder: (context) => Scaffold(
             body: Center(
-              child: Text(
-                AppLocalizations.of(context).appInitFailed(e),
-                style: const TextStyle(color: Colors.red),
-              ),
+              child: Text(AppLocalizations.of(context).appInitFailed(e), style: const TextStyle(color: Colors.red)),
             ),
           ),
         ),
@@ -116,6 +113,7 @@ class _DeptsAndLoansAppState extends State<DeptsAndLoansApp> {
             repaymentRepository: repaymentRepository,
             reminderRepository: reminderRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: widget.notificationService,
           ),
           localizationsDelegates: const [
             AppLocalizations.delegate,

@@ -25,7 +25,7 @@ class RepaymentListItem extends StatelessWidget {
           CurrencyFormatter.format(amount: repayment.amountInMainUnit, currency: currency, locale: Localizations.localeOf(context)),
           style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(DateFormat.yMd().add_jm().format(repayment.when), style: theme.textTheme.bodySmall),
+        subtitle: Text(DateFormat.yMd(Localizations.localeOf(context).toString()).add_jm().format(repayment.when), style: theme.textTheme.bodySmall),
       ),
     );
   }

@@ -24,6 +24,7 @@ void main() {
       repaymentRepository: repaymentRepository,
       reminderRepository: reminderRepository,
       notificationScheduler: notificationScheduler,
+      notificationService: MockNotificationService(),
     );
   });
 

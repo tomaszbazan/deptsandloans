@@ -10,12 +10,14 @@ import '../../../data/repositories/reminder_repository.dart';
 import '../../../data/repositories/transaction_repository.dart';
 import '../../../data/repositories/repayment_repository.dart';
 import '../../../core/notifications/notification_scheduler.dart';
+import '../../../core/notifications/notification_service.dart';
 
 class TransactionFormViewModel extends ChangeNotifier {
   final TransactionRepository _repository;
   final ReminderRepository _reminderRepository;
   final RepaymentRepository _repaymentRepository;
   final NotificationScheduler _notificationScheduler;
+  final NotificationService _notificationService;
   final TransactionType _type;
   final Transaction? _existingTransaction;
 
@@ -40,18 +42,21 @@ class TransactionFormViewModel extends ChangeNotifier {
   String? _reminderDateError;
   String? _intervalError;
   Reminder? _existingReminder;
+  bool _notificationPermissionDenied = false;
 
   TransactionFormViewModel({
     required TransactionRepository repository,
     required ReminderRepository reminderRepository,
     required RepaymentRepository repaymentRepository,
     required NotificationScheduler notificationScheduler,
+    required NotificationService notificationService,
     required TransactionType type,
     Transaction? existingTransaction,
   }) : _repository = repository,
        _reminderRepository = reminderRepository,
        _repaymentRepository = repaymentRepository,
        _notificationScheduler = notificationScheduler,
+       _notificationService = notificationService,
        _type = type,
        _existingTransaction = existingTransaction {
     if (existingTransaction != null) {
@@ -104,6 +109,13 @@ class TransactionFormViewModel extends ChangeNotifier {
   String? get reminderDateError => _reminderDateError;
 
   String? get intervalError => _intervalError;
+
+  bool get notificationPermissionDenied => _notificationPermissionDenied;
+
+  void clearNotificationPermissionDenied() {
+    _notificationPermissionDenied = false;
+    notifyListeners();
+  }
 
   void _loadExistingTransaction() {
     if (_existingTransaction == null) return;
@@ -365,6 +377,16 @@ class TransactionFormViewModel extends ChangeNotifier {
 
   Future<void> _createReminder(int transactionId) async {
     if (_reminderType == null) return;
+
+    final permissionStatus = await _notificationService.checkPermissionStatus();
+    if (permissionStatus != NotificationPermissionStatus.granted) {
+      final requested = await _notificationService.requestPermissions();
+      if (requested != NotificationPermissionStatus.granted) {
+        _notificationPermissionDenied = true;
+        notifyListeners();
+        return;
+      }
+    }
 
     final reminder = Reminder()
       ..transactionId = transactionId

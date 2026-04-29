@@ -154,7 +154,7 @@ class _TransactionDetailsScreenState extends State<TransactionDetailsScreen> {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.transactionMarkedCompleted)));
-        _refreshData();
+        Navigator.of(context).pop();
       }
     } catch (e) {
       if (context.mounted) {

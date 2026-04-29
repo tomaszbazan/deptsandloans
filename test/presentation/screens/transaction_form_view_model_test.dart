@@ -16,6 +16,7 @@ void main() {
     late MockReminderRepository reminderRepository;
     late MockRepaymentRepository repaymentRepository;
     late MockNotificationScheduler notificationScheduler;
+    late MockNotificationService notificationService;
     late TransactionFormViewModel viewModel;
 
     setUp(() {
@@ -23,11 +24,13 @@ void main() {
       reminderRepository = MockReminderRepository();
       repaymentRepository = MockRepaymentRepository();
       notificationScheduler = MockNotificationScheduler();
+      notificationService = MockNotificationService();
       viewModel = TransactionFormViewModel(
         repository: repository,
         reminderRepository: reminderRepository,
         repaymentRepository: repaymentRepository,
         notificationScheduler: notificationScheduler,
+        notificationService: notificationService,
         type: TransactionType.debt,
       );
     });
@@ -312,6 +315,7 @@ void main() {
           reminderRepository: reminderRepository,
           repaymentRepository: repaymentRepository,
           notificationScheduler: notificationScheduler,
+          notificationService: notificationService,
           type: TransactionType.loan,
         );
 

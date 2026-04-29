@@ -9,6 +9,7 @@ import '../../../data/repositories/reminder_repository.dart';
 import '../../../data/repositories/transaction_repository.dart';
 import '../../../data/repositories/repayment_repository.dart';
 import '../../../core/notifications/notification_scheduler.dart';
+import '../../../core/notifications/notification_service.dart';
 import '../../widgets/reminder_configuration_widget.dart';
 import 'transaction_form_view_model.dart';
 
@@ -17,6 +18,7 @@ class TransactionFormScreen extends StatefulWidget {
   final ReminderRepository reminderRepository;
   final RepaymentRepository repaymentRepository;
   final NotificationScheduler notificationScheduler;
+  final NotificationService notificationService;
   final TransactionType type;
   final int? transactionId;
 
@@ -25,6 +27,7 @@ class TransactionFormScreen extends StatefulWidget {
     required this.reminderRepository,
     required this.repaymentRepository,
     required this.notificationScheduler,
+    required this.notificationService,
     required this.type,
     this.transactionId,
     super.key,
@@ -56,6 +59,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
         reminderRepository: widget.reminderRepository,
         repaymentRepository: widget.repaymentRepository,
         notificationScheduler: widget.notificationScheduler,
+        notificationService: widget.notificationService,
         type: widget.type,
         existingTransaction: transaction,
       );
@@ -68,6 +72,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
         reminderRepository: widget.reminderRepository,
         repaymentRepository: widget.repaymentRepository,
         notificationScheduler: widget.notificationScheduler,
+        notificationService: widget.notificationService,
         type: widget.type,
       );
       _nameFocusNode.requestFocus();
@@ -94,7 +99,7 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
   }
 
   String _formatDate(DateTime date) {
-    return DateFormat.yMMMd().format(date);
+    return DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(date);
   }
 
   String? _getLocalizedError(String? errorKey) {
@@ -157,9 +162,16 @@ class _TransactionFormScreenState extends State<TransactionFormScreen> {
 
   Future<void> _handleSave() async {
     final success = await _viewModel.saveTransaction();
-    if (success && mounted) {
+    if (!mounted) return;
+    if (_viewModel.notificationPermissionDenied) {
+      _viewModel.clearNotificationPermissionDenied();
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context).notificationPermissionDenied), backgroundColor: Theme.of(context).colorScheme.error));
       context.pop();
-    } else if (_viewModel.errorMessage != null && mounted) {
+    } else if (success) {
+      context.pop();
+    } else if (_viewModel.errorMessage != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_viewModel.errorMessage!), backgroundColor: Theme.of(context).colorScheme.error));
     }
   }

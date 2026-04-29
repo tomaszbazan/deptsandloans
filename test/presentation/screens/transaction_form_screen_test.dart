@@ -18,12 +18,14 @@ void main() {
     late MockReminderRepository reminderRepository;
     late MockRepaymentRepository repaymentRepository;
     late MockNotificationScheduler notificationScheduler;
+    late MockNotificationService notificationService;
 
     setUp(() {
       repository = MockTransactionRepository();
       reminderRepository = MockReminderRepository();
       repaymentRepository = MockRepaymentRepository();
       notificationScheduler = MockNotificationScheduler();
+      notificationService = MockNotificationService();
     });
 
     testWidgets('displays new debt transaction mode correctly', (tester) async {
@@ -34,6 +36,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -53,6 +56,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
             transactionId: 456,
           ),
@@ -72,6 +76,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.loan,
           ),
         ),
@@ -90,6 +95,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -112,6 +118,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -135,6 +142,7 @@ void main() {
               reminderRepository: reminderRepository,
               repaymentRepository: repaymentRepository,
               notificationScheduler: notificationScheduler,
+              notificationService: notificationService,
               type: TransactionType.debt,
             ),
           ),
@@ -162,6 +170,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -183,6 +192,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -207,6 +217,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -234,6 +245,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -260,6 +272,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
           ),
         ),
@@ -279,12 +292,14 @@ void main() {
     late MockReminderRepository reminderRepository;
     late MockRepaymentRepository repaymentRepository;
     late MockNotificationScheduler notificationScheduler;
+    late MockNotificationService notificationService;
 
     setUp(() async {
       repository = MockTransactionRepository();
       reminderRepository = MockReminderRepository();
       repaymentRepository = MockRepaymentRepository();
       notificationScheduler = MockNotificationScheduler();
+      notificationService = MockNotificationService();
     });
 
     testWidgets('amount field is disabled in edit mode', (tester) async {
@@ -297,6 +312,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
             transactionId: 1,
           ),
@@ -319,6 +335,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
             transactionId: 1,
           ),
@@ -340,6 +357,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
             transactionId: 1,
           ),
@@ -365,6 +383,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
             transactionId: 1,
           ),
@@ -389,6 +408,7 @@ void main() {
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: TransactionType.debt,
             transactionId: 1,
           ),

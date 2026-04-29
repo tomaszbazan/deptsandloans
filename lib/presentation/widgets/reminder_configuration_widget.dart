@@ -32,8 +32,8 @@ class ReminderConfigurationWidget extends StatelessWidget {
     super.key,
   });
 
-  String _formatDate(DateTime date) {
-    return DateFormat.yMMMd().format(date);
+  String _formatDate(DateTime date, String locale) {
+    return DateFormat.yMMMd(locale).format(date);
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -74,31 +74,35 @@ class ReminderConfigurationWidget extends StatelessWidget {
               const SizedBox(height: 16),
               Text(l10n.reminderType, style: theme.textTheme.titleSmall),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => onReminderTypeChanged(ReminderType.oneTime),
-                      child: Row(
-                        children: [
-                          Radio<ReminderType>(value: ReminderType.oneTime, groupValue: reminderType, onChanged: onReminderTypeChanged),
-                          Expanded(child: Text(l10n.oneTime)),
-                        ],
+              RadioGroup<ReminderType>(
+                groupValue: reminderType,
+                onChanged: onReminderTypeChanged,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () => onReminderTypeChanged(ReminderType.oneTime),
+                        child: Row(
+                          children: [
+                            Radio<ReminderType>(value: ReminderType.oneTime),
+                            Expanded(child: Text(l10n.oneTime)),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => onReminderTypeChanged(ReminderType.recurring),
-                      child: Row(
-                        children: [
-                          Radio<ReminderType>(value: ReminderType.recurring, groupValue: reminderType, onChanged: onReminderTypeChanged),
-                          Expanded(child: Text(l10n.recurring)),
-                        ],
+                    Expanded(
+                      child: InkWell(
+                        onTap: () => onReminderTypeChanged(ReminderType.recurring),
+                        child: Row(
+                          children: [
+                            Radio<ReminderType>(value: ReminderType.recurring),
+                            Expanded(child: Text(l10n.recurring)),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               if (reminderTypeError != null)
                 Padding(
@@ -131,7 +135,7 @@ class ReminderConfigurationWidget extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      oneTimeReminderDate != null ? _formatDate(oneTimeReminderDate!) : l10n.notSet,
+                      oneTimeReminderDate != null ? _formatDate(oneTimeReminderDate!, Localizations.localeOf(context).toString()) : l10n.notSet,
                       style: TextStyle(color: oneTimeReminderDate != null ? theme.colorScheme.onSurface : theme.colorScheme.onSurfaceVariant),
                     ),
                   ),

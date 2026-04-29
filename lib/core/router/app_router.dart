@@ -1,4 +1,5 @@
 import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
+import 'package:deptsandloans/core/notifications/notification_service.dart';
 import 'package:deptsandloans/data/models/transaction_type.dart';
 import 'package:deptsandloans/data/repositories/reminder_repository.dart';
 import 'package:deptsandloans/data/repositories/repayment_repository.dart';
@@ -13,6 +14,7 @@ GoRouter createAppRouter({
   required RepaymentRepository repaymentRepository,
   required ReminderRepository reminderRepository,
   required NotificationScheduler notificationScheduler,
+  required NotificationService notificationService,
 }) {
   return GoRouter(
     initialLocation: '/',
@@ -36,6 +38,7 @@ GoRouter createAppRouter({
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: type,
           );
         },
@@ -60,6 +63,7 @@ GoRouter createAppRouter({
             reminderRepository: reminderRepository,
             repaymentRepository: repaymentRepository,
             notificationScheduler: notificationScheduler,
+            notificationService: notificationService,
             type: type,
             transactionId: id,
           );
