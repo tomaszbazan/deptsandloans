@@ -1,5 +1,8 @@
 import 'package:deptsandloans/core/utils/supported_locale.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../core/notifications/notification_scheduler.dart';
+import '../../../core/notifications/notification_service.dart';
 import '../../../data/models/currency.dart';
 import '../../../data/models/reminder.dart';
 import '../../../data/models/reminder_type.dart';
@@ -7,10 +10,8 @@ import '../../../data/models/transaction.dart';
 import '../../../data/models/transaction_status.dart';
 import '../../../data/models/transaction_type.dart';
 import '../../../data/repositories/reminder_repository.dart';
-import '../../../data/repositories/transaction_repository.dart';
 import '../../../data/repositories/repayment_repository.dart';
-import '../../../core/notifications/notification_scheduler.dart';
-import '../../../core/notifications/notification_service.dart';
+import '../../../data/repositories/transaction_repository.dart';
 
 class TransactionFormViewModel extends ChangeNotifier {
   final TransactionRepository _repository;
@@ -413,7 +414,7 @@ class TransactionFormViewModel extends ChangeNotifier {
     final repayments = await _repaymentRepository.getRepaymentsByTransactionId(transactionId);
     final totalRepaid = repayments.fold<int>(0, (sum, repayment) => sum + repayment.amount);
     final remainingBalance = (transaction.amount - totalRepaid) / 100.0;
-    final locale = _getLocale();
+    final locale = SupportedLocale.resolveDeviceLocale();
 
     final notificationId = _reminderType == ReminderType.oneTime
         ? await _notificationScheduler.scheduleOneTimeReminder(reminder: reminder, transaction: transaction, locale: locale, remainingBalance: remainingBalance)
@@ -421,10 +422,6 @@ class TransactionFormViewModel extends ChangeNotifier {
 
     reminder.notificationId = notificationId;
     await _reminderRepository.updateReminder(reminder);
-  }
-
-  String _getLocale() {
-    return SupportedLocale.defaultLocale;
   }
 
   Transaction _buildTransaction() {

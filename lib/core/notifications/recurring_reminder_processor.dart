@@ -1,4 +1,5 @@
 import 'dart:developer' as developer;
+
 import 'package:deptsandloans/core/notifications/notification_scheduler.dart';
 import 'package:deptsandloans/core/utils/supported_locale.dart';
 import 'package:deptsandloans/data/models/reminder.dart';
@@ -30,7 +31,7 @@ class RecurringReminderProcessor {
 
       developer.log('Processing ${recurringReminders.length} active recurring reminders', name: 'RecurringReminderProcessor');
 
-      final locale = _getLocale();
+      final locale = SupportedLocale.resolveDeviceLocale();
 
       for (final reminder in recurringReminders) {
         await _processReminder(reminder, locale);
@@ -75,11 +76,5 @@ class RecurringReminderProcessor {
     } catch (e, stackTrace) {
       developer.log('Failed to process reminder ${reminder.id}', name: 'RecurringReminderProcessor', level: 1000, error: e, stackTrace: stackTrace);
     }
-  }
-
-  String _getLocale() {
-    // TODO: Implement proper device locale detection
-    // Consider extracting to a shared locale service or accepting as parameter
-    return SupportedLocale.defaultLocale;
   }
 }
